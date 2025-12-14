@@ -1,59 +1,101 @@
-let questions = [];
-let current = 0;
 let selected = [];
+let index = 0;
+let score = 0;
+let timer;
+let timeLeft = 10;
 
 const questionEl = document.getElementById("question");
-const optionsEl = document.getElementById("options");
-const counterEl = document.getElementById("counter");
-const endEl = document.getElementById("end");
+const optionsEl  = document.getElementById("options");
+const counterEl  = document.getElementById("counter");
+const timerEl    = document.getElementById("timer");
+const endEl      = document.getElementById("end");
+const scoreText  = document.getElementById("scoreText");
+const reviewEl   = document.getElementById("review");
 
-function shuffle(arr) {
-  return arr.sort(() => Math.random() - 0.5);
+function shuffle(arr){
+  return arr.sort(()=>Math.random()-0.5);
 }
 
-function start() {
-  selected = shuffle([...allQuestions]).slice(0, 10);
-  current = 0;
-  endEl.classList.add("hidden");
-  show();
+function start(){
+  selected = shuffle([...allQuestions]).slice(0,10);
+  index = 0;
+  score = 0;
+  showQuestion();
 }
 
-function show() {
-  if (current >= selected.length) {
-    questionEl.textContent = "";
-    optionsEl.innerHTML = "";
-    counterEl.textContent = "";
-    endEl.classList.remove("hidden");
-    return;
-  }
+function showQuestion(){
+  clearInterval(timer);
+  timeLeft = 10;
+  timerEl.textContent = "⏱️ 10";
 
-  const q = selected[current];
-
-  counterEl.textContent = `السؤال ${current + 1} من 10`;
-  questionEl.textContent = q.question;
+  counterEl.textContent = `السؤال ${index+1} من 10`;
+  questionEl.textContent = selected[index].q;
   optionsEl.innerHTML = "";
 
-  shuffle(
-    q.options.map((text, i) => ({ text, i }))
-  ).forEach(opt => {
+  const opts = shuffle(
+    selected[index].options.map((t,i)=>({t,i}))
+  );
+
+  opts.forEach(o=>{
     const btn = document.createElement("button");
-    btn.className = "option";
-    btn.textContent = opt.text;
-    btn.onclick = () => next(opt.i === q.answer, btn);
+    btn.textContent = o.t;
+    btn.onclick = ()=>answer(btn,o.i);
     optionsEl.appendChild(btn);
   });
+
+  timer = setInterval(()=>{
+    timeLeft--;
+    timerEl.textContent = `⏱️ ${timeLeft}`;
+    if(timeLeft===0){
+      clearInterval(timer);
+      next();
+    }
+  },1000);
 }
 
-function next(correct, btn) {
-  const buttons = document.querySelectorAll(".option");
-  buttons.forEach(b => b.disabled = true);
+function answer(btn,i){
+  clearInterval(timer);
+  const correct = selected[index].answer;
+  [...optionsEl.children].forEach(b=>b.disabled=true);
 
-  btn.classList.add(correct ? "correct" : "wrong");
+  if(i===correct){
+    btn.classList.add("correct");
+    score++;
+  }else{
+    btn.classList.add("wrong");
+    optionsEl.children[correct].classList.add("correct");
+  }
+  setTimeout(next,1500);
+}
 
-  setTimeout(() => {
-    current++;
-    show();
-  }, 1200);
+function next(){
+  index++;
+  if(index===10) return endGame();
+  showQuestion();
+}
+
+function endGame(){
+  localStorage.setItem("englishScore",score);
+  scoreText.textContent = `نتيجتك ${score} من 10`;
+  endEl.classList.remove("hidden");
+
+  reviewEl.innerHTML="";
+  selected.forEach((q,i)=>{
+    reviewEl.innerHTML += `
+      <div>
+        <b>${i+1}) ${q.q}</b><br>
+        ✔️ ${q.options[q.answer]}
+      </div>`;
+  });
+
+  questionEl.textContent="";
+  optionsEl.innerHTML="";
+  counterEl.textContent="";
+  timerEl.textContent="";
+}
+
+function goHome(){
+  location.href="../../index.html";
 }
 
 start();

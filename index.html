@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>الصفحة الرئيسية</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    background:linear-gradient(135deg,#1f2933,#111827);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#fff;
+}
+
+.container{
+    background:#0f172a;
+    padding:30px;
+    border-radius:20px;
+    width:90%;
+    max-width:520px;
+    text-align:center;
+}
+
+h1{
+    margin-bottom:8px;
+}
+
+p{
+    margin-bottom:25px;
+    color:#cbd5f5;
+}
+
+.sections{
+    display:flex;
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.section{
+    flex:1;
+    padding:15px;
+    border-radius:16px;
+}
+
+.section h2{
+    margin-bottom:12px;
+}
+
+.questions{
+    background:#dc2626; /* أحمر */
+}
+
+.challenges{
+    background:#2563eb; /* أزرق */
+}
+
+.list{
+    display:grid;
+    gap:10px;
+}
+
+.list a{
+    text-decoration:none;
+    background:#ffffff;
+    color:#000;
+    padding:10px;
+    border-radius:12px;
+    font-size:14px;
+    transition:.2s;
+}
+
+.list a:hover{
+    transform:scale(1.05);
+    background:#f1f5f9;
+}
+
+.footer{
+    margin-top:15px;
+    font-size:13px;
+    color:#cbd5f5;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>أهلاً وسهلاً</h1>
+    <p>اختر من الألعاب وخلّ عقلك يشتغل 🔥</p>
+
+    <div class="sections">
+        <!-- أسئلة -->
+        <div class="section questions">
+            <h2>أسئلة</h2>
+            <div class="list">
+                <a href="games/english/index.html">لعبة إنجليزي</a>
+                <a href="games/math/index.html">أسئلة رياضيات</a>
+                <a href="games/general/index.html">معلومات عامة</a>
+                <a href="games/geometry/index.html">هندسة</a>
+                <a href="games/football/index.html">معلومات كورة</a>
+                <a href="games/saudi/index.html">أسئلة عن السعودية</a>
+            </div>
+        </div>
+
+        <!-- تحديات -->
+        <div class="section challenges">
+            <h2>تحديات</h2>
+            <div class="list">
+                <a href="games/letters/index.html">تحدي الحروف</a>
+                <a href="games/click/index.html">لعبة النقر</a>
+                <a href="games/words/index.html">ترتيب الكلمات</a>
+                <a href="games/memory/index.html">لعبة الذاكرة</a>
+                <a href="games/numbers/index.html">ترتيب الأرقام</a>
+                <a href="games/duck/index.html">لعبة البط</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        تم تطوير وبرمجة هذا الموقع من قبل فارس سيف & فارس عبدالله
+    </div>
+</div>
+
+</body>
+</html>

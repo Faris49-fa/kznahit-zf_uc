@@ -1,63 +1,65 @@
-body{
-  background:#0f172a;
-  font-family:Arial;
-  color:#fff;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
+body {
+  font-family: Arial;
+  background: #0f172a;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
-.game{
-  background:#020617;
-  padding:30px;
-  border-radius:20px;
-  width:420px;
-  text-align:center;
+.game {
+  background: #020617;
+  padding: 25px;
+  border-radius: 20px;
+  width: 420px;
+  text-align: center;
 }
 
-#counter{margin-bottom:5px;color:#38bdf8}
-#timer{margin-bottom:15px;font-size:18px}
-
-#question{
-  font-size:20px;
-  margin-bottom:20px;
+h1 {
+  margin-bottom: 10px;
 }
 
-#options{
-  display:grid;
-  gap:10px;
+#counter {
+  margin-bottom: 15px;
+  color: #cbd5f5;
 }
 
-#options button{
-  padding:12px;
-  border:none;
-  border-radius:10px;
-  font-size:16px;
-  cursor:pointer;
+#question {
+  font-size: 20px;
+  margin-bottom: 20px;
 }
 
-.correct{background:#22c55e;color:#000}
-.wrong{background:#ef4444;color:#fff}
-
-.hidden{display:none}
-
-#review{
-  margin-top:15px;
-  text-align:right;
+#options {
+  display: grid;
+  gap: 12px;
 }
 
-#review div{
-  background:#111827;
-  padding:10px;
-  border-radius:10px;
-  margin-bottom:8px;
+.option {
+  background: #1e293b;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-button{
-  margin-top:15px;
-  padding:10px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
+.option:hover {
+  background: #334155;
+}
+
+/* الصح */
+.option.correct {
+  background: #16a34a;
+}
+
+/* الخطأ */
+.option.wrong {
+  background: #dc2626;
+}
+
+.option:disabled {
+  cursor: default;
 }

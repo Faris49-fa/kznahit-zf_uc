@@ -1,65 +1,47 @@
-body {
-  font-family: Arial;
-  background: #0f172a;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+.option{
+  display:block;
+  width:100%;
+  padding:14px;
+  margin:8px 0;
+  font-size:16px;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+  background:#2a2a2a;
+  color:#fff;
+  transition:.2s;
 }
 
-.game {
-  background: #020617;
-  padding: 25px;
-  border-radius: 20px;
-  width: 420px;
-  text-align: center;
+.option:hover{
+  background:#3a3a3a;
 }
 
-h1 {
-  margin-bottom: 10px;
+.correct{
+  background:#16a34a !important;
 }
 
-#counter {
-  margin-bottom: 15px;
-  color: #cbd5f5;
+.wrong{
+  background:#dc2626 !important;
 }
 
-#question {
-  font-size: 20px;
-  margin-bottom: 20px;
+#timer{
+  margin-bottom:10px;
+  font-weight:bold;
 }
 
-#options {
-  display: grid;
-  gap: 12px;
+.hidden{
+  display:none;
 }
 
-.option {
-  background: #1e293b;
-  border: none;
-  padding: 12px;
-  border-radius: 12px;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.2s;
+#end{
+  text-align:center;
 }
 
-.option:hover {
-  background: #334155;
-}
-
-/* الصح */
-.option.correct {
-  background: #16a34a;
-}
-
-/* الخطأ */
-.option.wrong {
-  background: #dc2626;
-}
-
-.option:disabled {
-  cursor: default;
+#end button{
+  margin-top:15px;
+  padding:12px 20px;
+  font-size:16px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
 }

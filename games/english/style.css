@@ -1,67 +1,60 @@
-*{
-    box-sizing: border-box;
-    font-family: Arial;
-}
-
 body{
     margin:0;
     min-height:100vh;
-    background:linear-gradient(135deg,#0b1220,#020617);
     display:flex;
     justify-content:center;
     align-items:center;
+    background:#0f172a;
+    font-family:Arial;
     color:#fff;
 }
 
-.game-container{
-    width:90%;
-    max-width:500px;
-    background:#0f172a;
+.game{
+    background:#020617;
     padding:25px;
-    border-radius:20px;
+    width:90%;
+    max-width:420px;
+    border-radius:16px;
     text-align:center;
-    box-shadow:0 10px 30px rgba(0,0,0,.4);
 }
 
-h2{
-    margin-bottom:15px;
-}
-
-.question{
-    font-size:18px;
+#question{
+    font-size:20px;
     margin-bottom:20px;
 }
 
-.options{
-    display:grid;
-    gap:12px;
-}
-
-.options button{
+#answers button{
+    width:100%;
     padding:12px;
-    font-size:16px;   /* الكلام داخل الزر أكبر */
+    margin-bottom:10px;
+    font-size:18px;
     border:none;
-    border-radius:12px;
+    border-radius:10px;
     cursor:pointer;
-    background:#2563eb;
-    color:#fff;
-    transition:.2s;
 }
 
-.options button:hover{
-    background:#1e40af;
-    transform:scale(1.03);
-}
-
-.options button.correct{
+.correct{
     background:#16a34a;
+    color:#fff;
 }
 
-.options button.wrong{
+.wrong{
     background:#dc2626;
+    color:#fff;
 }
 
-.end{
-    font-size:20px;
-    margin-top:20px;
+.status{
+    margin:10px 0;
+    font-size:16px;
+    min-height:20px;
+}
+
+#nextBtn{
+    margin-top:10px;
+    padding:10px;
+    width:100%;
+    font-size:16px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
 }

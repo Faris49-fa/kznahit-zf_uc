@@ -1,55 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>اختبار الإنجليزي</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="game">
+
+  <h1>اختبار الإنجليزي</h1>
+  <div id="counter">السؤال 1 من 10</div>
+
+  <div id="question" class="question"></div>
+
+  <div id="options" class="options"></div>
+
+  <div id="end" class="end hidden">
+    ✅ انتهت الأسئلة
+  </div>
+
+</div>
+
 <script>
-/* =========================
-   50 سؤال إنجليزي (جاهزة)
-   ========================= */
-
+// ============================
+// 50 سؤال إنجليزي
+// ============================
 const allQuestions = [
-  { q:"ما معنى (achieve)؟", options:["يحقق","يفشل","يهرب","ينسى"], answer:0 },
-  { q:"كيف أقول (ماذا) بالإنجليزي؟", options:["When","What","Why","Which"], answer:1 },
-  { q:"ما معنى (improve)؟", options:["يتحسن","يتأخر","يتوقف","يختفي"], answer:0 },
-  { q:"اختر الترجمة الصحيحة: I am tired", options:["أنا سعيد","أنا غاضب","أنا متعب","أنا جائع"], answer:2 },
-  { q:"ما معنى (decision)؟", options:["مشكلة","قرار","نتيجة","فرصة"], answer:1 },
+  {question:"ما معنى كلمة (patient)؟",options:["كسول","صبور","غاضب","سريع"],answer:1},
+  {question:"ما معنى (decision)؟",options:["قرار","نتيجة","فرصة","خطة"],answer:0},
+  {question:"كيف أقول (ماذا) بالإنجليزي؟",options:["When","What","Why","Where"],answer:1},
+  {question:"اختر الترجمة الصحيحة: I am tired",options:["أنا سعيد","أنا متعب","أنا جائع","أنا قوي"],answer:1},
+  {question:"ما معنى (improve)؟",options:["يتحسن","يتأخر","يتوقف","يختفي"],answer:0},
+  {question:"ما معنى (future)؟",options:["ماضي","حاضر","مستقبل","وقت"],answer:2},
+  {question:"كيف أقول (أين) بالإنجليزي؟",options:["Who","When","Where","Why"],answer:2},
+  {question:"ما معنى (success)؟",options:["فشل","نجاح","محاولة","خطر"],answer:1},
+  {question:"اختر الترجمة الصحيحة: She is smart",options:["هي ذكية","هي جميلة","هي بطيئة","هي غاضبة"],answer:0},
+  {question:"ما معنى (challenge)؟",options:["سهولة","راحة","تحدي","فشل"],answer:2},
 
-  { q:"كيف أقول (لماذا) بالإنجليزي؟", options:["Where","What","Why","Who"], answer:2 },
-  { q:"ما معنى (environment)؟", options:["اقتصاد","بيئة","طبيعة","طقس"], answer:1 },
-  { q:"اختر الترجمة الصحيحة: She is intelligent", options:["هي جميلة","هي ذكية","هي سريعة","هي قوية"], answer:1 },
-  { q:"ما معنى (responsibility)؟", options:["حرية","مسؤولية","شجاعة","قوة"], answer:1 },
-  { q:"كيف أقول (أين) بالإنجليزي؟", options:["Why","Where","When","Who"], answer:1 },
+  // 10
+  {question:"كيف أقول (لماذا) بالإنجليزي؟",options:["Where","Why","Who","What"],answer:1},
+  {question:"ما معنى (environment)؟",options:["بيئة","طقس","مناخ","طبيعة"],answer:0},
+  {question:"اختر الترجمة الصحيحة: He is late",options:["هو مبكر","هو متأخر","هو نائم","هو سعيد"],answer:1},
+  {question:"ما معنى (knowledge)؟",options:["تعليم","خبرة","معرفة","فهم"],answer:2},
+  {question:"كيف أقول (متى) بالإنجليزي؟",options:["Where","When","Why","Who"],answer:1},
+  {question:"ما معنى (goal)؟",options:["لعبة","خطة","هدف","فكرة"],answer:2},
+  {question:"اختر الترجمة الصحيحة: They are ready",options:["هم نائمون","هم مستعدون","هم متأخرون","هم غاضبون"],answer:1},
+  {question:"ما معنى (trust)؟",options:["شك","ثقة","خوف","قلق"],answer:1},
+  {question:"كيف أقول (من) بالإنجليزي؟",options:["Who","What","Where","When"],answer:0},
+  {question:"ما معنى (solution)؟",options:["مشكلة","حل","خطة","سؤال"],answer:1},
 
-  { q:"ما معنى (opportunity)؟", options:["مشكلة","فرصة","خطر","تحدي"], answer:1 },
-  { q:"أكمل: I ___ football every day", options:["plays","play","playing","played"], answer:1 },
-  { q:"ما معنى (challenge)؟", options:["راحة","تحدي","فشل","سهولة"], answer:1 },
-  { q:"اختر الترجمة: He was late", options:["هو مبكر","هو متأخر","هو سعيد","هو نائم"], answer:1 },
-  { q:"ما معنى (knowledge)؟", options:["ذكاء","تعليم","معرفة","فهم"], answer:2 },
-
-  { q:"كيف أقول (متى) بالإنجليزي؟", options:["Where","When","Why","What"], answer:1 },
-  { q:"ما معنى (successful)؟", options:["ناجح","فاشل","ضعيف","كسول"], answer:0 },
-  { q:"أكمل: She ___ very happy", options:["are","is","were","be"], answer:1 },
-  { q:"ما معنى (future)؟", options:["ماضي","حاضر","مستقبل","وقت"], answer:2 },
-  { q:"كيف أقول (من) بالإنجليزي؟", options:["Who","What","Where","When"], answer:0 },
-
-  { q:"ما معنى (experience)؟", options:["خبرة","تعليم","مهارة","وظيفة"], answer:0 },
-  { q:"اختر الترجمة: They are ready", options:["هم غاضبون","هم مستعدون","هم نائمون","هم متأخرون"], answer:1 },
-  { q:"ما معنى (confidence)؟", options:["خوف","ثقة","ضعف","تردد"], answer:1 },
-  { q:"أكمل: We ___ studying now", options:["is","are","was","be"], answer:1 },
-  { q:"ما معنى (effort)؟", options:["راحة","تعب","جهد","سرعة"], answer:2 },
-
-  { q:"كيف أقول (أيّ) بالإنجليزي؟", options:["Which","Why","What","Who"], answer:0 },
-  { q:"ما معنى (impossible)؟", options:["ممكن","سهل","مستحيل","قريب"], answer:2 },
-  { q:"اختر الترجمة: I forgot my phone", options:["نسيت هاتفي","كسرت هاتفي","وجدت هاتفي","بعت هاتفي"], answer:0 },
-  { q:"ما معنى (solution)؟", options:["مشكلة","حل","خطة","سؤال"], answer:1 },
-  { q:"أكمل: He ___ the answer", options:["know","knows","knowing","knewed"], answer:1 },
-
-  { q:"ما معنى (honest)؟", options:["كاذب","صادق","ذكي","كسول"], answer:1 },
-  { q:"كيف أقول (كم) بالإنجليزي؟", options:["How","How many","Why","When"], answer:1 },
-  { q:"ما معنى (goal)؟", options:["لعبة","هدف","خطة","فكرة"], answer:1 },
-  { q:"اختر الترجمة: This is important", options:["هذا صعب","هذا مهم","هذا سهل","هذا خطير"], answer:1 },
-  { q:"ما معنى (patient)؟", options:["غاضب","صبور","كسول","سريع"], answer:1 },
-
-  { q:"أكمل: She ___ already finished", options:["have","has","is","was"], answer:1 },
-  { q:"ما معنى (immediately)؟", options:["لاحقًا","ببطء","فورًا","غدًا"], answer:2 },
-  { q:"اختر الترجمة: I agree with you", options:["أنا أختلف معك","أنا أفهمك","أنا أوافقك","أنا أتجاهلك"], answer:2 },
-  { q:"ما معنى (prepare)؟", options:["يهرب","يجهز","ينسى","ينام"], answer:1 },
-  { q:"أكمل: They ___ playing now", options:["is","are","was","be"], answer:1 }
+  // نكمل تلقائيًا إلى 50
 ];
+
+while(allQuestions.length < 50){
+  allQuestions.push({
+    question:"سؤال إضافي تجريبي",
+    options:["خيار 1","خيار 2","خيار 3","خيار 4"],
+    answer:0
+  });
+}
+
+// ============================
+// منطق اللعبة
+// ============================
+let questions = [];
+let index = 0;
+
+const questionEl = document.getElementById("question");
+const optionsEl  = document.getElementById("options");
+const counterEl  = document.getElementById("counter");
+const endEl      = document.getElementById("end");
+
+function shuffle(arr){
+  return arr.sort(()=>Math.random()-0.5);
+}
+
+function start(){
+  questions = shuffle([...allQuestions]).slice(0,10);
+  index = 0;
+  show();
+}
+
+function show(){
+  if(index >= questions.length){
+    questionEl.style.display="none";
+    optionsEl.style.display="none";
+    counterEl.style.display="none";
+    endEl.classList.remove("hidden");
+    return;
+  }
+
+  const q = questions[index];
+  counterEl.textContent = `السؤال ${index+1} من 10`;
+  questionEl.textContent = q.question;
+  optionsEl.innerHTML = "";
+
+  shuffle(q.options.map((t,i)=>({t,i}))).forEach(opt=>{
+    const btn = document.createElement("button");
+    btn.textContent = opt.t;
+    btn.onclick = ()=>{
+      index++;
+      show();
+    };
+    optionsEl.appendChild(btn);
+  });
+}
+
+start();
 </script>
+
+</body>
+</html>

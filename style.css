@@ -6,80 +6,97 @@
 body{
     margin:0;
     min-height:100vh;
-    background:linear-gradient(135deg,#1f2933,#111827);
+    background:linear-gradient(135deg,#020617,#020617); /* خلفية داكنة جدًا */
     display:flex;
     justify-content:center;
     align-items:flex-start;
-    color:#fff;
+    color:#e5e7eb;
 }
 
 .container{
-    width:90%;
-    max-width:700px;
+    width:95%;
+    max-width:1100px;
     padding:30px 0;
     text-align:center;
 }
 
 h1{
-    margin-bottom:5px;
+    margin-bottom:8px;
 }
 
 p{
-    margin-bottom:25px;
-    color:#cbd5f5;
+    margin-bottom:30px;
+    color:#94a3b8;
 }
 
-.title{
-    margin:25px 0 15px;
+/* الأقسام جنب بعض */
+.sections{
+    display:flex;
+    gap:30px;
+    justify-content:center;
+}
+
+/* كل قسم */
+.section{
+    flex:1;
+}
+
+/* عناوين */
+.questions-title{
+    color:#b91c1c;
+    margin-bottom:15px;
     font-size:22px;
 }
 
-.questions-title{
-    color:#ef4444;
-}
-
 .challenges-title{
-    color:#3b82f6;
+    color:#1d4ed8;
+    margin-bottom:15px;
+    font-size:22px;
 }
 
-/* عمودين جنب بعض وكل عمود 3 */
+/* شبكة 3 فوق + 3 تحت */
 .grid{
     display:grid;
     grid-template-columns:repeat(2, 1fr);
-    gap:15px;
-    margin-bottom:20px;
+    gap:14px;
 }
 
-.card{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:90px;
+/* الزر */
+.grid a{
     text-decoration:none;
-    font-size:16px;
+    height:65px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:14px;
+
+    /* 👇 تكبير الخط */
+    font-size:18px;
     font-weight:bold;
-    border-radius:16px;
-    transition:.2s;
+
+    transition:0.2s;
 }
 
-/* ألوان */
-.questions .card{
-    background:#dc2626;
+/* ألوان أغمق */
+.questions a{
+    background:#991b1b; /* أحمر غامق */
     color:#fff;
 }
 
-.challenges .card{
-    background:#2563eb;
+.challenges a{
+    background:#1e40af; /* أزرق غامق */
     color:#fff;
 }
 
-.card:hover{
+/* Hover */
+.grid a:hover{
     transform:scale(1.05);
-    opacity:.9;
+    filter:brightness(1.1);
 }
 
+/* الفوتر */
 .footer{
-    margin-top:30px;
-    font-size:13px;
-    color:#cbd5f5;
+    margin-top:35px;
+    font-size:14px;
+    color:#94a3b8;
 }

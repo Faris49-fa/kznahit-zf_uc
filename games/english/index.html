@@ -3,108 +3,250 @@
 <head>
 <meta charset="UTF-8">
 <title>اختبار الإنجليزي</title>
-<link rel="stylesheet" href="style.css">
+
+<style>
+body{
+  margin:0;
+  min-height:100vh;
+  background:linear-gradient(135deg,#0b1220,#020617);
+  font-family:Arial;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:#fff;
+}
+
+.card{
+  background:#0f172a;
+  width:90%;
+  max-width:600px;
+  padding:30px;
+  border-radius:20px;
+  text-align:center;
+}
+
+h1{margin-bottom:5px}
+.counter{opacity:.8;margin-bottom:10px}
+.timer{color:#f87171;margin-bottom:15px}
+
+.question{
+  font-size:22px;
+  margin-bottom:20px;
+}
+
+.options{
+  display:grid;
+  gap:12px;
+}
+
+.options button{
+  padding:14px;
+  font-size:16px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  background:#1e293b;
+  color:#fff;
+}
+
+.options button:hover{background:#334155}
+.correct{background:#16a34a !important}
+.wrong{background:#dc2626 !important}
+
+.hidden{display:none}
+
+.results{
+  margin-top:20px;
+  text-align:right;
+}
+
+.result-card{
+  background:#020617;
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:8px;
+  font-size:14px;
+}
+
+.footer-btns{
+  margin-top:20px;
+  display:flex;
+  gap:10px;
+  justify-content:center;
+}
+
+.footer-btns a{
+  text-decoration:none;
+  background:#2563eb;
+  color:#fff;
+  padding:10px 16px;
+  border-radius:10px;
+}
+</style>
 </head>
 
 <body>
 
-<div class="game">
-
+<div class="card">
   <h1>اختبار الإنجليزي</h1>
-  <div id="counter">السؤال 1 من 10</div>
+  <div class="counter" id="counter"></div>
+  <div class="timer" id="timer"></div>
 
-  <div id="question" class="question"></div>
+  <div class="question" id="question"></div>
+  <div class="options" id="options"></div>
 
-  <div id="options" class="options"></div>
+  <div id="end" class="hidden">
+    <h2>انتهت الأسئلة ✅</h2>
+    <p id="score"></p>
+    <div class="results" id="results"></div>
 
-  <div id="end" class="end hidden">
-    ✅ انتهت الأسئلة
+    <div class="footer-btns">
+      <a href="../../index.html">العودة للرئيسية</a>
+    </div>
   </div>
-
 </div>
 
 <script>
-// ============================
+// =====================
 // 50 سؤال إنجليزي
-// ============================
+// =====================
 const allQuestions = [
-  {question:"ما معنى كلمة (patient)؟",options:["كسول","صبور","غاضب","سريع"],answer:1},
-  {question:"ما معنى (decision)؟",options:["قرار","نتيجة","فرصة","خطة"],answer:0},
-  {question:"كيف أقول (ماذا) بالإنجليزي؟",options:["When","What","Why","Where"],answer:1},
-  {question:"اختر الترجمة الصحيحة: I am tired",options:["أنا سعيد","أنا متعب","أنا جائع","أنا قوي"],answer:1},
-  {question:"ما معنى (improve)؟",options:["يتحسن","يتأخر","يتوقف","يختفي"],answer:0},
-  {question:"ما معنى (future)؟",options:["ماضي","حاضر","مستقبل","وقت"],answer:2},
-  {question:"كيف أقول (أين) بالإنجليزي؟",options:["Who","When","Where","Why"],answer:2},
-  {question:"ما معنى (success)؟",options:["فشل","نجاح","محاولة","خطر"],answer:1},
-  {question:"اختر الترجمة الصحيحة: She is smart",options:["هي ذكية","هي جميلة","هي بطيئة","هي غاضبة"],answer:0},
-  {question:"ما معنى (challenge)؟",options:["سهولة","راحة","تحدي","فشل"],answer:2},
+{q:"ما معنى (achieve)؟",o:["يحقق","يفشل","يهرب","ينسى"],a:0},
+{q:"ما معنى (patient)؟",o:["كسول","صبور","غاضب","سريع"],a:1},
+{q:"كيف أقول (ماذا)؟",o:["What","Why","When","Which"],a:0},
+{q:"ما معنى (improve)؟",o:["يتحسن","يتأخر","يتوقف","ينسى"],a:0},
+{q:"I am tired",o:["أنا سعيد","أنا متعب","أنا غاضب","أنا جائع"],a:1},
+{q:"ما معنى (decision)؟",o:["قرار","مشكلة","فرصة","نتيجة"],a:0},
+{q:"كيف أقول (لماذا)؟",o:["Where","Why","What","Who"],a:1},
+{q:"ما معنى (environment)؟",o:["اقتصاد","بيئة","طقس","طبيعة"],a:1},
+{q:"She is intelligent",o:["هي جميلة","هي ذكية","هي سريعة","هي قوية"],a:1},
+{q:"ما معنى (responsibility)؟",o:["حرية","مسؤولية","قوة","شجاعة"],a:1},
 
-  // 10
-  {question:"كيف أقول (لماذا) بالإنجليزي؟",options:["Where","Why","Who","What"],answer:1},
-  {question:"ما معنى (environment)؟",options:["بيئة","طقس","مناخ","طبيعة"],answer:0},
-  {question:"اختر الترجمة الصحيحة: He is late",options:["هو مبكر","هو متأخر","هو نائم","هو سعيد"],answer:1},
-  {question:"ما معنى (knowledge)؟",options:["تعليم","خبرة","معرفة","فهم"],answer:2},
-  {question:"كيف أقول (متى) بالإنجليزي؟",options:["Where","When","Why","Who"],answer:1},
-  {question:"ما معنى (goal)؟",options:["لعبة","خطة","هدف","فكرة"],answer:2},
-  {question:"اختر الترجمة الصحيحة: They are ready",options:["هم نائمون","هم مستعدون","هم متأخرون","هم غاضبون"],answer:1},
-  {question:"ما معنى (trust)؟",options:["شك","ثقة","خوف","قلق"],answer:1},
-  {question:"كيف أقول (من) بالإنجليزي؟",options:["Who","What","Where","When"],answer:0},
-  {question:"ما معنى (solution)؟",options:["مشكلة","حل","خطة","سؤال"],answer:1},
+{q:"كيف أقول (أين)؟",o:["When","Who","Where","Why"],a:2},
+{q:"ما معنى (opportunity)؟",o:["خطر","فرصة","تحدي","مشكلة"],a:1},
+{q:"I ___ football",o:["plays","play","playing","played"],a:1},
+{q:"ما معنى (challenge)؟",o:["راحة","سهولة","تحدي","فشل"],a:2},
+{q:"He was late",o:["مبكر","متأخر","نائم","سعيد"],a:1},
+{q:"ما معنى (knowledge)؟",o:["ذكاء","تعليم","معرفة","فهم"],a:2},
+{q:"كيف أقول (متى)؟",o:["Why","When","Where","What"],a:1},
+{q:"ما معنى (successful)؟",o:["فاشل","ناجح","كسول","ضعيف"],a:1},
+{q:"She ___ happy",o:["are","is","were","be"],a:1},
+{q:"ما معنى (future)؟",o:["ماضي","حاضر","مستقبل","وقت"],a:2},
 
-  // نكمل تلقائيًا إلى 50
+{q:"ما معنى (experience)؟",o:["خبرة","تعليم","مهارة","وظيفة"],a:0},
+{q:"They are ready",o:["نائمون","مستعدون","غاضبون","متأخرون"],a:1},
+{q:"ما معنى (confidence)؟",o:["خوف","ثقة","ضعف","تردد"],a:1},
+{q:"We ___ studying",o:["is","are","was","be"],a:1},
+{q:"ما معنى (effort)؟",o:["راحة","جهد","سرعة","تعب"],a:1},
+{q:"كيف أقول (أيّ)؟",o:["What","Why","Which","Who"],a:2},
+{q:"ما معنى (impossible)؟",o:["سهل","ممكن","مستحيل","قريب"],a:2},
+{q:"I forgot my phone",o:["نسيت هاتفي","وجدت هاتفي","كسرت هاتفي","بعت هاتفي"],a:0},
+{q:"ما معنى (solution)؟",o:["مشكلة","حل","خطة","سؤال"],a:1},
+{q:"He ___ the answer",o:["know","knows","knowing","knewed"],a:1},
+
+{q:"ما معنى (honest)؟",o:["كاذب","صادق","ذكي","كسول"],a:1},
+{q:"كيف أقول (كم)؟",o:["How","How many","Why","When"],a:1},
+{q:"ما معنى (goal)؟",o:["لعبة","هدف","خطة","فكرة"],a:1},
+{q:"This is important",o:["سهل","مهم","صعب","خطير"],a:1},
+{q:"ما معنى (patient)؟",o:["صبور","غاضب","كسول","سريع"],a:0},
+{q:"She ___ finished",o:["have","has","is","was"],a:1},
+{q:"ما معنى (immediately)؟",o:["فورًا","غدًا","ببطء","لاحقًا"],a:0},
+{q:"I agree with you",o:["أوافقك","أختلف معك","أتجاهلك","أفهمك"],a:0},
+{q:"ما معنى (prepare)؟",o:["يهرب","يجهز","ينسى","ينام"],a:1},
+{q:"They ___ playing",o:["is","are","was","be"],a:1}
 ];
 
-while(allQuestions.length < 50){
-  allQuestions.push({
-    question:"سؤال إضافي تجريبي",
-    options:["خيار 1","خيار 2","خيار 3","خيار 4"],
-    answer:0
-  });
-}
-
-// ============================
-// منطق اللعبة
-// ============================
+// =====================
 let questions = [];
 let index = 0;
+let score = 0;
+let timer = 10;
+let interval;
 
-const questionEl = document.getElementById("question");
-const optionsEl  = document.getElementById("options");
-const counterEl  = document.getElementById("counter");
-const endEl      = document.getElementById("end");
+// عناصر
+const qEl = document.getElementById("question");
+const optEl = document.getElementById("options");
+const counterEl = document.getElementById("counter");
+const timerEl = document.getElementById("timer");
+const endEl = document.getElementById("end");
+const scoreEl = document.getElementById("score");
+const resultsEl = document.getElementById("results");
 
-function shuffle(arr){
-  return arr.sort(()=>Math.random()-0.5);
-}
+function shuffle(a){return a.sort(()=>Math.random()-0.5)}
 
 function start(){
   questions = shuffle([...allQuestions]).slice(0,10);
-  index = 0;
   show();
 }
 
 function show(){
+  clearInterval(interval);
+  timer = 10;
+  timerEl.textContent = "⏱ " + timer + " ثواني";
+  counterEl.textContent = `السؤال ${index+1} من 10`;
+
   if(index >= questions.length){
-    questionEl.style.display="none";
-    optionsEl.style.display="none";
-    counterEl.style.display="none";
-    endEl.classList.remove("hidden");
+    finish();
     return;
   }
 
   const q = questions[index];
-  counterEl.textContent = `السؤال ${index+1} من 10`;
-  questionEl.textContent = q.question;
-  optionsEl.innerHTML = "";
+  qEl.textContent = q.q;
+  optEl.innerHTML = "";
 
-  shuffle(q.options.map((t,i)=>({t,i}))).forEach(opt=>{
-    const btn = document.createElement("button");
-    btn.textContent = opt.t;
-    btn.onclick = ()=>{
+  shuffle(q.o.map((t,i)=>({t,i}))).forEach(opt=>{
+    const b = document.createElement("button");
+    b.textContent = opt.t;
+    b.onclick = ()=>answer(b,opt.i,q.a);
+    optEl.appendChild(b);
+  });
+
+  interval = setInterval(()=>{
+    timer--;
+    timerEl.textContent = "⏱ " + timer + " ثواني";
+    if(timer===0){
       index++;
       show();
-    };
-    optionsEl.appendChild(btn);
+    }
+  },1000);
+}
+
+function answer(btn,sel,cor){
+  clearInterval(interval);
+  const btns = optEl.querySelectorAll("button");
+  btns.forEach(b=>b.disabled=true);
+
+  if(sel===cor){
+    btn.classList.add("correct");
+    score++;
+  }else{
+    btn.classList.add("wrong");
+    btns[cor].classList.add("correct");
+  }
+
+  setTimeout(()=>{
+    index++;
+    show();
+  },1500);
+}
+
+function finish(){
+  qEl.textContent="";
+  optEl.innerHTML="";
+  timerEl.textContent="";
+  counterEl.textContent="";
+  endEl.classList.remove("hidden");
+
+  scoreEl.textContent = `درجتك: ${score} من 10`;
+  localStorage.setItem("lastScore",score);
+
+  resultsEl.innerHTML="";
+  questions.forEach((q,i)=>{
+    resultsEl.innerHTML += `
+      <div class="result-card">
+        ${i+1}) ${q.q}<br>
+        ✔ ${q.o[q.a]}
+      </div>`;
   });
 }
 

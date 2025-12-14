@@ -2,7 +2,7 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>لعبة الإنجليزي</title>
+<title>اختبار الإنجليزي</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,14 +11,74 @@
 <div class="game">
     <h1>اختبار الإنجليزي</h1>
 
+    <!-- رقم السؤال -->
+    <div id="counter"></div>
+
+    <!-- السؤال -->
     <div id="questionBox" class="question"></div>
 
+    <!-- الخيارات -->
     <div id="choices" class="choices"></div>
 
+    <!-- رسالة -->
+    <div id="message"></div>
+
+    <!-- نهاية -->
     <div id="end" class="end hidden">
         انتهت الأسئلة ✅
     </div>
 </div>
+
+<!-- ========================= -->
+<!-- 50 سؤال إنجليزي -->
+<!-- ========================= -->
+<script>
+const allQuestions = [
+  {q:"ما معنى (achieve)؟",options:["يحقق","يفشل","يهرب","ينسى"],answer:0},
+  {q:"كيف أقول (ماذا) بالإنجليزي؟",options:["When","What","Why","Which"],answer:1},
+  {q:"ما معنى (improve)؟",options:["يتحسن","يتأخر","يتوقف","يختفي"],answer:0},
+  {q:"اختر الترجمة الصحيحة: I am tired",options:["أنا سعيد","أنا غاضب","أنا متعب","أنا جائع"],answer:2},
+  {q:"ما معنى (decision)؟",options:["مشكلة","قرار","نتيجة","فرصة"],answer:1},
+  {q:"كيف أقول (لماذا) بالإنجليزي؟",options:["Where","What","Why","Who"],answer:2},
+  {q:"ما معنى (environment)؟",options:["اقتصاد","بيئة","طبيعة","طقس"],answer:1},
+  {q:"اختر الترجمة الصحيحة: She is intelligent",options:["هي جميلة","هي ذكية","هي سريعة","هي قوية"],answer:1},
+  {q:"ما معنى (responsibility)؟",options:["حرية","مسؤولية","شجاعة","قوة"],answer:1},
+  {q:"كيف أقول (أين) بالإنجليزي؟",options:["Why","Where","When","Who"],answer:1},
+
+  {q:"ما معنى (opportunity)؟",options:["مشكلة","فرصة","خطر","تحدي"],answer:1},
+  {q:"أكمل: I ___ football every day",options:["plays","play","playing","played"],answer:1},
+  {q:"ما معنى (challenge)؟",options:["راحة","تحدي","فشل","سهولة"],answer:1},
+  {q:"اختر الترجمة الصحيحة: He was late",options:["هو مبكر","هو متأخر","هو سعيد","هو نائم"],answer:1},
+  {q:"ما معنى (knowledge)؟",options:["ذكاء","تعليم","معرفة","فهم"],answer:2},
+  {q:"كيف أقول (متى) بالإنجليزي؟",options:["Where","When","Why","What"],answer:1},
+  {q:"ما معنى (successful)؟",options:["ناجح","فاشل","ضعيف","كسول"],answer:0},
+  {q:"أكمل: She ___ very happy",options:["are","is","were","be"],answer:1},
+  {q:"ما معنى (future)؟",options:["ماضي","حاضر","مستقبل","وقت"],answer:2},
+  {q:"كيف أقول (من) بالإنجليزي؟",options:["Who","What","Where","When"],answer:0},
+
+  {q:"ما معنى (experience)؟",options:["خبرة","تعليم","مهارة","وظيفة"],answer:0},
+  {q:"اختر الترجمة الصحيحة: They are ready",options:["هم غاضبون","هم مستعدون","هم نائمون","هم متأخرون"],answer:1},
+  {q:"ما معنى (confidence)؟",options:["خوف","ثقة","ضعف","تردد"],answer:1},
+  {q:"أكمل: We ___ studying now",options:["is","are","was","be"],answer:1},
+  {q:"ما معنى (effort)؟",options:["راحة","تعب","جهد","سرعة"],answer:2},
+  {q:"كيف أقول (أيّ) بالإنجليزي؟",options:["Which","Why","What","Who"],answer:0},
+  {q:"ما معنى (impossible)؟",options:["ممكن","سهل","مستحيل","قريب"],answer:2},
+  {q:"اختر الترجمة الصحيحة: I forgot my phone",options:["نسيت هاتفي","كسرت هاتفي","وجدت هاتفي","بعت هاتفي"],answer:0},
+  {q:"ما معنى (solution)؟",options:["مشكلة","حل","خطة","سؤال"],answer:1},
+  {q:"أكمل: He ___ the answer",options:["know","knows","knowing","knewed"],answer:1},
+
+  {q:"ما معنى (honest)؟",options:["كاذب","صادق","ذكي","كسول"],answer:1},
+  {q:"كيف أقول (كم) بالإنجليزي؟",options:["How","How many","Why","When"],answer:1},
+  {q:"ما معنى (goal)؟",options:["لعبة","هدف","خطة","فكرة"],answer:1},
+  {q:"اختر الترجمة الصحيحة: This is important",options:["هذا صعب","هذا مهم","هذا سهل","هذا خطير"],answer:1},
+  {q:"ما معنى (patient)؟",options:["غاضب","صبور","كسول","سريع"],answer:1},
+  {q:"أكمل: She ___ already finished",options:["have","has","is","was"],answer:1},
+  {q:"ما معنى (immediately)؟",options:["لاحقًا","ببطء","فورًا","غدًا"],answer:2},
+  {q:"اختر الترجمة الصحيحة: I agree with you",options:["أنا أختلف معك","أنا أفهمك","أنا أوافقك","أنا أتجاهلك"],answer:2},
+  {q:"ما معنى (prepare)؟",options:["يهرب","يجهز","ينسى","ينام"],answer:1},
+  {q:"أكمل: They ___ playing now",options:["is","are","was","be"],answer:1}
+];
+</script>
 
 <script src="script.js"></script>
 </body>

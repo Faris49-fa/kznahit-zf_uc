@@ -38,7 +38,7 @@ function createDuck(){
             duck.remove();
             duckExists = false;
         }
-    }, 2500);
+    }, 2000);
 }
 
 // المؤقت

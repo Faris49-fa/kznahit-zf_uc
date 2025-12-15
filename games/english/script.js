@@ -103,7 +103,6 @@ function choose(answerIndex) {
 // النهاية + التصحيح
 // ============================
 function endGame() {
-  clearInterval(timer);
   questionEl.textContent = "انتهت الأسئلة ✅";
   optionsEl.innerHTML = "";
   qNumEl.textContent = "";

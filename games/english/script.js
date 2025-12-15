@@ -20,10 +20,11 @@ const backBtn = document.getElementById("backBtn");
 // ============================
 let questions = [];
 let index = 0;
-let score = 0;
 let timer;
 let timeLeft = 10;
-let locked = false;
+
+// نحفظ إجابات المستخدم
+let userAnswers = [];
 
 // ============================
 // خلط
@@ -38,7 +39,7 @@ function shuffle(arr) {
 function startGame() {
   questions = shuffle([...allQuestions]).slice(0, 10);
   index = 0;
-  score = 0;
+  userAnswers = [];
   showQuestion();
 }
 
@@ -46,7 +47,7 @@ function startGame() {
 // عرض سؤال
 // ============================
 function showQuestion() {
-  locked = false;
+  clearInterval(timer);
   optionsEl.innerHTML = "";
   timeLeft = 10;
   timerEl.textContent = timeLeft;
@@ -59,15 +60,11 @@ function showQuestion() {
   qNumEl.textContent = `السؤال ${index + 1} / 10`;
   questionEl.textContent = questions[index].question;
 
-  const mixed = shuffle(
-    questions[index].options.map((t, i) => ({ t, i }))
-  );
-
-  mixed.forEach(opt => {
+  questions[index].options.forEach((text, i) => {
     const btn = document.createElement("button");
     btn.className = "option";
-    btn.textContent = opt.t;
-    btn.onclick = () => choose(btn, opt.i);
+    btn.textContent = text;
+    btn.onclick = () => selectAnswer(i);
     optionsEl.appendChild(btn);
   });
 
@@ -78,13 +75,15 @@ function showQuestion() {
 // المؤقت
 // ============================
 function startTimer() {
-  clearInterval(timer);
   timer = setInterval(() => {
     timeLeft--;
     timerEl.textContent = timeLeft;
+
     if (timeLeft <= 0) {
       clearInterval(timer);
-      reveal(null);
+      userAnswers.push(null); // ما جاوب
+      index++;
+      showQuestion();
     }
   }, 1000);
 }
@@ -92,36 +91,15 @@ function startTimer() {
 // ============================
 // اختيار إجابة
 // ============================
-function choose(btn, i) {
-  if (locked) return;
-  locked = true;
+function selectAnswer(choice) {
   clearInterval(timer);
-  reveal(i);
+  userAnswers.push(choice);
+  index++;
+  showQuestion();
 }
 
 // ============================
-// إظهار الصح والخطأ
-// ============================
-function reveal(selected) {
-  const correct = questions[index].answer;
-  const buttons = document.querySelectorAll(".option");
-
-  buttons.forEach((b, i) => {
-    b.disabled = true;
-    if (i === correct) b.classList.add("correct");
-    if (i === selected && i !== correct) b.classList.add("wrong");
-  });
-
-  if (selected === correct) score++;
-
-  setTimeout(() => {
-    index++;
-    showQuestion();
-  }, 2000);
-}
-
-// ============================
-// النهاية
+// النهاية + تحليل الإجابات
 // ============================
 function endGame() {
   questionEl.textContent = "انتهت الأسئلة";
@@ -129,9 +107,40 @@ function endGame() {
   qNumEl.textContent = "";
   timerEl.textContent = "";
 
-  resultEl.innerHTML = `درجتك: ${score} / 10`;
-  localStorage.setItem("lastScore", score);
+  let score = 0;
+  resultEl.innerHTML = "";
 
+  questions.forEach((q, i) => {
+    const card = document.createElement("div");
+    card.className = "result-card";
+
+    const user = userAnswers[i];
+    const correct = q.answer;
+
+    if (user === correct) {
+      card.classList.add("correct");
+      score++;
+    } else if (user === null) {
+      card.classList.add("empty");
+    } else {
+      card.classList.add("wrong");
+    }
+
+    card.innerHTML = `
+      <strong>${i + 1}) ${q.question}</strong><br>
+      جوابك: ${user === null ? "لم يتم الاختيار" : q.options[user]}<br>
+      الجواب الصحيح: ${q.options[correct]}
+    `;
+
+    resultEl.appendChild(card);
+  });
+
+  resultEl.insertAdjacentHTML(
+    "afterbegin",
+    `<h3>درجتك: ${score} / 10</h3>`
+  );
+
+  localStorage.setItem("lastScore", score);
   backBtn.style.display = "block";
 }
 

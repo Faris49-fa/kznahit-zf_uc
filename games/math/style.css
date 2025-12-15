@@ -1,0 +1,49 @@
+body{
+    font-family:Arial;
+    background:#fff;
+    display:flex;
+    justify-content:center;
+    padding:30px;
+}
+
+.box{
+    width:100%;
+    max-width:520px;
+}
+
+#timer{
+    margin:10px 0;
+    font-weight:bold;
+}
+
+.option{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border:none;
+    border-radius:10px;
+    background:#e0e0e0;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.correct{
+    background:#4caf50 !important;
+    color:#fff;
+}
+
+.wrong{
+    background:#f44336 !important;
+    color:#fff;
+}
+
+.unanswered{
+    background:#bdbdbd !important;
+    color:#fff;
+}
+
+.result-card{
+    padding:10px;
+    margin:6px 0;
+    border-radius:8px;
+}

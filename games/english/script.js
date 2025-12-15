@@ -91,12 +91,17 @@ function startTimer() {
 // ============================
 // اختيار إجابة (انتقال فوري)
 // ============================
-function choose(answerIndex) {
+function choose(btn, i) {
+  if (locked) return;
+  locked = true;
   clearInterval(timer);
-  userAnswers.push(answerIndex);
+
+  if (i === questions[index].answer) score++;
+
   index++;
-  showQuestion();
+  showQuestion(); // انتقال فوري
 }
+
 
 // ============================
 // النهاية + التصحيح

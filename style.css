@@ -74,6 +74,23 @@ p{
     transform:scale(1.05);
     background:#f1f5f9;
 }
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1;
+}
+
+.footer {
+    text-align: center;
+    padding: 15px;
+    color: #cbd5f5;
+    font-size: 14px;
+}
+
 
 .footer{
     margin-top:15px;

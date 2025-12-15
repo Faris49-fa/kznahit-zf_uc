@@ -1,6 +1,6 @@
 body{
     font-family:Arial;
-    background:#fff;
+    background:#ffffff;
     display:flex;
     justify-content:center;
     padding:30px;
@@ -9,11 +9,22 @@ body{
 .box{
     width:100%;
     max-width:520px;
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 0 10px rgba(0,0,0,.1);
 }
 
-#timer{
-    margin:10px 0;
+.top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
     font-weight:bold;
+}
+
+#question{
+    font-size:20px;
+    margin-bottom:15px;
 }
 
 .option{
@@ -27,23 +38,11 @@ body{
     font-size:16px;
 }
 
-.correct{
-    background:#4caf50 !important;
-    color:#fff;
-}
+.option.correct{ background:#4caf50; color:#fff; }
+.option.wrong{ background:#f44336; color:#fff; }
+.option.gray{ background:#bdbdbd; }
 
-.wrong{
-    background:#f44336 !important;
-    color:#fff;
-}
-
-.unanswered{
-    background:#bdbdbd !important;
-    color:#fff;
-}
-
-.result-card{
-    padding:10px;
-    margin:6px 0;
-    border-radius:8px;
+#result{
+    margin-top:15px;
+    font-weight:bold;
 }

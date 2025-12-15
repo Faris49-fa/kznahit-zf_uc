@@ -8,9 +8,14 @@ let score = 0;
 let time = 30;
 let gameInterval;
 let timerInterval;
+let duckExists = false; // 🔴 مهم
 
 // إنشاء بطة
 function createDuck(){
+    if (duckExists) return; // ❌ لا تنشئ إذا فيه بطة
+
+    duckExists = true;
+
     const duck = document.createElement("div");
     duck.className = "duck";
     duck.textContent = "🦆";
@@ -22,13 +27,18 @@ function createDuck(){
         score++;
         scoreEl.textContent = score;
         duck.remove();
+        duckExists = false; // ✅ يسمح بواحدة جديدة
     };
 
     area.appendChild(duck);
 
+    // تختفي بعد 2.5 ثانية (أبطأ)
     setTimeout(() => {
-        duck.remove();
-    }, 1750);
+        if (duck.parentNode) {
+            duck.remove();
+            duckExists = false;
+        }
+    }, 2500);
 }
 
 // المؤقت
@@ -54,5 +64,5 @@ function endGame(){
 }
 
 // بدء اللعبة
-gameInterval = setInterval(createDuck, 700);
+gameInterval = setInterval(createDuck, 1200); // ⏱ أبطأ
 startTimer();

@@ -45,7 +45,6 @@ function startGame() {
 // عرض سؤال
 // ============================
 function showQuestion() {
-  clearInterval(timer);
   optionsEl.innerHTML = "";
   timeLeft = 10;
   timerEl.textContent = timeLeft;

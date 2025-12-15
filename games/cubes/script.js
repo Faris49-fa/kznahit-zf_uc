@@ -3,7 +3,7 @@ const timeEl = document.getElementById("time");
 const endBox = document.getElementById("end");
 const resultEl = document.getElementById("result");
 
-let time = 180;
+let time = ;
 let timer;
 let tiles = [];
 

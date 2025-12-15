@@ -28,7 +28,7 @@ function createDuck(){
 
     setTimeout(() => {
         duck.remove();
-    }, 2000);
+    }, 1750);
 }
 
 // المؤقت

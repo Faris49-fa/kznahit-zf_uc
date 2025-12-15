@@ -1,0 +1,83 @@
+const board = document.getElementById("board");
+const keyboard = document.getElementById("keyboard");
+const statusEl = document.getElementById("status");
+const resultEl = document.getElementById("result");
+
+const target = words[Math.floor(Math.random()*words.length)];
+let row = 0;
+let col = 0;
+let current = "";
+let gameOver = false;
+
+// ===== إنشاء اللوحة =====
+for(let i=0;i<6;i++){
+    const r=document.createElement("div");
+    r.className="row";
+    for(let j=0;j<5;j++){
+        const c=document.createElement("div");
+        c.className="cell";
+        r.appendChild(c);
+    }
+    board.appendChild(r);
+}
+
+// ===== لوحة المفاتيح =====
+const letters="ابتثجحخدذرزسشصضطظعغفقكلمنهوي";
+[...letters].forEach(l=>{
+    const k=document.createElement("div");
+    k.className="key";
+    k.textContent=l;
+    k.onclick=()=>press(l);
+    keyboard.appendChild(k);
+});
+
+function press(letter){
+    if(gameOver || col>=5) return;
+    board.children[row].children[col].textContent=letter;
+    current+=letter;
+    col++;
+}
+
+document.addEventListener("keydown",e=>{
+    if(e.key==="Enter") submit();
+    if(e.key==="Backspace" && col>0){
+        col--;
+        board.children[row].children[col].textContent="";
+        current=current.slice(0,-1);
+    }
+});
+
+function submit(){
+    if(current.length<5) return;
+
+    [...current].forEach((l,i)=>{
+        const cell=board.children[row].children[i];
+        if(l===target[i]) cell.classList.add("correct");
+        else if(target.includes(l)) cell.classList.add("present");
+        else cell.classList.add("wrong");
+    });
+
+    if(current===target){
+        endGame("🎉 فزت!");
+        return;
+    }
+
+    row++;
+    col=0;
+    current="";
+    statusEl.textContent=`المحاولة ${row+1} من 6`;
+
+    if(row===6){
+        endGame("❌ انتهت المحاولات – الكلمة: "+target);
+    }
+}
+
+function endGame(msg){
+    gameOver=true;
+    resultEl.textContent=msg;
+    localStorage.setItem("lastLettersScore",msg);
+}
+
+function goHome(){
+    window.location.href="../../index.html";
+}

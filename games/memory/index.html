@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>لعبة الذاكرة</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div id="menu">
+        <h2>اختر المستوى</h2>
+        <button onclick="startGame('easy')">سهل</button>
+        <button onclick="startGame('hard')">صعب</button>
+    </div>
+
+    <div id="game" style="display:none">
+        <div id="timer"></div>
+        <div id="board" class="board"></div>
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

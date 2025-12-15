@@ -1,0 +1,46 @@
+body{
+    background:#0f172a;
+    color:#fff;
+    font-family:Arial;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.game{
+    background:#020617;
+    padding:20px;
+    border-radius:12px;
+    width:350px;
+    text-align:center;
+}
+
+#timer{
+    font-size:22px;
+    margin:10px 0;
+    color:#facc15;
+}
+
+.numbers{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+}
+
+.number{
+    background:#2563eb;
+    padding:15px;
+    border-radius:8px;
+    cursor:grab;
+    font-size:18px;
+}
+
+.number.dragging{
+    opacity:.5;
+}
+
+#result{
+    margin-top:15px;
+    font-size:18px;
+}

@@ -3,9 +3,15 @@ const timeEl = document.getElementById("time");
 const endBox = document.getElementById("end");
 const resultEl = document.getElementById("result");
 
-let time = ;
-let timer;
-let tiles = [];
+function startTimer() {
+  if (timer) return; // يمنع تشغيله مرتين
+
+  timer = setInterval(() => {
+    time++;
+    document.getElementById("time").textContent = time;
+  }, 1000);
+}
+
 
 // إنشاء المكعبات
 function initGame(){

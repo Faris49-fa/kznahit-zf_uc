@@ -20,11 +20,9 @@ const backBtn = document.getElementById("backBtn");
 // ============================
 let questions = [];
 let index = 0;
-let timer;
 let timeLeft = 10;
-
-// نحفظ إجابات المستخدم
-let userAnswers = [];
+let timer;
+let userAnswers = []; // <<< نخزن إجابات المستخدم
 
 // ============================
 // خلط
@@ -57,14 +55,18 @@ function showQuestion() {
     return;
   }
 
-  qNumEl.textContent = `السؤال ${index + 1} / 10`;
+  qNumEl.textContent = `السؤال ${index + 1} من 10`;
   questionEl.textContent = questions[index].question;
 
-  questions[index].options.forEach((text, i) => {
+  const mixed = shuffle(
+    questions[index].options.map((t, i) => ({ t, i }))
+  );
+
+  mixed.forEach(opt => {
     const btn = document.createElement("button");
     btn.className = "option";
-    btn.textContent = text;
-    btn.onclick = () => selectAnswer(i);
+    btn.textContent = opt.t;
+    btn.onclick = () => choose(opt.i);
     optionsEl.appendChild(btn);
   });
 
@@ -80,7 +82,6 @@ function startTimer() {
     timerEl.textContent = timeLeft;
 
     if (timeLeft <= 0) {
-      clearInterval(timer);
       userAnswers.push(null); // ما جاوب
       index++;
       showQuestion();
@@ -89,58 +90,58 @@ function startTimer() {
 }
 
 // ============================
-// اختيار إجابة
+// اختيار إجابة (انتقال فوري)
 // ============================
-function selectAnswer(choice) {
+function choose(answerIndex) {
   clearInterval(timer);
-  userAnswers.push(choice);
+  userAnswers.push(answerIndex);
   index++;
   showQuestion();
 }
 
 // ============================
-// النهاية + تحليل الإجابات
+// النهاية + التصحيح
 // ============================
 function endGame() {
-  questionEl.textContent = "انتهت الأسئلة";
+  clearInterval(timer);
+  questionEl.textContent = "انتهت الأسئلة ✅";
   optionsEl.innerHTML = "";
   qNumEl.textContent = "";
   timerEl.textContent = "";
 
-  let score = 0;
-  resultEl.innerHTML = "";
+  let correctCount = 0;
+  let html = "";
 
   questions.forEach((q, i) => {
-    const card = document.createElement("div");
-    card.className = "result-card";
-
     const user = userAnswers[i];
     const correct = q.answer;
 
+    let cls = "unanswered";
     if (user === correct) {
-      card.classList.add("correct");
-      score++;
-    } else if (user === null) {
-      card.classList.add("empty");
-    } else {
-      card.classList.add("wrong");
+      cls = "correct";
+      correctCount++;
+    } else if (user !== null) {
+      cls = "wrong";
     }
 
-    card.innerHTML = `
-      <strong>${i + 1}) ${q.question}</strong><br>
-      جوابك: ${user === null ? "لم يتم الاختيار" : q.options[user]}<br>
-      الجواب الصحيح: ${q.options[correct]}
+    html += `
+      <div class="result-card ${cls}">
+        <strong>${i + 1}) ${q.question}</strong><br>
+        إجابتك: ${user !== null ? q.options[user] : "لم تجب"}<br>
+        الإجابة الصحيحة: ${q.options[correct]}
+      </div>
     `;
-
-    resultEl.appendChild(card);
   });
 
-  resultEl.insertAdjacentHTML(
-    "afterbegin",
-    `<h3>درجتك: ${score} / 10</h3>`
-  );
+  const percent = Math.round((correctCount / questions.length) * 100);
 
-  localStorage.setItem("lastScore", score);
+  resultEl.innerHTML = `
+    <h3>درجتك: ${correctCount} / 10</h3>
+    <h4>النسبة: ${percent}%</h4>
+    ${html}
+  `;
+
+  localStorage.setItem("lastScore", percent);
   backBtn.style.display = "block";
 }
 

@@ -3,7 +3,13 @@ const timeEl = document.getElementById("time");
 const endBox = document.getElementById("end");
 const resultEl = document.getElementById("result");
 
-let time = 60;
+function startTimer(){
+  timerInterval = setInterval(() => {
+    time++;
+    timeEl.textContent = time;
+  }, 1000);
+}
+
 let timer;
 let tiles = [];
 

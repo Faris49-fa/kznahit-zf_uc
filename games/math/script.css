@@ -1,0 +1,147 @@
+// ================== 50 سؤال ==================
+const allQuestions = [
+{q:"3x + 7 = 25", o:["4","6","8","10"], a:1},
+{q:"2x = 14", o:["5","6","7","8"], a:2},
+{q:"4² + 6×3", o:["28","34","36","40"], a:1},
+{q:"5(2x−3) عند x=2", o:["10","14","20","5"], a:1},
+{q:"x − 5 = 12", o:["15","17","7","12"], a:1},
+{q:"7² − 5²", o:["12","24","14","20"], a:2},
+{q:"2⁵", o:["16","32","64","8"], a:1},
+{q:"x/5 = 4", o:["10","15","20","25"], a:2},
+{q:"9×(5−2)", o:["18","21","27","30"], a:2},
+{q:"6x = 48", o:["6","7","8","9"], a:2},
+
+{q:"3/4 + 1/4", o:["1","1/2","3/4","2"], a:0},
+{q:"12x − 5x", o:["5x","6x","7x","12x"], a:2},
+{q:"(5+3)²", o:["16","32","64","25"], a:2},
+{q:"9 − x = 2", o:["7","6","5","4"], a:0},
+{q:"عددين متتاليين مجموعهم 21", o:["10 و11","9 و12","8 و13","7 و14"], a:0},
+{q:"20 ÷ 5 × 3", o:["10","12","15","20"], a:1},
+{q:"2(x+5)=18", o:["4","5","6","7"], a:0},
+{q:"x/8 = 1/2", o:["2","3","4","5"], a:2},
+{q:"(2x)² عند x=3", o:["12","24","36","18"], a:2},
+{q:"x + x = 18", o:["7","8","9","10"], a:2},
+
+{q:"3³ + 2³", o:["17","27","35","19"], a:2},
+{q:"5x − 10 = 15", o:["3","4","5","6"], a:2},
+{q:"x² − x عند x=5", o:["15","20","25","10"], a:0},
+{q:"24 ÷ (3×2)", o:["2","3","4","6"], a:1},
+{q:"احتمال 1/5، عدم حدوثه؟", o:["1/4","4/5","3/5","1"], a:1},
+{q:"10²", o:["20","50","100","200"], a:2},
+{q:"√49", o:["6","7","8","9"], a:1},
+{q:"15% من 200", o:["20","25","30","35"], a:2},
+{q:"6! ÷ 5!", o:["5","6","10","30"], a:1},
+{q:"(3x)(2x)", o:["5x","6x","6x²","9x"], a:2},
+
+{q:"1/2 ÷ 1/4", o:["1","2","4","8"], a:2},
+{q:"7×8", o:["54","56","58","64"], a:1},
+{q:"x² = 16", o:["2","4","±4","8"], a:2},
+{q:"(9+3)/3", o:["3","4","5","6"], a:1},
+{q:"25% من 80", o:["15","20","25","30"], a:1},
+{q:"4³", o:["16","32","48","64"], a:3},
+{q:"18 ÷ 3 × 2", o:["3","6","12","18"], a:2},
+{q:"(x+2)(x+3)", o:["x²+5x+6","x²+6","x²+5","x²+6x"], a:0},
+{q:"10 − (3+2)", o:["3","5","7","10"], a:2},
+{q:"5² − 3²", o:["4","10","16","20"], a:1}
+];
+
+// ================== إعداد ==================
+let quiz = shuffle([...allQuestions]).slice(0,10);
+let index = 0;
+let time = 10;
+let timer;
+let answers = [];
+
+const qNum = document.getElementById("qNum");
+const qEl = document.getElementById("question");
+const optEl = document.getElementById("options");
+const timerEl = document.getElementById("timer");
+const resultEl = document.getElementById("result");
+
+function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
+
+// ================== عرض سؤال ==================
+function showQuestion(){
+    if(index >= quiz.length){
+        showResult();
+        return;
+    }
+
+    time = 10;
+    timerEl.textContent = time;
+    startTimer();
+
+    qNum.textContent = `سؤال ${index+1} / 10`;
+    qEl.textContent = quiz[index].q;
+    optEl.innerHTML = "";
+
+    let opts = quiz[index].o.map((t,i)=>({t,i}));
+    shuffle(opts);
+
+    opts.forEach(opt=>{
+        const btn = document.createElement("button");
+        btn.className="option";
+        btn.textContent = opt.t;
+        btn.onclick = ()=>answer(opt.i);
+        optEl.appendChild(btn);
+    });
+}
+
+function startTimer(){
+    clearInterval(timer);
+    timer = setInterval(()=>{
+        time--;
+        timerEl.textContent = time;
+        if(time<=0){
+            answers.push(null);
+            next();
+        }
+    },1000);
+}
+
+function answer(i){
+    clearInterval(timer);
+    answers.push(i);
+    next();
+}
+
+function next(){
+    index++;
+    showQuestion();
+}
+
+// ================== النتيجة ==================
+function showResult(){
+    qEl.textContent = "انتهى الاختبار";
+    optEl.innerHTML = "";
+    qNum.textContent = "";
+    timerEl.textContent = "";
+
+    let score = 0;
+    resultEl.innerHTML = "";
+
+    quiz.forEach((q,i)=>{
+        let div = document.createElement("div");
+        div.className="result-card";
+
+        if(answers[i] === q.a){
+            div.classList.add("correct");
+            score++;
+        }else if(answers[i] == null){
+            div.classList.add("empty");
+        }else{
+            div.classList.add("wrong");
+        }
+
+        div.innerHTML = `
+        ${q.q}<br>
+        جوابك: ${answers[i]!==null ? q.o[answers[i]] : "لم تجب"}<br>
+        الصحيح: ${q.o[q.a]}
+        `;
+        resultEl.appendChild(div);
+    });
+
+    localStorage.setItem("mathScore", score);
+}
+
+showQuestion();

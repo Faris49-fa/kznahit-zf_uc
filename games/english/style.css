@@ -1,96 +1,104 @@
+/* ===== إعدادات عامة ===== */
+*{
+    box-sizing: border-box;
+}
+
 body{
-  margin:0;
-  font-family:Arial;
-  background:linear-gradient(135deg,#0f172a,#020617);
-  color:#fff;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+    color: #222;
 }
 
-.card{
-  margin-top:40px;
-  background:#111827;
-  padding:25px;
-  border-radius:18px;
-  width:90%;
-  max-width:600px;
-  text-align:center;
+/* ===== صندوق اللعبة ===== */
+.box{
+    width: 100%;
+    max-width: 520px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.08);
 }
 
-h1{margin-bottom:10px}
-
-.counter,.timer{
-  margin:5px 0;
-  font-size:15px;
-  color:#cbd5f5;
+/* ===== أعلى الصندوق ===== */
+.top{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-weight: bold;
 }
 
-.question{
-  font-size:22px;
-  margin:20px 0;
+/* ===== السؤال ===== */
+#question{
+    font-size: 18px;
+    margin-bottom: 15px;
 }
 
-.options{
-  display:grid;
-  gap:12px;
+/* ===== الخيارات ===== */
+#options{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
+/* ===== زر الخيار ===== */
 .option{
-  padding:14px;
-  border-radius:12px;
-  border:none;
-  font-size:16px;
-  cursor:pointer;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid #e0e0e0;
+    background: #f3f3f3;
+    cursor: pointer;
+    font-size: 15px;
+    transition: .2s;
 }
 
-.option.correct{background:#16a34a}
-.option.wrong{background:#dc2626}
-
-.hidden{display:none}
-
-#end h2{margin:15px 0}
-
-.results{
-  display:grid;
-  gap:10px;
-  margin:15px 0;
+.option:hover{
+    background: #eaeaea;
 }
 
-.result-card{
-  background:#020617;
-  padding:10px;
-  border-radius:10px;
-  font-size:14px;
-}
-.result-card {
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 10px;
-  line-height: 1.8;
+/* ===== حالات الإجابة ===== */
+.option.correct{
+    background: #e8f7ee;
+    border-color: #2ecc71;
+    color: #2e7d32;
 }
 
-.result-card.correct {
-  background: #2ecc71;
-  color: #fff;
+.option.wrong{
+    background: #fdeaea;
+    border-color: #e74c3c;
+    color: #c0392b;
 }
 
-.result-card.wrong {
-  background: #e74c3c;
-  color: #fff;
+.option.unanswered{
+    background: #f0f0f0;
+    border-color: #bdbdbd;
+    color: #777;
 }
 
-.result-card.neutral {
-  background: #7f8c8d;
-  color: #fff;
+/* ===== النتيجة ===== */
+#result{
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 16px;
 }
 
-.footer-btns a{
-  display:inline-block;
-  margin-top:15px;
-  padding:10px 20px;
-  background:#2563eb;
-  color:#fff;
-  border-radius:12px;
-  text-decoration:none;
+/* ===== زر العودة ===== */
+#backBtn{
+    display: none;
+    margin-top: 15px;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #1976d2;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#backBtn:hover{
+    background: #125ca1;
 }

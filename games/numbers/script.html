@@ -1,0 +1,70 @@
+const numbersBox = document.getElementById("numbers");
+const timerEl = document.getElementById("timer");
+const resultEl = document.getElementById("result");
+const ruleEl = document.getElementById("rule");
+
+let time = 20;
+let order = Math.random() > 0.5 ? "asc" : "desc";
+
+ruleEl.textContent =
+    order === "asc"
+    ? "رتّب الأرقام من الأصغر إلى الأكبر"
+    : "رتّب الأرقام من الأكبر إلى الأصغر";
+
+let numbers = Array.from({length:8}, () =>
+    Math.floor(Math.random() * 900) + 100
+);
+
+function render(){
+    numbersBox.innerHTML = "";
+    numbers.forEach(n => {
+        const div = document.createElement("div");
+        div.className = "number";
+        div.textContent = n;
+        div.draggable = true;
+
+        div.addEventListener("dragstart", () => div.classList.add("dragging"));
+        div.addEventListener("dragend", () => div.classList.remove("dragging"));
+
+        numbersBox.appendChild(div);
+    });
+}
+
+numbersBox.addEventListener("dragover", e => {
+    e.preventDefault();
+    const dragging = document.querySelector(".dragging");
+    const after = [...numbersBox.children].find(el =>
+        e.clientX < el.offsetLeft + el.offsetWidth / 2
+    );
+    if(after){
+        numbersBox.insertBefore(dragging, after);
+    }else{
+        numbersBox.appendChild(dragging);
+    }
+});
+
+function check(){
+    const arranged = [...numbersBox.children].map(d => +d.textContent);
+    const sorted = [...arranged].sort((a,b) =>
+        order === "asc" ? a-b : b-a
+    );
+
+    if(JSON.stringify(arranged) === JSON.stringify(sorted)){
+        resultEl.textContent = "✅ ترتيب صحيح";
+        resultEl.style.color = "lightgreen";
+    }else{
+        resultEl.textContent = "❌ ترتيب خاطئ";
+        resultEl.style.color = "red";
+    }
+}
+
+render();
+
+const timer = setInterval(() => {
+    time--;
+    timerEl.textContent = time;
+    if(time === 0){
+        clearInterval(timer);
+        check();
+    }
+},1000);

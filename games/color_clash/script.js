@@ -120,7 +120,7 @@ function startCountdown() {
             return;
         }
 
-        const seconds = (remaining / 1000).toFixed(2);
+        const seconds = (remaining / 3000).toFixed(2);
         timeDisplay.textContent = `الوقت: ${seconds} ثانية`;
     }, 50);
 }

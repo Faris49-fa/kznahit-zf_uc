@@ -4,7 +4,8 @@ body{
   background:#0b1220;
   color:#fff;
   text-align:center;
-}/* ========================================= */
+}
+/* ========================================= */
 /* تأثيرات الفوز (Animation) */
 /* ========================================= */
 @keyframes confetti-fall {
@@ -21,81 +22,138 @@ body{
     background-color: #f1c40f; /* لون ذهبي للتمر */
     border-radius: 50%;
     z-index: 200;
-    pointer-events: none; /* لمنع حجب النقر على الشاشة */
+    pointer-events: none; 
     animation: confetti-fall 3s ease-in-out forwards;
 }
 
 .top{
-  display:flex;
-  justify-content:space-between;
-  padding:10px 15px;
+    display:flex;
+    justify-content:space-between;
+    padding:10px 15px;
 }
 
 .back{
-  color:#fff;
-  text-decoration:none;
-  background:#1e293b;
-  padding:6px 12px;
-  border-radius:8px;
+    color:#fff;
+    text-decoration:none;
+    background:#1e293b;
+    padding:6px 12px;
+    border-radius:8px;
 }
 
 h1{ margin:10px 0; }
 
 .info{
-  color:#cbd5f5;
-  margin-bottom:15px;
+    color:#cbd5f5;
+    margin-bottom:15px;
 }
 
+/* ========================================= */
+/* لوحة اللعب والتخمين (القواعد القياسية) */
+/* ========================================= */
 #board{
-  display:grid;
-  grid-template-rows:repeat(6,1fr);
-  gap:8px;
-  max-width:300px;
-  margin:0 auto 20px;
+    display:grid;
+    grid-template-rows:repeat(6,1fr);
+    gap:8px;
+    max-width:300px;
+    margin:0 auto 20px;
 }
 
 .row{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:8px;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:8px;
 }
 
 .cell{
-  height:48px;
-  border-radius:8px;
-  background:#1e293b;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:22px;
-  font-weight:bold;
+    height:48px; /* ارتفاع قياسي */
+    border-radius:8px;
+    background:#1e293b;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:22px; /* حجم خط قياسي */
+    font-weight:bold;
 }
 
 .correct{ background:#16a34a; }
 .present{ background:#ca8a04; }
 .wrong{ background:#374151; }
 
+/* ========================================= */
+/* لوحة المفاتيح (القواعد القياسية) */
+/* ========================================= */
 #keyboard{
-  max-width:500px;
-  margin:10px auto;
-  display:grid;
-  grid-template-columns:repeat(10,1fr);
-  gap:6px;
+    max-width:500px;
+    margin:10px auto;
+    display:grid;
+    grid-template-columns:repeat(10,1fr);
+    gap:6px;
 }
 
 .key{
-  padding:10px;
-  background:#334155;
-  border-radius:6px;
-  cursor:pointer;
-  user-select:none;
+    padding:10px; /* حجم البطانة القياسي */
+    background:#334155;
+    border-radius:6px;
+    cursor:pointer;
+    user-select:none;
+    /* إضافة flex لضمان توسط المحتوى في الأزرار الكبيرة */
+    display: flex; 
+    justify-content: center;
+    align-items: center;
 }
 
 .key.big{
-  grid-column:span 2;
+    grid-column:span 2;
 }
 
 #message{
-  margin-top:15px;
-  font-size:18px;
+    margin-top:15px;
+    font-size:18px;
+}
+
+/* ========================================= */
+/* Media Query: تعديلات الجوال (Mobile) */
+/* ========================================= */
+@media (max-width: 450px) {
+    
+    /* 1. تصغير لوحة اللعب */
+    #board {
+        max-width: 90%; /* استخدام نسبة مئوية للعرض */
+        gap: 5px; /* تقليل الفراغات بين الخلايا */
+    }
+
+    .row {
+        gap: 5px; /* تقليل الفراغات بين الخلايا */
+    }
+
+    .cell {
+        height: 40px; /* تقليل الارتفاع من 48px */
+        font-size: 18px; /* تقليل حجم الخط من 22px */
+        border-radius: 5px; /* تصغير الزوايا الدائرية */
+    }
+    
+    /* 2. تصغير لوحة المفاتيح */
+    #keyboard {
+        max-width: 95%; /* عرض أكبر للوحة المفاتيح لتناسب عرض الجوال */
+        gap: 4px; /* تقليل الفراغات بين الأزرار */
+    }
+
+    .key {
+        padding: 8px; /* تقليل البطانة من 10px */
+        font-size: 0.9em; /* تصغير حجم الخط داخل الزر */
+    }
+
+    /* ضمان ظهور الزر الكبير (الإدخال/الحذف) بشكل مناسب */
+    .key.big {
+        padding: 8px 0; /* إبقاء الارتفاع نفسه وتقليل البطانة الأفقية */
+        font-size: 0.85em;
+    }
+    
+    .top {
+        padding: 8px 10px;
+    }
+    
+    h1 {
+        font-size: 1.5em; /* تصغير العنوان الرئيسي */
+    }
 }

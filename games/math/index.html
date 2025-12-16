@@ -3,22 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <title>اختبار الرياضيات</title>
+
+<!-- ربط CSS -->
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <div class="box">
-    <div class="top">
-        <span id="qNum"></span>
-        <span id="timer">10</span>
-    </div>
 
+  <!-- أعلى الصفحة -->
+  <div class="top">
+    <span id="qNum"></span>
+    <span id="timer" class="timer">10</span>
+  </div>
+
+  <!-- بطاقة السؤال -->
+  <div class="question-card">
     <h2 id="question"></h2>
-    <div id="options"></div>
+  </div>
 
-    <div id="result"></div>
+  <!-- الخيارات -->
+  <div id="options" class="options"></div>
+
+  <!-- النتيجة النهائية -->
+  <div id="result"></div>
+
+  <!-- زر العودة -->
+  <button id="backBtn" class="back" onclick="location.href='../../index.html'" style="display:none;">
+    العودة للرئيسية
+  </button>
+
 </div>
 
+<!-- ربط JavaScript -->
 <script src="script.js"></script>
+
 </body>
 </html>

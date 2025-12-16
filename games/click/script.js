@@ -1,91 +1,74 @@
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-const paddle = {
-  w: window.innerWidth < 600 ? 140 : 100,
-  h: 15,
-  x: canvas.width/2 - 50,
-  y: canvas.height - 40
-};
+const game = document.getElementById("game");
+const paddle = document.getElementById("paddle");
+const timeEl = document.getElementById("time");
+const heartsEl = document.querySelector(".hearts");
+const endBox = document.getElementById("end");
+const finalTimeEl = document.getElementById("finalTime");
+const bestTimeEl = document.getElementById("bestTime");
+const hitSound = document.getElementById("hitSound");
 
 let balls = [];
 let lives = 3;
 let time = 0;
-let speed = 2;
-let gameOver = false;
-
-const hearts = document.querySelectorAll(".heart");
-const timeEl = document.getElementById("time");
-const endScreen = document.getElementById("endScreen");
-const finalTime = document.getElementById("finalTime");
-const hitSound = document.getElementById("hitSound");
+let speed = 3;
+let gameRunning = true;
 
 // تحريك المضرب
-function movePaddle(x){
-  paddle.x = x - paddle.w/2;
-  if(paddle.x < 0) paddle.x = 0;
-  if(paddle.x + paddle.w > canvas.width)
-    paddle.x = canvas.width - paddle.w;
-}
-
-canvas.addEventListener("mousemove", e=>{
-  movePaddle(e.clientX);
+game.addEventListener("mousemove", e=>{
+  const rect = game.getBoundingClientRect();
+  let x = e.clientX - rect.left - paddle.offsetWidth/2;
+  x = Math.max(0, Math.min(x, game.clientWidth - paddle.offsetWidth));
+  paddle.style.left = x + "px";
 });
 
-canvas.addEventListener("touchmove", e=>{
-  movePaddle(e.touches[0].clientX);
+// للجوال
+game.addEventListener("touchmove", e=>{
+  const rect = game.getBoundingClientRect();
+  let x = e.touches[0].clientX - rect.left - paddle.offsetWidth/2;
+  x = Math.max(0, Math.min(x, game.clientWidth - paddle.offsetWidth));
+  paddle.style.left = x + "px";
 });
 
 // إنشاء كرة
-function spawnBall(){
-  balls.push({
-    x: Math.random() * (canvas.width-20)+10,
-    y: -10,
-    r: 8,
-    dy: speed
-  });
+function createBall(){
+  if(balls.length >= 2) return;
+
+  const ball = document.createElement("div");
+  ball.className = "ball";
+  ball.x = Math.random() * (game.clientWidth - 20);
+  ball.y = 0;
+  ball.vy = speed;
+
+  ball.style.left = ball.x + "px";
+  ball.style.top = ball.y + "px";
+
+  game.appendChild(ball);
+  balls.push(ball);
 }
 
-// رسم
-function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  // المضرب
-  ctx.fillStyle="#fff";
-  ctx.fillRect(paddle.x,paddle.y,paddle.w,paddle.h);
-
-  // الكرات
-  ctx.fillStyle="#fff";
-  balls.forEach(b=>{
-    ctx.beginPath();
-    ctx.arc(b.x,b.y,b.r,0,Math.PI*2);
-    ctx.fill();
-  });
-}
-
-// تحديث
-function update(){
-  if(gameOver) return;
-
-  balls.forEach((b,i)=>{
-    b.y += b.dy;
+// تحديث الكرات
+function updateBalls(){
+  balls.forEach((ball, i)=>{
+    ball.y += ball.vy;
+    ball.style.top = ball.y + "px";
 
     // اصطدام بالمضرب
+    const pRect = paddle.getBoundingClientRect();
+    const bRect = ball.getBoundingClientRect();
+
     if(
-      b.y + b.r > paddle.y &&
-      b.x > paddle.x &&
-      b.x < paddle.x + paddle.w
+      bRect.bottom >= pRect.top &&
+      bRect.left < pRect.right &&
+      bRect.right > pRect.left
     ){
       hitSound.currentTime = 0;
       hitSound.play();
-      b.dy = -b.dy;
+      ball.vy *= -1;
     }
 
-    // سقوط
-    if(b.y > canvas.height){
+    // خرجت
+    if(ball.y > game.clientHeight){
+      ball.remove();
       balls.splice(i,1);
       loseLife();
     }
@@ -95,40 +78,48 @@ function update(){
 // خسارة قلب
 function loseLife(){
   lives--;
-  hearts[lives].style.filter = "grayscale(1)";
-  if(lives === 0){
+  heartsEl.textContent = "❤️".repeat(lives) + "🖤".repeat(3-lives);
+  if(lives <= 0){
     endGame();
   }
 }
 
-// نهاية اللعبة
-function endGame(){
-  gameOver = true;
-  finalTime.textContent = time;
-  endScreen.style.display="flex";
-}
-
-// لوب
-function loop(){
-  draw();
-  update();
-  requestAnimationFrame(loop);
-}
-
-// الوقت
+// المؤقت
 setInterval(()=>{
-  if(!gameOver){
-    time++;
-    timeEl.textContent = time;
-
-    // زيادة الصعوبة
-    if(time % 5 === 0){
-      speed += 0.5;
-      if(balls.length < 2) spawnBall();
-    }
-  }
+  if(!gameRunning) return;
+  time++;
+  timeEl.textContent = time;
 },1000);
 
-// بداية
-spawnBall();
+// زيادة الصعوبة
+setInterval(()=>{
+  speed += 0.5;
+},5000);
+
+// إنزال الكرات
+setInterval(()=>{
+  if(gameRunning) createBall();
+},500);
+
+// حلقة اللعب
+function loop(){
+  if(!gameRunning) return;
+  updateBalls();
+  requestAnimationFrame(loop);
+}
 loop();
+
+// نهاية اللعبة
+function endGame(){
+  gameRunning = false;
+  endBox.classList.remove("hidden");
+  finalTimeEl.textContent = time;
+
+  const best = localStorage.getItem("bestClickTime") || 0;
+  if(time > best){
+    localStorage.setItem("bestClickTime", time);
+    bestTimeEl.textContent = time;
+  }else{
+    bestTimeEl.textContent = best;
+  }
+}

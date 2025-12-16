@@ -1,158 +1,210 @@
-/* ================================================= */
-/* 1. التنسيقات العامة والأساسية */
-/* ================================================= */
+// ==========================================
+// متغيرات اللعبة
+// ==========================================
+const SCORE_KEY_PREFIX = "sort_speed_score_"; 
+const NUM_CARDS = 5; // عدد البطاقات
+const MAX_NUMBER = 999;
+const MIN_NUMBER = 100;
 
-#game-container {
-    max-width: 700px; /* زيادة العرض لاستيعاب 5 بطاقات */
-    margin: 30px auto;
-    padding: 25px;
-    background-color: #2c3e50; /* خلفية داكنة */
-    border-radius: 20px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
-    text-align: center;
-    color: #ecf0f1;
-    position: relative; 
+// العناصر الرسومية
+const cardGrid = document.getElementById('card-grid');
+const directionCard = document.getElementById('direction-card');
+const scoreDisplay = document.getElementById('score-display');
+const timeDisplay = document.getElementById('time-display');
+const startScreen = document.getElementById('start-screen');
+const resultsScreen = document.getElementById('results-screen');
+const resultsTitle = document.getElementById('results-title');
+const resultsMessage = document.getElementById('results-message');
+
+let score = 0; // عدد الجولات المكتملة
+let gameTime = 0;
+let timeInterval;
+let gameRunning = false;
+let currentLevel = 'easy'; 
+
+let correctSequence = []; // الترتيب الصحيح للأرقام في الجولة الحالية
+let nextClickIndex = 0; // مؤشر على الرقم التالي الذي يجب النقر عليه
+
+// ==========================================
+// الدوال المساعدة للحفظ
+// ==========================================
+function saveHighscore(level, newScore) {
+    const scoreKey = SCORE_KEY_PREFIX + level;
+    const oldScore = parseInt(localStorage.getItem(scoreKey)) || 0;
+    let isNewRecord = false;
+    if (newScore > oldScore) {
+        localStorage.setItem(scoreKey, newScore);
+        isNewRecord = true;
+    }
+    return isNewRecord;
 }
 
-h1 {
-    color: #f1c40f; /* لون ذهبي لامع */
-    margin-bottom: 15px;
+function getHighscore(level) {
+    return parseInt(localStorage.getItem(SCORE_KEY_PREFIX + level)) || 0;
 }
 
-/* 2. شريط الحالة */
-#status-bar {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    font-size: 1.3em;
-    padding: 15px 10px;
-    margin-bottom: 20px;
-    background-color: #34495e; 
-    border-radius: 10px;
-    font-weight: bold;
+// ==========================================
+// تهيئة وإعداد الشبكة
+// ==========================================
+function generateNumbersAndDirection() {
+    // 1. توليد 5 أرقام فريدة بثلاث خانات
+    let numbers = new Set();
+    while (numbers.size < NUM_CARDS) {
+        numbers.add(Math.floor(Math.random() * (MAX_NUMBER - MIN_NUMBER + 1)) + MIN_NUMBER);
+    }
+    let uniqueNumbers = Array.from(numbers);
+
+    // 2. اختيار اتجاه الترتيب عشوائياً
+    const isAscending = Math.random() < 0.5; // True = تصاعدي (أصغر للأكبر)
+
+    // 3. تحديد الترتيب الصحيح وعرض التعليمات
+    if (isAscending) {
+        // تصاعدي: من الأصغر للأكبر
+        correctSequence = uniqueNumbers.slice().sort((a, b) => a - b);
+        directionCard.textContent = 'رتب من: الأصغر للأكبر ⬆️';
+    } else {
+        // تنازلي: من الأكبر للأصغر
+        correctSequence = uniqueNumbers.slice().sort((a, b) => b - a);
+        directionCard.textContent = 'رتب من: الأكبر للأصغر ⬇️';
+    }
+    
+    // 4. تهيئة الجولة
+    nextClickIndex = 0;
+    renderGrid(uniqueNumbers);
 }
 
-#time-display {
-    color: #e67e22; /* لون عنبري للتوقيت */
+function renderGrid(numbers) {
+    cardGrid.innerHTML = '';
+    numbers.forEach(num => {
+        const card = document.createElement('div');
+        card.classList.add('number-card');
+        card.textContent = num;
+        card.setAttribute('data-value', num);
+        card.onclick = () => handleCardClick(card);
+        cardGrid.appendChild(card);
+    });
 }
 
-/* 3. بطاقة الهدف (الاتجاه) */
-#direction-card-container {
-    padding: 10px 0;
+// ==========================================
+// منطق النقر والتحقق
+// ==========================================
+function handleCardClick(card) {
+    if (!gameRunning) return;
+    if (card.classList.contains('correctly-clicked')) return; 
+
+    const tappedValue = parseInt(card.getAttribute('data-value'));
+    const expectedValue = correctSequence[nextClickIndex];
+
+    if (tappedValue === expectedValue) {
+        // نقرة صحيحة
+        card.classList.add('correctly-clicked');
+        nextClickIndex++;
+
+        if (nextClickIndex === NUM_CARDS) {
+            // اكتملت الجولة بنجاح
+            score++;
+            updateDisplay();
+            
+            // تهيئة جولة جديدة 
+            setTimeout(generateNumbersAndDirection, 500);
+        }
+
+    } else {
+        // نقرة خاطئة
+        card.classList.add('wrong-clicked');
+        setTimeout(() => { card.classList.remove('wrong-clicked'); }, 300);
+        endGame('Wrong Tap');
+    }
 }
 
-#direction-card {
-    background-color: #e67e22; /* لون عنبري واضح */
-    color: #2c3e50;
-    font-size: 1.5em;
-    font-weight: bold;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+// ==========================================
+// منطق التوقيت
+// ==========================================
+function startCountdown() {
+    clearInterval(timeInterval);
+    let startTime = Date.now();
+    let duration = gameTime * 1000; 
+
+    timeInterval = setInterval(() => {
+        let elapsed = Date.now() - startTime;
+        let remaining = duration - elapsed;
+
+        if (remaining <= 0) {
+            clearInterval(timeInterval);
+            endGame('Time Up'); 
+            updateTime(0);
+            return;
+        }
+
+        gameTime = remaining / 1000;
+        updateTime(gameTime);
+    }, 50);
 }
 
-/* 4. شبكة البطاقات (منطقة اللعب) */
-#card-grid {
-    display: flex; 
-    justify-content: center;
-    gap: 15px;
-    padding: 10px;
-    background-color: #1a252f;
-    border-radius: 15px;
+function updateTime(remaining) {
+    const seconds = remaining.toFixed(2);
+    timeDisplay.textContent = `الوقت: ${seconds} ثوانٍ`;
 }
 
-.number-card {
-    width: 120px; /* حجم البطاقة */
-    height: 120px;
-    background-color: #f1c40f; /* لون ذهبي للبطاقات */
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 2.5em; /* حجم كبير للأرقام */
-    font-weight: bold;
-    color: #2c3e50;
-    cursor: pointer;
-    transition: all 0.2s;
-    user-select: none;
-    box-shadow: 0 5px 0 #d4af37; /* ظل لإعطاء مظهر 3D */
+function updateDisplay() {
+    scoreDisplay.textContent = `الجولات: ${score}`;
 }
 
-.number-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 0 #d4af37;
+// ==========================================
+// بدء وإنهاء اللعبة
+// ==========================================
+function startGame(level) {
+    currentLevel = level;
+    // تحديد الوقت حسب المستوى: 15 للسهل، 12 للصعب
+    gameTime = (level === 'easy') ? 15 : 12; 
+
+    gameRunning = true;
+    score = 0; 
+
+    // إخفاء شاشة البداية وعرض شاشة اللعب
+    startScreen.classList.remove('active');
+    startScreen.classList.add('hidden');
+    resultsScreen.classList.remove('active');
+    resultsScreen.classList.add('hidden');
+    
+    updateDisplay();
+    generateNumbersAndDirection();
+    startCountdown();
 }
 
-/* تأثير النقر الصحيح (تختفي البطاقة) */
-.number-card.correctly-clicked {
-    background-color: #2ecc71; /* أخضر للنجاح */
-    color: white;
-    transform: scale(0.9);
-    opacity: 0.1; /* تقريباً تختفي للإشارة إلى النقر */
-    pointer-events: none; /* لمنع النقر عليها مرة أخرى */
+function endGame(reason) {
+    gameRunning = false;
+    clearInterval(timeInterval);
+    
+    const finalScore = score;
+    const isNewRecord = saveHighscore(currentLevel, finalScore); 
+
+    const levelName = currentLevel === 'hard' ? 'الصعب' : 'السهل';
+
+    if (reason === 'Time Up') {
+        resultsTitle.textContent = 'انتهى الوقت! ⏳';
+    } else if (reason === 'Wrong Tap') {
+        resultsTitle.textContent = 'خطأ في الترتيب! ❌';
+    }
+    
+    const highscoreMessage = isNewRecord 
+        ? "🏆 رقم قياسي جديد! تهانينا."
+        : `أفضل رقم قياسي لديك في مستوى ${levelName}: ${getHighscore(currentLevel)}`;
+
+    resultsMessage.innerHTML = `عدد الجولات المكتملة: <b>${finalScore}</b><br>${highscoreMessage}`;
+
+    resultsScreen.classList.add('active');
+    resultsScreen.classList.remove('hidden');
 }
 
-/* تأثير النقر الخاطئ */
-.number-card.wrong-clicked {
-    background-color: #e74c3c; /* أحمر للخطأ */
-    color: white;
-    transform: rotate(5deg) scale(1.05);
+
+// ==========================================
+// دوال التحكم بالصفحة (إعادة/عودة)
+// ==========================================
+function resetGame(){
+    location.reload(); 
 }
 
-/* 5. شاشات البدء والنتائج */
-.screen-panel {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(44, 62, 80, 0.95); 
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px;
-    z-index: 100;
-}
-
-.screen-panel.hidden { display: none !important; }
-.screen-panel.active { display: flex !important; }
-
-.action-buttons button {
-    padding: 12px 30px;
-    font-size: 1.2em;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    margin: 10px; 
-    font-weight: bold;
-    transition: background-color 0.2s;
-}
-
-.level-buttons .reload-btn {
-    background-color: #f1c40f; 
-    color: #2c3e50;
-}
-
-.level-buttons .home-btn {
-    background-color: #e67e22; 
-    color: white;
-}
-
-#results-title {
-    color: #e67e22;
-    font-size: 2.5em;
-}
-
-.action-buttons .reload-btn {
-    background-color: #2ecc71; 
-    color: white;
-}
-
-.action-buttons .home-btn {
-    background-color: #e74c3c; 
-    color: white;
+function backToHome(){
+    location.href = '../../index.html'; 
 }

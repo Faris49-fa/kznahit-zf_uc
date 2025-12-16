@@ -59,12 +59,22 @@ function startGame(){
     }
   },1000);
 }
-
 function endGame(win){
-  clearInterval(timer);
-  checkBtn.classList.add("hidden");
-  startBtn.classList.remove("hidden");
-  resultEl.textContent = win ? "✅ صحيح" : "❌ خطأ";
+    clearInterval(timer); // إيقاف المؤقت
+    
+    // إخفاء زر التحقق وإظهار زر البدء/إعادة اللعب
+    checkBtn.classList.add("hidden"); 
+    startBtn.classList.remove("hidden"); 
+    
+    // هذا هو السطر الذي يحل مشكلة الرسالة
+    // إذا كانت 'win' تساوي true، ستظهر "صحيح"، وإلا ستظهر "خطأ"
+    if (win === true) {
+        resultEl.textContent = "✅ صحيح";
+        resultEl.style.color = "#2ecc71"; // لون أخضر عند الفوز
+    } else {
+        resultEl.textContent = "❌ خطأ";
+        resultEl.style.color = "#e74c3c"; // لون أحمر عند الخسارة
+    }
 }
 
 checkBtn.onclick = ()=>{

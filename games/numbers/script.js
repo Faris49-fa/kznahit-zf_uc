@@ -7,7 +7,7 @@ const resultEl = document.getElementById("result");
 
 let numbers = [];
 let order = "asc";
-let time = 20;
+let time = 15;
 let timer;
 let selected = [];
 
@@ -43,7 +43,7 @@ function startGame(){
     ? "رتّب الأرقام من الأصغر إلى الأكبر"
     : "رتّب الأرقام من الأكبر إلى الأصغر";
 
-  time = 10;
+  time = 15;
   timerEl.textContent = time;
   resultEl.textContent = "";
   startBtn.classList.add("hidden");

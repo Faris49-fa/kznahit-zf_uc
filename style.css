@@ -1,4 +1,4 @@
-/* تنسيقات CSS العامة (افتراضية للتصميم الداكن الذي كنا نعمل عليه) */
+/* تنسيقات CSS العامة */
 body {
     direction: rtl;
     font-family: 'Arial', sans-serif;
@@ -13,6 +13,8 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    /* إضافة هذه الخاصية فقط لتضمين التحسين الذي اقترحناه */
+    transition: opacity 0.8s ease-in; 
 }
 
 #welcome-header {
@@ -20,7 +22,7 @@ body {
 }
 
 #welcome-header h1 {
-    color: #f39c12; /* لون ذهبي/برتقالي لعنوان التمر */
+    color: #f39c12; 
     font-size: 2.5em;
     border-bottom: 2px solid #2c3e50;
     padding-bottom: 10px;
@@ -59,8 +61,8 @@ body {
     border-bottom: 2px solid #34495e;
 }
 
-.questions-column h2 { color: #e74c3c; } /* أحمر للأسئلة */
-.challenges-column h2 { color: #3498db; } /* أزرق للتحديات */
+.questions-column h2 { color: #e74c3c; } 
+.challenges-column h2 { color: #3498db; } 
 
 /* تنسيق الروابط/الألعاب */
 .game-link {
@@ -80,14 +82,14 @@ body {
 }
 
 .red-bg {
-    background-color: #e74c3c; /* أحمر */
+    background-color: #e74c3c; 
 }
 .red-bg:hover {
     background-color: #c0392b;
 }
 
 .blue-bg {
-    background-color: #3498db; /* أزرق */
+    background-color: #3498db; 
 }
 .blue-bg:hover {
     background-color: #2980b9;

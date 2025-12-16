@@ -3,24 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لعبة الأرقام: الترتيب السريع</title>
+    <title>لعبة الأرقام: رتبها بسرعة</title>
     <link rel="stylesheet" href="../../style.css"> 
     <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
 
     <div id="game-container">
-        <h1>لعبة الأرقام: الترتيب السريع 🚀</h1>
+        <h1>لعبة الأرقام: الترتيب السريع 🧠</h1>
         
         <div id="status-bar">
-            <span id="score-display">النقاط: 0</span>
-            <span id="target-display">ابحث عن: 1</span>
+            <span id="score-display">الجولات: 0</span>
             <span id="time-display">الوقت: 0.00 ثوانٍ</span>
         </div>
 
         <div id="start-screen" class="active screen-panel">
             <h2>اختر مستوى التحدي 🎯</h2>
-            <p>**القاعدة:** ستظهر 5 أرقام. انقر على الأرقام **بالترتيب التصاعدي** (من الأصغر للأكبر) قبل نفاد الوقت.</p>
+            <p>**القاعدة:** ستظهر 5 بطاقات بأرقام من 3 خانات. انقر عليها **بالترتيب** الذي تطلبه البطاقة العلوية (تصاعدي/تنازلي) قبل نفاد الوقت.</p>
             
             <div class="level-buttons action-buttons">
                 <button class="reload-btn" onclick="startGame('easy')">
@@ -31,8 +30,13 @@
                 </button>
             </div>
         </div>
+        
+        <div id="direction-card-container">
+            <div id="direction-card">
+                </div>
+        </div>
 
-        <div id="number-grid">
+        <div id="card-grid">
             </div>
 
         <div id="results-screen" class="hidden screen-panel">
@@ -40,7 +44,7 @@
             <p id="results-message"></p>
             
             <div class="action-buttons">
-                <button class="reload-btn" onclick="resetGame()">قدوع ثاني</button>
+                <button class="reload-btn" onclick="resetGame()">إعادة اللعب</button>
                 <button class="home-btn" onclick="backToHome()">العودة للرئيسية</button>
             </div>
         </div>

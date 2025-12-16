@@ -1,60 +1,60 @@
-/* 1. التنسيق العام والخطوط */
+/* 1. التنسيق العام والخلفية */
 body {
     direction: rtl;
-    font-family: 'Arial', sans-serif; /* استخدم خط عربي عصري إذا توفر */
-    background-color: #121212; /* خلفية داكنة (شبه سوداء) */
+    font-family: 'Arial', sans-serif;
+    background-color: #121212; /* خلفية داكنة */
     color: white;
     margin: 0;
-    padding: 20px 10px; /* لتوفير مساحة من الأطراف */
+    padding: 20px 10px;
     display: flex;
     justify-content: center;
 }
 
 #main-container {
     width: 100%;
-    max-width: 650px; /* تحديد عرض أقصى ليبقى طولي على الشاشات الكبيرة */
+    max-width: 650px;
 }
 
-/* 2. تنسيق قسم الترحيب */
+/* 2. قسم الترحيب */
 #welcome-header {
     text-align: center;
     padding: 20px 0 40px;
 }
+#welcome-header h1 { font-size: 2.2em; margin-bottom: 5px; }
+#welcome-header p { color: #ccc; font-size: 1.1em; }
 
-#welcome-header h1 {
-    font-size: 2.2em;
-    margin-bottom: 5px;
-}
-
-#welcome-header p {
-    color: #ccc;
-    font-size: 1.1em;
-}
-
-/* 3. تنسيق قسم الألعاب الرئيسي (الأعمدة) */
+/* 3. تنسيق الأعمدة والألعاب */
 #games-section {
     display: flex;
-    flex-direction: column; /* جعل الأعمدة تحت بعضها على الجوال أولاً */
+    flex-direction: column; /* الترتيب الطولي على الجوال */
     gap: 20px;
 }
-
-/* 4. تنسيق البطاقة لكل عمود (أسئلة / تحديات) */
 .column-card {
-    background-color: #242424; /* خلفية أغمق قليلاً من الخلفية الرئيسية */
+    background-color: #242424;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-    text-align: center;
 }
-
-.column-card h2 {
-    font-size: 1.5em;
+/* تنسيق رأس البطاقة مع زر القائمة */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 15px;
     padding-bottom: 10px;
     border-bottom: 2px solid #555;
 }
+.card-header h2 { margin: 0; border-bottom: none; }
+.menu-icon {
+    font-size: 1.8em;
+    cursor: pointer;
+    color: #ccc;
+    padding: 5px;
+    transition: color 0.2s;
+}
+.menu-icon:hover { color: white; }
 
-/* 5. تنسيق روابط الألعاب (البطاقات الداخلية) */
+/* 4. روابط الألعاب */
 .game-link {
     display: block;
     text-decoration: none;
@@ -66,32 +66,11 @@ body {
     font-weight: bold;
     transition: transform 0.2s;
 }
+.game-link:hover { transform: translateY(-3px); opacity: 0.9; }
+.red-bg { background-color: #e74c3c; } /* أحمر للأسئلة */
+.blue-bg { background-color: #3498db; } /* أزرق للتحديات */
 
-.game-link:hover {
-    transform: translateY(-3px); /* تأثير رفع عند مرور المؤشر */
-    opacity: 0.9;
-}
-
-/* الألوان حسب الصورة */
-.red-bg {
-    background-color: #e74c3c; /* أحمر جذاب للأسئلة */
-}
-
-.blue-bg {
-    background-color: #3498db; /* أزرق مشرق للتحديات */
-}
-
-/* 6. استجابة الشاشات الكبيرة (Desktop/Tablet) */
-@media (min-width: 600px) {
-    #games-section {
-        flex-direction: row; /* عرض الأعمدة جنباً إلى جنب على الشاشات الكبيرة */
-    }
-    .column-card {
-        flex: 1; /* جعل العمودين يأخذان مساحة متساوية */
-    }
-}
-
-/* 7. تنسيق التذييل (Footer) */
+/* 5. التذييل (Footer) */
 #footer-note {
     text-align: center;
     font-size: 0.85em;
@@ -99,4 +78,38 @@ body {
     margin-top: 30px;
     padding: 10px 0;
     border-top: 1px solid #333;
+}
+
+/* 6. القائمة الجانبية (Sidebar) */
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    background-color: #1a1a1a;
+    color: white;
+}
+#questions-sidebar { right: 0; border-right: 3px solid #e74c3c; } /* اليمين */
+#challenges-sidebar.left { left: 0; border-left: 3px solid #3498db; } /* اليسار */
+
+.sidebar h3 { padding: 0 15px; text-align: center; margin-bottom: 25px; color: #eee; }
+.closebtn {
+    position: absolute;
+    top: 0;
+    font-size: 36px;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+}
+#questions-sidebar .closebtn { left: 15px; }
+#challenges-sidebar .closebtn { right: 15px; }
+
+/* 7. الاستجابة (Responsive) */
+@media (min-width: 600px) {
+    #games-section { flex-direction: row; }
+    .column-card { flex: 1; }
 }

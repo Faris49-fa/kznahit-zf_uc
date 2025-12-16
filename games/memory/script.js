@@ -1,254 +1,162 @@
-// ==========================================
-// دالة حفظ أعلى/أفضل درجة
-// ==========================================
-function saveHighscore(scoreKey, newScore) {
-    const oldScore = parseFloat(localStorage.getItem(scoreKey)) || 0;
-    let isNewRecord = false;
-    if (newScore > oldScore) {
-        localStorage.setItem(scoreKey, newScore);
-        isNewRecord = true;
-    }
-    return isNewRecord;
-}
+let first = null, second = null;
+let lock = false;
+let timer, time;
+let pairsToMatch = 0;
+let matchedPairs = 0;
+let currentLevel = ''; 
 
+// مصفوفة الإيموجيات (18 زوجاً مختلفاً)
+const EMOJIS = ['🌴', '🍯', '💡', '📚', '⚽', '🚗', '✈️', '⛵', '🔥', '🔑', '⏰', '👑', '🎉', '🍎', '🍇', '🍉', '🍕', '🍩'];
 
 // ==========================================
-// متغيرات اللعبة
-// ==========================================
-const SCORE_KEY = "memory_palm_score";
-const ICON_COUNT = 4; // عدد الأيقونات في الشبكة
-const PALM_ICONS = ['🌴', '🌰', '🥥', '☀️']; // أيقونات التمر والمحيط
-
-const palmGrid = document.getElementById('palm-grid');
-const scoreDisplay = document.getElementById('score-display');
-const roundDisplay = document.getElementById('round-display');
-const timeDisplay = document.getElementById('time-display');
-const gameMessage = document.getElementById('game-message');
-const startScreen = document.getElementById('start-screen');
-const resultsScreen = document.getElementById('results-screen');
-const startButton = document.getElementById('start-button');
-const resultsTitle = document.getElementById('results-title');
-const resultsMessage = document.getElementById('results-message');
-
-let score = 0;
-let round = 1;
-let gameRunning = false;
-let sequence = []; 
-let playerSequence = []; 
-let timeInterval;
-let TIME_LIMIT = 3000; // 3 ثوانٍ للبدء
-
-
-// ==========================================
-// إنشاء واجهة اللعب
+// الدوال المساعدة للتحكم بالصفحة
 // ==========================================
 
-function createGrid() {
-    palmGrid.innerHTML = '';
-    PALM_ICONS.forEach((icon, index) => {
-        const item = document.createElement('div');
-        item.classList.add('palm-icon');
-        item.textContent = icon;
-        item.setAttribute('data-index', index);
-        item.onclick = () => handlePlayerTap(index, item);
-        palmGrid.appendChild(item);
-    });
-}
-
-
-// ==========================================
-// منطق إنشاء النمط وتشغيله
-// ==========================================
-
-function generateNewStep() {
-    // إضافة خطوة جديدة للنمط
-    const randomIconIndex = Math.floor(Math.random() * ICON_COUNT);
-    sequence.push(randomIconIndex);
-}
-
-function showSequence() {
-    gameMessage.textContent = "شاهد النمط الآن...";
-    
-    palmGrid.style.pointerEvents = 'none'; // منع النقر أثناء العرض
-    playerSequence = [];
-    clearInterval(timeInterval);
-    updateTime(TIME_LIMIT);
-
-
-    let i = 0;
-    // سرعة العرض تزيد كل جولة
-    const intervalTime = Math.max(300, 700 - (round * 40)); 
-    
-    const sequenceInterval = setInterval(() => {
-        if (i >= sequence.length) {
-            clearInterval(sequenceInterval);
-            setTimeout(startPlayerTurn, 500); 
-            return;
-        }
-
-        const iconIndex = sequence[i];
-        const iconElement = document.querySelector(`.palm-icon[data-index='${iconIndex}']`);
-        
-        iconElement.classList.add('highlight');
-
-        setTimeout(() => {
-            iconElement.classList.remove('highlight');
-        }, intervalTime / 2);
-
-        i++;
-    }, intervalTime);
-}
-
-function startPlayerTurn() {
-    gameMessage.textContent = "الآن دورك: كرر النمط!";
-    palmGrid.style.pointerEvents = 'auto'; // السماح بالبدء في النقر
-    startCountdown();
-}
-
-
-// ==========================================
-// منطق تفاعل اللاعب والتحقق
-// ==========================================
-
-function handlePlayerTap(index, item) {
-    if (!gameRunning) return;
-
-    // تأثير النقر البصري
-    item.classList.add('tapped');
-    setTimeout(() => item.classList.remove('tapped'), 100);
-
-    playerSequence.push(index);
-    const playerStep = playerSequence.length - 1;
-
-    // 1. تحقق من صحة النقر الحالي
-    if (playerSequence[playerStep] !== sequence[playerStep]) {
-        endGame('Wrong Tap'); // خطأ!
-        return;
-    }
-
-    // 2. التحقق من اكتمال النمط
-    if (playerSequence.length === sequence.length) {
-        score++;
-        round++;
-        clearInterval(timeInterval);
-        updateScore();
-        updateRound();
-        
-        // تقليل الوقت المتاح للجولة التالية
-        TIME_LIMIT = Math.max(1000, TIME_LIMIT - 150); 
-
-        gameMessage.textContent = "✅ أحسنت! الجولة القادمة أصعب.";
-        
-        setTimeout(nextRound, 1500); 
+function resetGame() {
+    // إعادة اللعب بنفس المستوى الحالي
+    if (currentLevel) {
+        document.getElementById("results-screen").style.display = "none";
+        document.getElementById("game").style.display = "block";
+        startGame(currentLevel);
+    } else {
+        location.reload(); 
     }
 }
 
-
-// ==========================================
-// منطق التحكم والتوقيت
-// ==========================================
-
-function startCountdown() {
-    clearInterval(timeInterval);
-    let startTime = Date.now();
-    let duration = TIME_LIMIT;
-
-    timeInterval = setInterval(() => {
-        let elapsed = Date.now() - startTime;
-        let remaining = duration - elapsed;
-
-        if (remaining <= 0) {
-            clearInterval(timeInterval);
-            endGame('Time Up'); // انتهاء الوقت!
-            updateTime(0);
-            return;
-        }
-
-        updateTime(remaining);
-    }, 50);
-}
-
-function updateTime(remaining) {
-    const seconds = (remaining / 1000).toFixed(2);
-    timeDisplay.textContent = `الوقت: ${seconds} ثانية`;
-}
-
-function updateScore() {
-    scoreDisplay.textContent = `النقاط: ${score}`;
-}
-
-function updateRound() {
-    roundDisplay.textContent = `الجولة: ${round}`;
-}
-
-
-function startGame() {
-    // تهيئة اللعبة
-    score = 0;
-    round = 1;
-    TIME_LIMIT = 3000;
-    sequence = [];
-
-    gameRunning = true;
-    startScreen.classList.remove('active');
-    startScreen.classList.add('hidden');
-    resultsScreen.classList.remove('active');
-    resultsScreen.classList.add('hidden');
-    
-    updateScore();
-    updateRound();
-    createGrid();
-    
-    nextRound();
-}
-
-
-function nextRound() {
-    generateNewStep(); 
-    showSequence();    
-}
-
-
-function endGame(reason) {
-    gameRunning = false;
-    clearInterval(timeInterval);
-    
-    palmGrid.style.pointerEvents = 'none'; // تعطيل النقر
-
-    const finalScore = score;
-    const isNewRecord = saveHighscore(SCORE_KEY, finalScore); 
-
-    // تحديث شاشة النتائج
-    if (reason === 'Time Up') {
-        resultsTitle.textContent = 'انتهى الوقت! ⏳';
-    } else if (reason === 'Wrong Tap') {
-        resultsTitle.textContent = 'خطأ في النمط! ❌';
-    }
-    
-    const highscoreMessage = isNewRecord 
-        ? "🏆 رقم قياسي جديد! تهانينا."
-        : `أفضل رقم قياسي لديك: ${parseFloat(localStorage.getItem(SCORE_KEY)) || 0}`;
-
-    resultsMessage.innerHTML = `نقاطك النهائية: <b>${finalScore}</b><br>${highscoreMessage}`;
-
-    resultsScreen.classList.add('active');
-    resultsScreen.classList.remove('hidden');
-}
-
-
-// ==========================================
-// دوال التحكم بالصفحة (إعادة/عودة)
-// ==========================================
-
-function resetGame(){
-    // إعادة تحميل الصفحة للبدء من جديد
-    location.reload(); 
-}
-
-function backToHome(){
-    // العودة إلى الصفحة الرئيسية (الافتراض هو مجلدين للخلف)
+function backToHome() {
+    // افتراض أن اللعبة داخل مجلدين فرعيين
     location.href = '../../index.html'; 
 }
 
 
-startButton.onclick = startGame;
+// ==========================================
+// وظيفة بدء اللعبة / إعادة اللعب
+// ==========================================
+function startGame(level){
+    currentLevel = level;
+    document.getElementById("menu").style.display = "none";
+    document.getElementById("game").style.display = "block";
+    document.getElementById("results-screen").style.display = "none";
+
+    const board = document.getElementById("board");
+    const timerEl = document.getElementById("timer");
+
+    let duration, cols;
+    let requiredEmojis;
+
+    if(level === "easy"){
+        pairsToMatch = 8; // 16 بطاقة
+        duration = 60;    // دقيقة
+        cols = 4;
+        requiredEmojis = EMOJIS.slice(0, 8); // استخدام أول 8 إيموجيات
+    }else{
+        pairsToMatch = 18; // 36 بطاقة
+        duration = 120;  // دقيقتين
+        cols = 6;
+        requiredEmojis = EMOJIS; // استخدام كل الـ 18 إيموجي
+    }
+    
+    matchedPairs = 0; 
+
+    board.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+    board.innerHTML = "";
+
+    let cards = [];
+    requiredEmojis.forEach(emoji => {
+        cards.push(emoji, emoji); // إضافة كل إيموجي مرتين
+    });
+
+    cards.sort(() => Math.random() - 0.5);
+
+    cards.forEach(val => {
+        let card = document.createElement("div");
+        card.className = "card";
+        card.dataset.value = val;
+        // إنشاء الغلاف الداخلي لتطبيق الأنميشن
+        card.innerHTML = `<div class="card-inner">
+                            <div class="card-back"></div>
+                            <div class="card-front">${val}</div>
+                          </div>`;
+        card.onclick = () => flip(card);
+        board.appendChild(card);
+    });
+
+    time = duration;
+    timerEl.textContent = `الوقت: ${time}`;
+    clearInterval(timer);
+
+    timer = setInterval(() => {
+        time--;
+        timerEl.textContent = `الوقت: ${time}`;
+        
+        if(time <= 0){
+            clearInterval(timer);
+            endGame('lose'); 
+        }
+    }, 1000);
+}
+
+// ==========================================
+// وظيفة قلب البطاقة
+// ==========================================
+function flip(card){
+    if(lock || card.classList.contains("open") || card.classList.contains("matched")) return;
+
+    card.classList.add("open");
+
+    if(!first){
+        first = card;
+    }else{
+        second = card;
+        lock = true;
+
+        if(first.dataset.value === second.dataset.value){
+            first.classList.add("matched");
+            second.classList.add("matched");
+            matchedPairs++; 
+            checkWin();     
+            reset();
+        }else{
+            setTimeout(()=>{
+                first.classList.remove("open");
+                second.classList.remove("open");
+                reset();
+            }, 700);
+        }
+    }
+}
+
+function reset(){
+    first = null;
+    second = null;
+    lock = false;
+}
+
+// ==========================================
+// التحقق من الفوز وإنهاء اللعبة
+// ==========================================
+function checkWin(){
+    if(matchedPairs === pairsToMatch){
+        clearInterval(timer);
+        endGame('win'); 
+    }
+}
+
+function endGame(status){
+    document.getElementById("game").style.display = "none";
+    const resultsScreen = document.getElementById("results-screen");
+    resultsScreen.style.display = "block";
+
+    const titleEl = document.getElementById("results-title");
+    const messageEl = document.getElementById("results-message");
+    
+    const levelName = currentLevel === 'easy' ? 'السهل (16 بطاقة)' : 'الصعب (36 بطاقة)';
+
+    if(status === 'win'){
+        titleEl.textContent = "🏆 فوز ساحق!";
+        messageEl.innerHTML = `أنهيت مستوى ${levelName} في الوقت المحدد.<br> تبقى من الوقت: <b>${time}</b> ثانية.`;
+    }else{
+        titleEl.textContent = "❌ انتهى الوقت!";
+        messageEl.innerHTML = `لم تتمكن من إكمال مستوى ${levelName}.<br> الأزواج المتبقية: <b>${pairsToMatch - matchedPairs}</b>.`;
+    }
+}

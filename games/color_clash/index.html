@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عجوة الألوان المتضاربة</title>
+    <link rel="stylesheet" href="../../style.css"> 
+    <link rel="stylesheet" href="game.css"> 
+</head>
+<body>
+
+    <div id="game-container">
+        <h1>عجوة الألوان المتضاربة 🧠</h1>
+        
+        <div id="status-bar">
+            <span id="score-display">النقاط: 0</span>
+            <span id="time-display">الوقت: 1.00</span>
+        </div>
+        
+        <div id="challenge-container">
+            <div id="color-word"></div> 
+        </div>
+
+        <div id="button-container">
+            </div>
+
+        <div id="start-screen" class="active screen-panel">
+            <h2>اضغط للجنون البصري! 💥</h2>
+            <p>**القاعدة:** انقر على الزر الذي يطابق **لون الكلمة**، وليس الكلمة المكتوبة.</p>
+            <p>لديك ثانية واحدة فقط لكل محاولة. أي خطأ أو بطء ينهي اللعبة!</p>
+            <button id="start-button">ابدأ التحدي</button>
+        </div>
+
+        <div id="results-screen" class="hidden screen-panel">
+            <h2>انتهت المغامرة البصرية!</h2>
+            <p id="final-score">نقاطك النهائية: 0</p>
+            <p id="high-score-message"></p>
+            <button onclick="location.reload()">إعادة اللعب</button>
+            <a href="../../index.html" class="back-link">العودة للرئيسية</a>
+        </div>
+    </div>
+    
+    <script src="../../index.js"></script> 
+    <script src="script.js"></script>
+</body>
+</html>

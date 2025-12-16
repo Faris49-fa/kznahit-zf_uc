@@ -32,7 +32,7 @@ const resultsScreen = document.getElementById('results-screen');
 const startButton = document.getElementById('start-button');
 
 let score = 0;
-let timeLimit = 35000; // 1000 ملي ثانية (1 ثانية) للبدء
+let timeLimit = 35000; // 3000 ملي ثانية (1 ثانية) للبدء
 let currentCorrectColor = '';
 let gameTimer;
 let gameRunning = false;
@@ -120,7 +120,7 @@ function startCountdown() {
             return;
         }
 
-        const seconds = (remaining / 3000).toFixed(2);
+        const seconds = (remaining / 30000).toFixed(2);
         timeDisplay.textContent = `الوقت: ${seconds} ثانية`;
     }, 50);
 }
@@ -133,7 +133,7 @@ function handleButtonClick(clickedColor) {
         score++;
         updateScore();
         // زيادة سرعة التحدي (تقليل الوقت المتاح)
-        timeLimit = Math.max(300, timeLimit - 15); // الحد الأدنى 300 ملي ثانية
+        timeLimit = Math.max(3000, timeLimit - 15); // الحد الأدنى 3000 ملي ثانية
         
         generateChallenge(); // تحدي جديد
     } else {
@@ -148,7 +148,7 @@ function updateScore() {
 
 function startGame() {
     score = 0;
-    timeLimit = 1000; // إعادة تعيين الوقت
+    timeLimit = 3000; // إعادة تعيين الوقت
     gameRunning = true;
     startScreen.classList.remove('active');
     startScreen.classList.add('hidden');

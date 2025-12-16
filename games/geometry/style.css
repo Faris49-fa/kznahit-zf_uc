@@ -64,7 +64,7 @@ body {
 }
 .option-button {
     background-color: #121212; /* لون فاتح للبطاقات داخل الأبيض */
-    color: #1a1a1a;
+    color: #white;
     border: 1px solid #ddd;
     padding: 15px 10px;
     border-radius: 8px;

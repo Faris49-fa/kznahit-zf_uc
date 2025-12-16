@@ -1,136 +1,49 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>الصفحة الرئيسية</title>
-
-<style>
-*{
-    box-sizing:border-box;
-    font-family:Arial;
-}
-
-body{
-    margin:0;
-    min-height:100vh;
-    background:linear-gradient(135deg,#1f2933,#111827);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:#fff;
-}
-
-.container{
-    background:#0f172a;
-    padding:30px;
-    border-radius:20px;
-    width:90%;
-    max-width:520px;
-    text-align:center;
-}
-
-h1{
-    margin-bottom:8px;
-}
-
-p{
-    margin-bottom:25px;
-    color:#cbd5f5;
-}
-
-.sections{
-    display:flex;
-    gap:15px;
-    margin-bottom:25px;
-}
-
-.section{
-    flex:1;
-    padding:15px;
-    border-radius:16px;
-}
-
-.section h2{
-    margin-bottom:12px;
-}
-
-.questions{
-    background:#dc2626; /* أحمر */
-}
-
-.challenges{
-    background:#2563eb; /* أزرق */
-}
-
-.list{
-    display:grid;
-    gap:10px;
-}
-
-.list a{
-    text-decoration:none;
-    background:#ffffff;
-    color:#000;
-    padding:10px;
-    border-radius:12px;
-    font-size:14px;
-    transition:.2s;
-}
-
-.list a:hover{
-    transform:scale(1.05);
-    background:#f1f5f9;
-}
-
-.footer{
-    margin-top:15px;
-    font-size:13px;
-    color:#cbd5f5;
-}
-</style>
-</head>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إهلا والله منور.. القهوة يامره</title>
+    <link rel="stylesheet" href="main_style.css">
+    </head>
 <body>
 
-<div class="container">
-    <h1>هلا والله منور..القهوة يامره!</h1>
-    <p>انزل تحت حل وخذ لك تمره ياملا الغنيمه 🔥</p>
+    <div id="main-container">
 
-    <div class="sections">
-        <!-- أسئلة -->
-        <div class="section questions">
-            <h2>أسئلة</h2>
-            <div class="list">
-                <a href="games/english/index.html">سكري إنجليزي</a>
-                <a href="games/math/index.html">عجوة رياضيات</a>
-                <a href="games/general/index.html">لبانة عامة</a>
-                <a href="games/geometry/index.html">رشودية هندسية</a>
-                <a href="games/football/index.html">خضري كروي</a>
-                <a href="games/saudi/index.html">حلوة السعودية</a>
+        <header id="welcome-header">
+            <h1>إهلا والله منور.. القهوة يامره</h1>
+            <p>انزل تحت حل وخذ لك نمره ياملا الغنيمه 🔥</p>
+        </header>
+
+        <main id="games-section">
+            
+            <div class="column-card questions-column">
+                <h2>أسئلة</h2>
+                <a href="game1_سكري.html" class="game-link red-bg">سكري جاهيزي</a>
+                <a href="game2_عمره.html" class="game-link red-bg">عمره وإحداثيات</a>
+                <a href="game3_لياقة.html" class="game-link red-bg">لياقة عامة</a>
+                <a href="geometry_quiz.html" class="game-link red-bg">رشروشه هندسية</a>
+                <a href="game5_خضوري.html" class="game-link red-bg">خضوري كرودي</a>
+                <a href="game6_حلوة.html" class="game-link red-bg">حلوة السعودية</a>
             </div>
-        </div>
 
-        <!-- تحديات -->
-      <div class="section challenges">
-  <h2>تحديات</h2>
-  <div class="list">
-    <a href="games/letters/index.html">خلاص الحروف</a>
-    <a href="games/click/index.html">برحي الردع</a>
-    <a href="games/cubes/index.html">مجدول المكعبات</a>
-    <a href="games/memory/index.html">صفاوي الذاكرة</a>
-    <a href="games/numbers/index.html">عنبرة الأرقام</a>
-    <a href="games/duck/index.html">صقعي البط</a>
-  </div>
-</div>
-
+            <div class="column-card challenges-column">
+                <h2>تحديات</h2>
+                <a href="challenge1_حاصن.html" class="game-link blue-bg">حاصن الحروف</a>
+                <a href="challenge2_يرجي.html" class="game-link blue-bg">يرجي الزرع</a>
+                <a href="challenge3_مجهول.html" class="game-link blue-bg">مجهول المكعبات</a>
+                <a href="challenge4_صدري.html" class="game-link blue-bg">صدري الذاكرة</a>
+                <a href="challenge5_عتبره.html" class="game-link blue-bg">عتبره الأرقام</a>
+                <a href="challenge6_صفي.html" class="game-link blue-bg">صفي البط</a>
             </div>
-        </div>
-    </div>
 
-    <div class="footer">
-        تم تطوير وبرمجة هذا الموقع من قبل فارس سيف & فارس عبدالله
+        </main>
+
+        <footer id="footer-note">
+            تم تطوير وبرمجة هذا الموقع من كل فارس سعيد & فارس عبدالله
+        </footer>
+
     </div>
-</div>
 
 </body>
 </html>

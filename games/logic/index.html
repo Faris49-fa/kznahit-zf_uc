@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار المنطق والثقافة العامة</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+    <div id="quiz-container">
+        
+        <div id="question-page" class="page active">
+            <div id="question-card" class="card">
+                <div id="timer" class="timer">10</div> 
+                <h2 id="question-text">نص السؤال سيظهر هنا...</h2>
+            </div>
+
+            <div id="options-grid"></div>
+
+            <div class="navigation-controls">
+                <button id="next-button">السؤال التالي →</button> 
+            </div>
+        </div>
+
+        <div id="results-page" class="page">
+            <h2>🎉 انتهت اللعبة! نتائجك:</h2>
+            <p>الأسئلة الصحيحة: <span id="correct-count">0</span></p>
+            <p>الأسئلة الخاطئة: <span id="wrong-count">0</span></p>
+            <p>أسئلة لم يتم الإجابة عليها: <span id="skipped-count">0</span></p>
+            
+            <div id="results-details"></div>
+            <button onclick="window.location.href = '../../index.html'">العودة للرئيسية</button>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

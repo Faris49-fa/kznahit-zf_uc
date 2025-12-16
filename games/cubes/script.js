@@ -3,7 +3,7 @@ const timeEl = document.getElementById("time");
 const endBox = document.getElementById("end");
 const resultEl = document.getElementById("result");
 
-function startTimer() {
+function startTimer(240) {
   if (timer) return; // يمنع تشغيله مرتين
 
   timer = setInterval(() => {
@@ -75,7 +75,7 @@ function startTimer(){
     time--;
     timeEl.textContent = time;
     if(time === 0){
-      end("⏰ انتهى الوقت");
+      end("1!!!قضى التمر وانت ماخلصت!!!!");
     }
   },1000);
 }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إهلا والله منور.. القهوة يامره</title>
     <link rel="stylesheet" href="style.css">
-    </head>
+</head>
 <body>
 
     <div id="main-container">
@@ -13,6 +13,8 @@
         <header id="welcome-header">
             <h1>إهلا والله منور.. القهوة يامره</h1>
             <p>انزل تحت حل وخذ لك تمره ياملا الغنيمه 🔥</p>
+
+            <button class="menu-button" onclick="toggleScoresModal()">☰ سجلات التمر الذهبي</button>
         </header>
 
         <main id="games-section">
@@ -42,8 +44,31 @@
         <footer id="footer-note">
             تم تطوير وبرمجة هذا الموقع من قبل فارس سيف& فارس عبدالله
         </footer>
+    </div>
+    
+    <div id="scores-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="toggleScoresModal()">&times;</span>
+            <h2>🏆 سجلات التمر الذهبي 🏆</h2>
 
+            <div class="scores-content">
+                <div class="scores-list-container">
+                    <h3 class="column-title red-color">📈 أعلى الدرجات (الأسئلة)</h3>
+                    <ul id="questions-scores-list" class="score-list">
+                        </ul>
+                </div>
+                
+                <div class="scores-list-container">
+                    <h3 class="column-title blue-color">⏱️ أفضل الأوقات (التحديات)</h3>
+                    <ul id="challenges-scores-list" class="score-list">
+                        </ul>
+                </div>
+            </div>
+
+            <button id="reset-button" class="reset-button" onclick="resetAllScores()">🔄 إعادة تعيين جميع الدرجات</button>
+        </div>
     </div>
 
+    <script src="index.js"></script>
 </body>
 </html>

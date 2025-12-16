@@ -1,125 +1,124 @@
 const game = document.getElementById("game");
 const paddle = document.getElementById("paddle");
 const timeEl = document.getElementById("time");
-const heartsEl = document.querySelector(".hearts");
+const heartsEl = document.getElementById("hearts");
 const endBox = document.getElementById("end");
-const finalTimeEl = document.getElementById("finalTime");
-const bestTimeEl = document.getElementById("bestTime");
-const hitSound = document.getElementById("hitSound");
+const finalTime = document.getElementById("finalTime");
 
 let balls = [];
 let lives = 3;
 let time = 0;
-let speed = 3;
-let gameRunning = true;
+let running = true;
 
-// تحريك المضرب
-game.addEventListener("mousemove", e=>{
+const gravity = 0.35;
+const bouncePower = -8;
+const maxBalls = 2;
+
+// ================== تحريك اللوح ==================
+game.addEventListener("mousemove", e => {
   const rect = game.getBoundingClientRect();
-  let x = e.clientX - rect.left - paddle.offsetWidth/2;
-  x = Math.max(0, Math.min(x, game.clientWidth - paddle.offsetWidth));
-  paddle.style.left = x + "px";
+  let x = e.clientX - rect.left - paddle.offsetWidth / 2;
+  paddle.style.left = Math.max(0, Math.min(x, game.clientWidth - paddle.offsetWidth)) + "px";
 });
 
-// للجوال
-game.addEventListener("touchmove", e=>{
+game.addEventListener("touchmove", e => {
   const rect = game.getBoundingClientRect();
-  let x = e.touches[0].clientX - rect.left - paddle.offsetWidth/2;
-  x = Math.max(0, Math.min(x, game.clientWidth - paddle.offsetWidth));
-  paddle.style.left = x + "px";
+  let x = e.touches[0].clientX - rect.left - paddle.offsetWidth / 2;
+  paddle.style.left = Math.max(0, Math.min(x, game.clientWidth - paddle.offsetWidth)) + "px";
 });
 
-// إنشاء كرة
-function createBall(){
-  if(balls.length >= 2) return;
+// ================== إنشاء كرة ==================
+function spawnBall() {
+  if (balls.length >= maxBalls) return;
 
   const ball = document.createElement("div");
   ball.className = "ball";
-  ball.x = Math.random() * (game.clientWidth - 20);
-  ball.y = 0;
-  ball.vy = speed;
-
-  ball.style.left = ball.x + "px";
-  ball.style.top = ball.y + "px";
-
   game.appendChild(ball);
-  balls.push(ball);
+
+  const obj = {
+    el: ball,
+    x: Math.random() * (game.clientWidth - 20),
+    y: 0,
+    vy: 2 + Math.random() * 2
+  };
+
+  ball.style.left = obj.x + "px";
+  ball.style.top = obj.y + "px";
+
+  balls.push(obj);
 }
 
-// تحديث الكرات
-function updateBalls(){
-  balls.forEach((ball, i)=>{
-    ball.y += ball.vy;
-    ball.style.top = ball.y + "px";
+// ================== تحديث الكرات ==================
+function updateBalls() {
+  balls.forEach((b, i) => {
+    b.vy += gravity;
+    b.y += b.vy;
 
-    // اصطدام بالمضرب
-    const pRect = paddle.getBoundingClientRect();
-    const bRect = ball.getBoundingClientRect();
+    // اصطدام باللوح
+    const paddleRect = paddle.getBoundingClientRect();
+    const ballRect = b.el.getBoundingClientRect();
 
-    if(
-      bRect.bottom >= pRect.top &&
-      bRect.left < pRect.right &&
-      bRect.right > pRect.left
-    ){
-      hitSound.currentTime = 0;
-      hitSound.play();
-      ball.vy *= -1;
+    if (
+      ballRect.bottom >= paddleRect.top &&
+      ballRect.left < paddleRect.right &&
+      ballRect.right > paddleRect.left &&
+      b.vy > 0
+    ) {
+      b.vy = bouncePower;
+      playHitSound();
     }
 
-    // خرجت
-    if(ball.y > game.clientHeight){
-      ball.remove();
-      balls.splice(i,1);
+    // سقطت
+    if (b.y > game.clientHeight) {
+      b.el.remove();
+      balls.splice(i, 1);
       loseLife();
+    } else {
+      b.el.style.top = b.y + "px";
     }
   });
 }
 
-// خسارة قلب
-function loseLife(){
+// ================== خسارة محاولة ==================
+function loseLife() {
   lives--;
-  heartsEl.textContent = "❤️".repeat(lives) + "🖤".repeat(3-lives);
-  if(lives <= 0){
-    endGame();
-  }
+  heartsEl.innerHTML = "❤️".repeat(lives) + "🖤".repeat(3 - lives);
+
+  if (lives <= 0) endGame();
 }
 
-// المؤقت
-setInterval(()=>{
-  if(!gameRunning) return;
+// ================== المؤقت (تصاعدي) ==================
+setInterval(() => {
+  if (!running) return;
   time++;
   timeEl.textContent = time;
-},1000);
+}, 1000);
 
-// زيادة الصعوبة
-setInterval(()=>{
-  speed += 0.5;
-},5000);
+// ================== توليد كرات ==================
+setInterval(() => {
+  if (running) spawnBall();
+}, 5000);
 
-// إنزال الكرات
-setInterval(()=>{
-  if(gameRunning) createBall();
-},500);
-
-// حلقة اللعب
-function loop(){
-  if(!gameRunning) return;
+// ================== لوب ==================
+function loop() {
+  if (!running) return;
   updateBalls();
   requestAnimationFrame(loop);
 }
 loop();
 
-// نهاية اللعبة
-function endGame(){
-  gameRunning = false;
-  endBox.classList.remove("hidden");
-  finalTimeEl.textContent = time;
+// ================== نهاية اللعبة ==================
+function endGame() {
+  running = false;
+  endBox.style.display = "block";
+  finalTime.textContent = time;
 
-  const best = localStorage.getItem("bestClickTime") || 0;
-  if(time > best){
-    localStorage.setItem("bestClickTime", time);
-    bestTimeEl.textContent = time;
-  }else{
-    bestTimeEl.textContent = best;
-  }
+  const best = Math.max(time, localStorage.getItem("bestClick") || 0);
+  localStorage.setItem("bestClick", best);
+}
+
+// ================== صوت ==================
+function playHitSound() {
+  const s = new Audio("hit.mp3");
+  s.play();
 }

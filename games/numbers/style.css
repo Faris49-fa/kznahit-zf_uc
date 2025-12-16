@@ -1,81 +1,85 @@
-/* 1. التنسيقات الأساسية */
+/* ================================================= */
+/* 1. التنسيقات العامة والأساسية */
+/* ================================================= */
+
 #game-container {
     max-width: 550px;
     margin: 30px auto;
-    padding: 20px;
-    background-color: #2c3e50; 
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    padding: 25px;
+    background-color: #2c3e50; /* خلفية داكنة */
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
     text-align: center;
     color: #ecf0f1;
+    position: relative; 
 }
 
-#game-container h1 {
-    color: #3498db; 
+h1 {
+    color: #f1c40f; /* لون ذهبي لامع */
     margin-bottom: 15px;
 }
 
 /* 2. شريط الحالة */
 #status-bar {
     display: flex;
-    justify-content: space-between;
-    font-size: 1.1em;
-    padding: 10px;
-    background-color: #34495e;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-/* 3. بطاقة السؤال (الطولية) */
-#question-card {
-    background-color: #e67e22; /* لون برتقالي للتنبيه */
-    color: white;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 25px;
+    justify-content: space-around;
+    align-items: center;
     font-size: 1.3em;
+    padding: 15px 10px;
+    margin-bottom: 20px;
+    background-color: #34495e; 
+    border-radius: 10px;
     font-weight: bold;
-    /* تصميم البطاقة الطولية بالمنتصف */
-    display: inline-block;
 }
 
-/* 4. قائمة الأرقام (مفتاح الترتيب على الجوال) */
-#numbers-list {
-    display: flex;
-    flex-direction: column; /* الترتيب عموديًا (فوق بعض) */
-    gap: 10px; /* التباعد بين البطاقات */
+#target-display {
+    color: #e67e22; 
+    font-size: 1.1em;
+}
+
+/* 3. شبكة الأرقام (منطقة اللعب - تم تعديلها لعرض 5 خلايا) */
+#number-grid {
+    display: flex; /* استخدام Flexbox لوضع 5 عناصر في سطر واحد */
+    flex-wrap: wrap; 
+    justify-content: center;
+    gap: 10px;
     padding: 10px;
+    background-color: #1a252f;
+    border-radius: 15px;
+}
+
+.number-cell {
+    width: 90px; /* حجم ثابت للخلايا */
+    height: 90px;
     background-color: #34495e;
     border-radius: 10px;
-}
-
-/* تصميم بطاقة الرقم */
-.number-card {
-    padding: 15px;
-    background-color: #4CAF50; /* لون أخضر جميل */
-    color: white;
-    font-size: 1.8em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8em; /* حجم مناسب للأرقام المكونة من 3 خانات */
     font-weight: bold;
-    border-radius: 8px;
-    cursor: grab; /* مؤشر السحب */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s, box-shadow 0.2s;
+    color: #ecf0f1;
+    cursor: pointer;
+    transition: background-color 0.15s, transform 0.1s;
     user-select: none;
 }
 
-.number-card:active {
-    cursor: grabbing;
+.number-cell:hover {
+    background-color: #49637c;
 }
 
-/* تصميم العنصر الشبحي عند السحب (مكتبة Sortable) */
-.sortable-ghost {
-    opacity: 0.4;
-    background-color: #bdc3c7; 
+/* تأثير النقر الناجح (يختفي) */
+.number-cell.matched {
+    /* عند النقر تختفي الخلية تقريباً، وتتحول للذهبي */
+    background-color: #f1c40f; 
+    color: #1a252f;
+    opacity: 0.1; /* تقليل الشفافية بعد النقر */
+    transform: scale(0.9);
+    pointer-events: none; 
 }
 
-/* 5. شاشات البدء والنتائج (الترتيب العمودي) */
+/* 4. شاشات البدء والنتائج */
 .screen-panel {
-    /* (تنسيقات الشاشات لتظهر فوق اللعبة) */
     position: absolute;
     top: 0;
     left: 0;
@@ -87,26 +91,45 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-radius: 15px;
+    border-radius: 20px;
     z-index: 100;
 }
 
 .screen-panel.hidden { display: none !important; }
+.screen-panel.active { display: flex !important; }
 
-#start-button, #results-screen button {
-    padding: 12px 25px;
+.action-buttons button {
+    padding: 12px 30px;
     font-size: 1.2em;
-    background-color: #3498db;
-    color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    margin-top: 20px;
+    margin: 10px; /* تباعد بين الأزرار */
+    font-weight: bold;
     transition: background-color 0.2s;
 }
 
-.back-link {
+.level-buttons .reload-btn {
+    background-color: #f1c40f; 
+    color: #2c3e50;
+}
+
+.level-buttons .home-btn {
+    background-color: #e67e22; 
+    color: white;
+}
+
+#results-title {
     color: #e67e22;
-    text-decoration: none;
-    margin-top: 15px;
+    font-size: 2.5em;
+}
+
+.action-buttons .reload-btn {
+    background-color: #2ecc71; 
+    color: white;
+}
+
+.action-buttons .home-btn {
+    background-color: #e74c3c; 
+    color: white;
 }

@@ -131,7 +131,7 @@ function checkWord(){
     });
 
     if(guess===secret){
-        messageEl.textContent="🎉 فزت!";
+        messageEl.textContent="🎉 خلصت التمر!!";
         finished=true;
         localStorage.setItem("lettersScore","فوز");
         

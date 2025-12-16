@@ -24,7 +24,7 @@ body {
 
 /* 2. تنسيق بطاقة السؤال (الطولية) */
 #question-card {
-    background-color: #1a1a1a; /* بطاقة سوداء داخل الحاوية البيضاء */
+    background-color: #121212; /* بطاقة سوداء داخل الحاوية البيضاء */
     color: white; 
     padding: 30px;
     border-radius: 10px;
@@ -63,7 +63,7 @@ body {
     margin-bottom: 30px;
 }
 .option-button {
-    background-color: #f0f0f0; /* لون فاتح للبطاقات داخل الأبيض */
+    background-color: #121212; /* لون فاتح للبطاقات داخل الأبيض */
     color: #1a1a1a;
     border: 1px solid #ddd;
     padding: 15px 10px;

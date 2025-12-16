@@ -3,45 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نخلة الذاكرة اللحظية</title>
-    <link rel="stylesheet" href="game.css"> 
-    <link rel="stylesheet" href="game.css"> 
+    <title>لعبة الذاكرة (Memory Game)</title>
+    <link rel="stylesheet" href="../../style.css"> 
+    <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
 
     <div id="game-container">
-        <h1>نخلة الذاكرة اللحظية ✨</h1>
+        <h1>لعبة الذاكرة (Memory Game) 🧠</h1>
         
         <div id="status-bar">
-            <span id="score-display">النقاط: 0</span>
-            <span id="round-display">الجولة: 1</span>
-            <span id="time-display">الوقت: 3.00 ثانية</span>
+            <span id="moves-display">التحركات: 0</span>
+            <span id="time-display">الوقت: 00:00</span>
         </div>
-        
-        <div id="message-area">
-            <span id="game-message">اضغط "ابدأ" لمشاهدة النمط!</span>
-        </div>
-
-        <div id="palm-grid">
-            </div>
 
         <div id="start-screen" class="active screen-panel">
-            <h2>شاهد... تذكر... نفذ! 🧠</h2>
-            <p>**القاعدة:** ستضيء أيقونات التمر بترتيب معين. كرر النمط بالنقر على نفس الأيقونات بنفس الترتيب.</p>
-            <p>سيزداد النمط طولاً، وسينقص الوقت المتاح مع كل جولة.</p>
-            <button id="start-button">ابدأ تحدي التركيز</button>
+            <h2>مرحباً بك في تحدي الذاكرة!</h2>
+            <p>**القاعدة:** اعثر على جميع أزواج الأيقونات المتطابقة في أقل عدد من التحركات وفي أسرع وقت.</p>
+            <p>انقر على زر "ابدأ اللعب" لبدء تشويش البطاقات.</p>
+            <button id="start-button">ابدأ اللعب</button>
         </div>
 
+        <div id="memory-grid">
+            </div>
+
         <div id="results-screen" class="hidden screen-panel">
-            <h2>خلص التمر!</h2>
-            <p id="final-score">نقاطك النهائية: 0</p>
-            <p id="high-score-message"></p>
-            <button onclick="location.reload()">تبي قدوع ثاني؟</button>
-            <a href="../../index.html" class="back-link">العودة للرئيسية</a>
+            <h2 id="results-title"></h2>
+            <p id="results-message"></p>
+            
+            <div class="action-buttons">
+                <button class="reload-btn" onclick="resetGame()">إعادة اللعب</button>
+                <button class="home-btn" onclick="backToHome()">العودة للرئيسية</button>
+            </div>
         </div>
     </div>
     
-    <script src="script.js"></script> 
     <script src="script.js"></script>
 </body>
 </html>

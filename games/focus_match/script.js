@@ -140,7 +140,7 @@ function handlePlayerTap(index, item) {
         // تقليل الوقت المتاح للجولة التالية
         TIME_LIMIT = Math.max(1000, TIME_LIMIT - 100); 
 
-        gameMessage.textContent = "✅ أحسنت! الجولة القادمة أصعب.";
+        gameMessage.textContent = "✅ أحسنت! القدوع الجاي تراه أصعب.";
         
         // بدء الجولة التالية بعد تأخير
         setTimeout(nextRound, 1500); 
@@ -223,9 +223,9 @@ function endGame(reason) {
     document.getElementById('final-score').textContent = `نقاطك النهائية: ${finalScore}`;
 
     if (reason === 'Time Up') {
-        resultsScreen.querySelector('h2').textContent = 'انتهى الوقت! ⏳';
+        resultsScreen.querySelector('h2').textContent = 'خلص التمر! ⏳';
     } else if (reason === 'Wrong Tap') {
-        resultsScreen.querySelector('h2').textContent = 'خطأ في النمط! ❌';
+        resultsScreen.querySelector('h2').textContent = 'ماتعرف تلعب انت ؟؟برا  ! ❌';
     }
 
     if (isNewRecord) {

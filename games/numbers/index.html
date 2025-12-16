@@ -1,27 +1,47 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>ترتيب الأرقام</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عنبري الترتيب السريع</title>
+    <link rel="stylesheet" href="../../style.css"> 
+    <link rel="stylesheet" href="game.css"> 
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
 </head>
 <body>
 
-<div class="card">
-  <h1 id="title">لعبة ترتيب الأرقام</h1>
-  <p id="rule">اضغط ابدأ</p>
-  <div id="timer">20</div>
+    <div id="game-container">
+        <h1>عنبري الترتيب السريع</h1>
+        
+        <div id="status-bar">
+            <span id="score-display">النقاط: 0</span>
+            <span id="time-display">الوقت المتبقي: 10.00 ثانية</span>
+        </div>
+        
+        <div id="question-card">
+            <div id="target-order-text"></div>
+        </div>
 
-  <div id="numbers" class="numbers"></div>
+        <div id="numbers-list" class="sortable-list">
+            </div>
 
-  <button id="startBtn">ابدأ</button>
-  <button id="checkBtn" class="hidden">تحقق</button>
+        <div id="start-screen" class="active screen-panel">
+            <h2>اضغط لتبدأ الترتيب!</h2>
+            <p>**القاعدة:** لديك 10 ثوانٍ لترتيب الأرقام الستة إما من الأكبر للأصغر أو العكس، حسب المطلوب في البطاقة العلوية.</p>
+            <p>استخدم السحب والإفلات (Drag and Drop) لتبديل أماكن البطاقات.</p>
+            <button id="start-button">انطلق الآن</button>
+        </div>
 
-  <p id="result"></p>
-
-  <a class="back" href="../../index.html">العودة للرئيسية</a>
-</div>
-
-<script src="script.js"></script>
+        <div id="results-screen" class="hidden screen-panel">
+            <h2>انتهى الوقت!</h2>
+            <p id="final-score">نقاطك النهائية: 0</p>
+            <p id="high-score-message"></p>
+            <button onclick="location.reload()">إعادة اللعب</button>
+            <a href="../../index.html" class="back-link">العودة للرئيسية</a>
+        </div>
+    </div>
+    
+    <script src="../../index.js"></script> 
+    <script src="script.js"></script>
 </body>
 </html>

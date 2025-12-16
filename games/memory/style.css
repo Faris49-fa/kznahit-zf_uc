@@ -1,42 +1,170 @@
-/* أكوادك الحالية (body, .container, button, etc.) تبقى كما هي... */
+/* ================================================= */
+/* 1. التنسيقات العامة والأساسية */
+/* ================================================= */
 
-/* ========================================== */
-/* إضافة تنسيقات شاشة النتائج */
-/* ========================================== */
+/* لضبط العرض والخطوط */
+* {
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
 
-#results-screen {
-    display: none; /* يتم التحكم بها بالجافاسكريبت لإظهارها وإخفائها */
-    background: rgba(0, 0, 0, 0.7);
+body {
+    margin: 0;
+    min-height: 100vh;
+    /* خلفية متدرجة جذابة مستوحاة من ألوان التمر */
+    background: linear-gradient(135deg, #1d3557, #457b9d); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #f1faee; /* لون نص فاتح */
+    direction: rtl; /* دعم اللغة العربية */
+}
+
+.container {
+    width: 90%;
+    max-width: 650px; /* زيادة العرض قليلاً */
+    background: rgba(29, 53, 87, 0.8); /* خلفية شبه شفافة داكنة */
     padding: 30px;
-    border-radius: 15px;
-    color: #fff;
+    border-radius: 25px;
     text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* ظل أعمق */
 }
 
-#results-screen h2 {
-    font-size: 2.2em;
-    color: #ffd166; /* لون ذهبي للتميز */
-    margin-bottom: 15px;
+h1 {
+    color: #a8dadc; /* لون مميز للعناوين */
+    margin-bottom: 25px;
+    font-size: 2.5em;
 }
 
-#results-screen p {
-    font-size: 1.1em;
+/* ================================================= */
+/* 2. شاشة القائمة الرئيسية (Menu) */
+/* ================================================= */
+
+#menu h2 {
+    color: #f1faee;
+    font-size: 1.8em;
     margin-bottom: 30px;
 }
 
-.action-buttons button {
-    /* تنسيق خاص لأزرار التحكم */
-    min-width: 150px;
+.level-buttons button {
+    padding: 15px 35px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: bold;
     margin: 10px;
+    transition: transform 0.2s, background-color 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.level-buttons button:hover {
+    transform: translateY(-3px);
+}
+
+.level-buttons .easy {
+    background-color: #2a9d8f; /* أخضر سهل */
+    color: white;
+}
+
+.level-buttons .hard {
+    background-color: #e63946; /* أحمر صعب */
+    color: white;
+}
+
+/* ================================================= */
+/* 3. شاشة اللعب (Game Board) */
+/* ================================================= */
+
+#game {
+    display: none; /* مخفي في البداية */
+}
+
+#timer {
+    font-size: 24px;
+    margin: 15px 0 20px 0;
+    color: #a8dadc;
     font-weight: bold;
 }
 
+.board {
+    display: grid;
+    gap: 12px; /* تباعد أكبر بين البطاقات */
+    justify-items: center;
+    padding: 10px;
+}
+
+.card {
+    width: 80px; /* حجم أكبر قليلاً */
+    height: 80px;
+    background: #1d3557; /* لون غطاء البطاقة داكن */
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* مظهر البطاقة المفتوحة أو المطابقة */
+.card.open,
+.card.matched {
+    background: #ffd166; /* لون ذهبي/تمر فاتح */
+    color: #1d3557; /* لون النص داخل البطاقة */
+    cursor: default;
+    transform: scale(1.05);
+}
+
+.card.matched {
+    /* تأثير طفيف على البطاقة المطابقة لتمييزها */
+    opacity: 0.9;
+    box-shadow: 0 0 10px #ffd166;
+}
+
+/* ================================================= */
+/* 4. شاشة النتائج (Results Screen) - تم إضافتها وتنسيقها */
+/* ================================================= */
+
+#results-screen {
+    display: none; /* يتم إظهارها بالجافاسكريبت */
+    padding: 30px 20px;
+    background: #457b9d; /* لون خلفية مغاير للتميز */
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
+}
+
+#results-title {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    color: #f1faee;
+}
+
+#results-message {
+    font-size: 1.3em;
+    margin-bottom: 35px;
+    color: #a8dadc;
+}
+
+.action-buttons button {
+    padding: 12px 25px;
+    margin: 10px;
+    font-size: 1.1em;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    min-width: 150px;
+}
+
 .action-buttons .reload-btn {
-    background-color: #27ae60; /* أخضر للإعادة */
+    background-color: #2a9d8f; /* أخضر للإعادة */
     color: white;
 }
 
 .action-buttons .home-btn {
-    background-color: #e67e22; /* برتقالي للعودة */
+    background-color: #e63946; /* أحمر للعودة */
     color: white;
 }

@@ -4,6 +4,25 @@ body{
   background:#0b1220;
   color:#fff;
   text-align:center;
+}/* ========================================= */
+/* تأثيرات الفوز (Animation) */
+/* ========================================= */
+@keyframes confetti-fall {
+    0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+.confetti {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background-color: #f1c40f; /* لون ذهبي للتمر */
+    border-radius: 50%;
+    z-index: 200;
+    pointer-events: none; /* لمنع حجب النقر على الشاشة */
+    animation: confetti-fall 3s ease-in-out forwards;
 }
 
 .top{

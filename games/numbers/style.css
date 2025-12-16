@@ -3,7 +3,7 @@
 /* ================================================= */
 
 #game-container {
-    max-width: 550px;
+    max-width: 700px; /* زيادة العرض لاستيعاب 5 بطاقات */
     margin: 30px auto;
     padding: 25px;
     background-color: #2c3e50; /* خلفية داكنة */
@@ -32,53 +32,76 @@ h1 {
     font-weight: bold;
 }
 
-#target-display {
-    color: #e67e22; 
-    font-size: 1.1em;
+#time-display {
+    color: #e67e22; /* لون عنبري للتوقيت */
 }
 
-/* 3. شبكة الأرقام (منطقة اللعب - تم تعديلها لعرض 5 خلايا) */
-#number-grid {
-    display: flex; /* استخدام Flexbox لوضع 5 عناصر في سطر واحد */
-    flex-wrap: wrap; 
+/* 3. بطاقة الهدف (الاتجاه) */
+#direction-card-container {
+    padding: 10px 0;
+}
+
+#direction-card {
+    background-color: #e67e22; /* لون عنبري واضح */
+    color: #2c3e50;
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* 4. شبكة البطاقات (منطقة اللعب) */
+#card-grid {
+    display: flex; 
     justify-content: center;
-    gap: 10px;
+    gap: 15px;
     padding: 10px;
     background-color: #1a252f;
     border-radius: 15px;
 }
 
-.number-cell {
-    width: 90px; /* حجم ثابت للخلايا */
-    height: 90px;
-    background-color: #34495e;
+.number-card {
+    width: 120px; /* حجم البطاقة */
+    height: 120px;
+    background-color: #f1c40f; /* لون ذهبي للبطاقات */
     border-radius: 10px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 1.8em; /* حجم مناسب للأرقام المكونة من 3 خانات */
+    font-size: 2.5em; /* حجم كبير للأرقام */
     font-weight: bold;
-    color: #ecf0f1;
+    color: #2c3e50;
     cursor: pointer;
-    transition: background-color 0.15s, transform 0.1s;
+    transition: all 0.2s;
     user-select: none;
+    box-shadow: 0 5px 0 #d4af37; /* ظل لإعطاء مظهر 3D */
 }
 
-.number-cell:hover {
-    background-color: #49637c;
+.number-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 0 #d4af37;
 }
 
-/* تأثير النقر الناجح (يختفي) */
-.number-cell.matched {
-    /* عند النقر تختفي الخلية تقريباً، وتتحول للذهبي */
-    background-color: #f1c40f; 
-    color: #1a252f;
-    opacity: 0.1; /* تقليل الشفافية بعد النقر */
+/* تأثير النقر الصحيح (تختفي البطاقة) */
+.number-card.correctly-clicked {
+    background-color: #2ecc71; /* أخضر للنجاح */
+    color: white;
     transform: scale(0.9);
-    pointer-events: none; 
+    opacity: 0.1; /* تقريباً تختفي للإشارة إلى النقر */
+    pointer-events: none; /* لمنع النقر عليها مرة أخرى */
 }
 
-/* 4. شاشات البدء والنتائج */
+/* تأثير النقر الخاطئ */
+.number-card.wrong-clicked {
+    background-color: #e74c3c; /* أحمر للخطأ */
+    color: white;
+    transform: rotate(5deg) scale(1.05);
+}
+
+/* 5. شاشات البدء والنتائج */
 .screen-panel {
     position: absolute;
     top: 0;
@@ -104,7 +127,7 @@ h1 {
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    margin: 10px; /* تباعد بين الأزرار */
+    margin: 10px; 
     font-weight: bold;
     transition: background-color 0.2s;
 }

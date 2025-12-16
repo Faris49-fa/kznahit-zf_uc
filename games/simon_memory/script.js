@@ -166,7 +166,7 @@ function endGame(status) {
     const finalTime = timeDisplay.textContent.replace('الوقت: ', '');
 
     if (status === 'lost') {
-        resultsTitle.textContent = 'انتهت اللعبة! 💔';
+        resultsTitle.textContent = 'خلص التمر! 💔';
         resultsMessage.innerHTML = `
             لقد وصلت إلى الجولة: <b>${round}</b><br>
             وكان وقتك الكلي: <b>${finalTime}</b>

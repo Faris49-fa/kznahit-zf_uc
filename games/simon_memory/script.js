@@ -7,12 +7,16 @@ const timeDisplay = document.getElementById('time-display');
 const messageDisplay = document.getElementById('message-display');
 const startScreen = document.getElementById('start-screen');
 const resultsScreen = document.getElementById('results-screen');
+const resultsTitle = document.getElementById('results-title'); // تأكد من وجوده في HTML
+const resultsMessage = document.getElementById('results-message'); // تأكد من وجوده في HTML
+
+const WINNING_ROUND = 10; // *********** تم تحديد شرط الفوز ***********
 
 let gameRunning = false;
 let pattern = []; // تسلسل الأضواء الحالي
 let playerClicks = []; // نقرات اللاعب
 let round = 0;
-let flashDuration = 700; // مدة الإضاءة الافتراضية (للتحكم في السرعة)
+let flashDuration = 700; 
 let playerTurn = false;
 
 let timerInterval;
@@ -43,7 +47,7 @@ function flashLight(index) {
     // تشغيل الإضاءة لمدة flashDuration
     setTimeout(() => {
         button.classList.remove('active');
-    }, flashDuration * 0.5); // وقت الإطفاء أقصر قليلاً
+    }, flashDuration * 0.5); 
 }
 
 async function playPattern() {
@@ -96,6 +100,13 @@ function handleButtonClick(event) {
 
     if (playerClicks.length === pattern.length) {
         // نجاح الجولة!
+        
+        // *********** التحقق من الفوز النهائي ***********
+        if (round === WINNING_ROUND) {
+            endGame('win');
+            return;
+        }
+
         round++;
         updateDisplay();
         
@@ -113,8 +124,11 @@ function nextRound() {
     pattern.push(newIndex);
     
     // 2. زيادة سرعة الإضاءة لجعل اللعبة أصعب تدريجياً
-    if (flashDuration > 200) { 
-        flashDuration -= 25; 
+    // *********** تم زيادة سرعة التسارع (25 -> 40) ***********
+    if (flashDuration > 100) { 
+        flashDuration -= 40; 
+    } else if (flashDuration > 50) {
+         flashDuration -= 10; // تسارع أبطأ في المراحل المتقدمة
     }
 
     playPattern();
@@ -126,7 +140,7 @@ function updateDisplay() {
 
 function startGame(duration) {
     clearInterval(timerInterval);
-    flashDuration = duration; // تحديد سرعة النمط بناءً على اختيار اللاعب
+    flashDuration = duration; 
     gameRunning = true;
     round = 1;
     pattern = [];
@@ -142,22 +156,30 @@ function startGame(duration) {
     nextRound(); // بدء الجولة الأولى
 }
 
+// *********** دالة نهاية اللعبة المُعدَّلة ***********
 function endGame(status) {
     gameRunning = false;
     playerTurn = false;
     clearInterval(timerInterval);
     lightButtons.forEach(btn => btn.style.pointerEvents = 'none');
 
+    const finalTime = timeDisplay.textContent.replace('الوقت: ', '');
+
     if (status === 'lost') {
-        resultsTitle.textContent = 'خلص التمر! 💔';
+        resultsTitle.textContent = 'انتهت اللعبة! 💔';
         resultsMessage.innerHTML = `
             لقد وصلت إلى الجولة: <b>${round}</b><br>
-            وكان وقتك الكلي: <b>${timeDisplay.textContent.replace('الوقت: ', '')}</b>
+            وكان وقتك الكلي: <b>${finalTime}</b>
         `;
-    } else {
-        // يمكننا إضافة شرط للفوز، لكن في هذه اللعبة غالباً تستمر حتى الخطأ
+    } else if (status === 'win') {
+        resultsTitle.textContent = 'بطل الذاكرة! تهانينا! 🎉';
+        resultsMessage.innerHTML = `
+            لقد أكملت جميع الجولات بنجاح (الجولة <b>${round}</b>)!<br>
+            الوقت الكلي: <b>${finalTime}</b>
+        `;
     }
 
+    // *********** التأكد من إظهار شاشة النتائج ***********
     resultsScreen.classList.add('active');
     resultsScreen.classList.remove('hidden');
 }

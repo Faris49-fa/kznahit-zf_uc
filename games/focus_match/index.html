@@ -1,46 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عنبري التركيز السريع</title>
-    <link rel="stylesheet" href="../../style.css"> 
-    <link rel="stylesheet" href="game.css"> 
-</head>
-<body>
-
-    <div id="game-container">
-        <h1>عنبري التركيز السريع 🎯</h1>
-        
-        <div id="status-bar">
-            <span id="score-display">النقاط: 0</span>
-            <span id="time-display">الوقت المتبقي: 2.00 ثانية</span>
-        </div>
-        
-        <div id="target-display">
-            ابحث عن: <span id="target-icon">❓</span>
-        </div>
-
-        <div id="game-grid">
-            </div>
-
-        <div id="start-screen" class="active screen-panel">
-            <h2>اضغط لتبدأ تحدي العين! 👁️</h2>
-            <p>**القاعدة:** ابحث عن رمز التمرة المعروض في الأسفل، وانقر على جميع البطاقات المطابقة في الشبكة قبل انتهاء الوقت.</p>
-            <p>انتبه: النقر على البطاقات الخاطئة ينهي اللعبة!</p>
-            <button id="start-button">انطلق الآن</button>
-        </div>
-
-        <div id="results-screen" class="hidden screen-panel">
-            <h2>خلص التمر!</h2>
-            <p id="final-score">نقاطك النهائية: 0</p>
-            <p id="high-score-message"></p>
-            <button onclick="location.reload()">تبي قدوع ثاني؟</button>
-            <a href="../../index.html" class="back-link">العودة للرئيسية</a>
-        </div>
-    </div>
-    
-    <script src="../../index.js"></script> 
-    <script src="script.js"></script>
-</body>
-</html>

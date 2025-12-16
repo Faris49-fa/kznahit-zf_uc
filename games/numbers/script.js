@@ -43,7 +43,7 @@ function startGame(){
     ? "رتّب الأرقام من الأصغر إلى الأكبر"
     : "رتّب الأرقام من الأكبر إلى الأصغر";
 
-  time = 20;
+  time = 10;
   timerEl.textContent = time;
   resultEl.textContent = "";
   startBtn.classList.add("hidden");
@@ -64,7 +64,7 @@ function endGame(win){
   clearInterval(timer);
   checkBtn.classList.add("hidden");
   startBtn.classList.remove("hidden");
-  resultEl.textContent = win ? "✅ صحيح" : "❌ خطأ أو انتهى الوقت";
+  resultEl.textContent = win ? "✅ صحيح" : "❌ خطأ";
 }
 
 checkBtn.onclick = ()=>{

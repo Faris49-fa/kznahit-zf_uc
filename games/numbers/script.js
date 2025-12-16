@@ -43,7 +43,7 @@ function startGame(){
     ? "رتّب الأرقام من الأصغر إلى الأكبر"
     : "رتّب الأرقام من الأكبر إلى الأصغر";
 
-  time = 15;
+  time = 20;
   timerEl.textContent = time;
   resultEl.textContent = "";
   startBtn.classList.add("hidden");

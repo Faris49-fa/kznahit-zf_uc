@@ -155,8 +155,8 @@ function updateDisplay() {
 // ==========================================
 function startGame(level) {
     currentLevel = level;
-    // تحديد الوقت حسب المستوى: 15 للسهل، 12 للصعب
-    gameTime = (level === 'easy') ? 15 : 12; 
+    // تحديد الوقت حسب المستوى: 60 للسهل، 45 للصعب
+    gameTime = (level === 'easy') ? 60: 45; 
 
     gameRunning = true;
     score = 0; 

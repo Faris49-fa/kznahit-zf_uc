@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إهلا والله منور.. القهوة يامره</title>
+    <link rel="stylesheet" href="css/main_style.css">
+</head>
+<body>
+
+    <div id="questions-sidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav('questions-sidebar')">&times;</a>
+        <h3>نتائج قسم الأسئلة</h3>
+        <p>هنا ستظهر إحصائياتك: عدد الأسئلة التي لعبتها، والنتيجة الإجمالية.</p>
+        <div id="questions-results-content">
+            <p>لعبت: 0/6 ألعاب</p>
+            <p>المعدل الإجمالي: --%</p>
+        </div>
+    </div>
+
+    <div id="challenges-sidebar" class="sidebar left">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav('challenges-sidebar')">&times;</a>
+        <h3>نتائج قسم التحديات</h3>
+        <p>هنا ستظهر إحصائياتك: عدد التحديات التي أنجزتها، والنتائج.</p>
+        <div id="challenges-results-content">
+             <p>أنجزت: 0/6 تحديات</p>
+            <p>متوسط الوقت: --</p>
+        </div>
+    </div>
+
+
+    <div id="main-container">
+
+        <header id="welcome-header">
+            <h1>إهلا والله منور.. القهوة يامره</h1>
+            <p>انزل تحت حل وخذ لك تمره ياملا الغنيمه 🔥</p>
+        </header>
+
+        <main id="games-section">
+            
+            <div class="column-card questions-column">
+                <div class="card-header">
+                    <h2>أسئلة</h2>
+                    <span class="menu-icon" onclick="openNav('questions-sidebar')">☰</span>
+                </div>
+                <a href="games/english/index.html" class="game-link red-bg">سكري انجليزي</a>
+                <a href="games/math/index.html" class="game-link red-bg">عجوة الرياضيات</a>
+                <a href="games/aaa/index.html" class="game-link red-bg">لبانة عامة</a>
+                <a href="games/geometry/index.html" class="game-link red-bg">رشودية هندسية</a> 
+                <a href="games/aaa/index.html" class="game-link red-bg">خضري كروي</a>
+                <a href="games/aaa/index.html" class="game-link red-bg">حلوة السعودية</a>
+            </div>
+
+            <div class="column-card challenges-column">
+                <div class="card-header">
+                    <h2>تحديات</h2>
+                    <span class="menu-icon" onclick="openNav('challenges-sidebar')">☰</span>
+                </div>
+                <a href="games/lettes/index.html" class="game-link blue-bg">خلاص الحروف</a>
+                <a href="games/click/index.html" class="game-link blue-bg">برحي الردع</a>
+                <a href="games/cubes/index.html" class="game-link blue-bg">مجدول المكعبات</a>
+                <a href="games/memory/index.html" class="game-link blue-bg">صفاوي الذاكرة</a>
+                <a href="games/numbers/index.html" class="game-link blue-bg">عنبري الأرقام</a>
+                <a href="games/duck/index.html" class="game-link blue-bg">صقعي البط</a>
+            </div>
+
+        </main>
+
+        <footer id="footer-note">
+            تم تطوير وبرمجة هذا الموقع من قبل فارس سيف& فارس عبدالله
+        </footer>
+
+    </div>
+
+    <script src="js/main_script.js"></script>
+</body>
+</html>

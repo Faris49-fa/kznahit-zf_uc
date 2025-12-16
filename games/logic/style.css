@@ -1,0 +1,132 @@
+/* 1. التنسيق العام: الخلفية سوداء (Dark Mode) */
+body {
+    direction: rtl; 
+    font-family: 'Arial', sans-serif;
+    background-color: #121212; /* الخلفية الخارجية: أسود داكن */
+    margin: 0;
+    padding: 30px 10px;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+#quiz-container { 
+    width: 100%; 
+    max-width: 650px; 
+    /* البطاقة البيضاء الكبيرة: الحاوية الرئيسية */
+    background-color: white; 
+    color: #1a1a1a;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* لإعطاء عمق */
+}
+.page { display: none; }
+.page.active { display: block; }
+
+/* 2. تنسيق بطاقة السؤال (الطولية) */
+#question-card {
+    background-color: #1a1a1a; /* بطاقة سوداء داخل الحاوية البيضاء */
+    color: white; 
+    padding: 30px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    position: relative;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.1em;
+}
+#question-text {
+    margin: 0;
+    line-height: 1.6;
+    font-weight: bold;
+}
+
+/* تعديل المؤقت: بدون خلفية أو تظليل */
+.timer {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #e74c3c; /* لون أحمر للمؤقت */
+    padding: 3px 10px;
+    background: none; /* إزالة الخلفية */
+    border-radius: 5px;
+}
+
+/* 3. تنسيق الخيارات (كبطاقات صغيرة) */
+#options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 15px;
+    margin-bottom: 30px;
+}
+.option-button {
+    background-color: #34495e; /* لون خلفية داكن للخيارات */
+    color: white; /* لون النص أبيض */
+    border: 1px solid #4a637d;
+    padding: 15px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    min-height: 70px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.option-button:hover:not(.selected):not(:disabled) { 
+    background-color: #4a637d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.option-button:disabled { cursor: default; }
+
+/* 4. حالات الإجابة النهائية (تنسيق قوي داخل البطاقة البيضاء) */
+.correct { background-color: #2ecc71 !important; color: white !important; } 
+.wrong { background-color: #e74c3c !important; color: white !important; } 
+.skipped { background-color: #bdc3c7 !important; color: #555 !important; opacity: 0.8; } 
+
+
+/* 5. تنسيق صفحة النتائج وأزرار التنقل */
+.navigation-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+#next-button {
+    background-color: #3498db;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-size: 1.1em;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+}
+#next-button:hover { background-color: #2980b9; }
+
+#results-page h2 { color: #3498db; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
+#results-page p { font-size: 1.1em; margin: 10px 0; }
+#results-details .card {
+    background-color: #f7f7f7; 
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    padding: 15px;
+    border: none;
+    box-shadow: none;
+    text-align: right;
+}
+.result-status { font-weight: bold; margin-top: 10px; }
+
+/* الاستجابة على الجوال */
+@media (max-width: 500px) {
+    #options-grid {
+        grid-template-columns: 1fr; 
+    }
+    #quiz-container {
+        padding: 20px;
+    }
+}

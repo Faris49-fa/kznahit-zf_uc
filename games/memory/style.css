@@ -2,149 +2,120 @@
 /* 1. التنسيقات العامة والأساسية */
 /* ================================================= */
 
-/* لضبط العرض والخطوط */
-* {
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
-}
-
-body {
-    margin: 0;
-    min-height: 100vh;
-    /* خلفية متدرجة جذابة مستوحاة من ألوان التمر */
-    background: linear-gradient(135deg, #1d3557, #457b9d); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #f1faee; /* لون نص فاتح */
-    direction: rtl; /* دعم اللغة العربية */
-}
-
-.container {
-    width: 90%;
-    max-width: 650px; /* زيادة العرض قليلاً */
-    background: rgba(29, 53, 87, 0.8); /* خلفية شبه شفافة داكنة */
-    padding: 30px;
-    border-radius: 25px;
+#game-container {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #1a1a2e; /* خلفية داكنة جداً */
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* ظل أعمق */
+    color: #f0f0f0;
 }
 
-h1 {
-    color: #a8dadc; /* لون مميز للعناوين */
+#game-container h1 {
+    color: #f39c12; /* لون برتقالي/ذهبي للتمر */
+    margin-bottom: 20px;
+}
+
+/* 2. شريط الحالة والرسائل */
+#status-bar {
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.1em;
+    padding: 10px 0;
+    margin-bottom: 15px;
+    border-bottom: 1px dashed #34495e;
+}
+
+#message-area {
+    min-height: 40px;
     margin-bottom: 25px;
-    font-size: 2.5em;
-}
-
-/* ================================================= */
-/* 2. شاشة القائمة الرئيسية (Menu) */
-/* ================================================= */
-
-#menu h2 {
-    color: #f1faee;
-    font-size: 1.8em;
-    margin-bottom: 30px;
-}
-
-.level-buttons button {
-    padding: 15px 35px;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
     font-size: 1.2em;
     font-weight: bold;
-    margin: 10px;
-    transition: transform 0.2s, background-color 0.2s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    color: #2ecc71; 
 }
 
-.level-buttons button:hover {
-    transform: translateY(-3px);
-}
-
-.level-buttons .easy {
-    background-color: #2a9d8f; /* أخضر سهل */
-    color: white;
-}
-
-.level-buttons .hard {
-    background-color: #e63946; /* أحمر صعب */
-    color: white;
-}
-
-/* ================================================= */
-/* 3. شاشة اللعب (Game Board) */
-/* ================================================= */
-
-#game {
-    display: none; /* مخفي في البداية */
-}
-
-#timer {
-    font-size: 24px;
-    margin: 15px 0 20px 0;
-    color: #a8dadc;
-    font-weight: bold;
-}
-
-.board {
+/* 3. شبكة أيقونات التمر */
+#palm-grid {
     display: grid;
-    gap: 12px; /* تباعد أكبر بين البطاقات */
-    justify-items: center;
-    padding: 10px;
+    grid-template-columns: repeat(4, 1fr); /* 4 أيقونات في الصف */
+    gap: 15px; 
+    padding: 15px;
+    background-color: #2c3e50;
+    border-radius: 10px;
 }
 
-.card {
-    width: 80px; /* حجم أكبر قليلاً */
-    height: 80px;
-    background: #1d3557; /* لون غطاء البطاقة داكن */
-    border-radius: 12px;
+.palm-icon {
+    padding: 20px;
+    height: 70px;
+    line-height: 30px;
+    font-size: 3em;
+    background-color: #34495e; 
+    border: 3px solid #2c3e50;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.palm-icon.highlight {
+    background-color: #e74c3c; /* لون أحمر زاهي للإضاءة */
+    box-shadow: 0 0 15px #e74c3c;
+}
+
+.palm-icon.tapped {
+    transform: scale(0.9);
+    background-color: #f1c40f; /* لون ذهبي للنقر */
+    transition: background-color 0.05s ease-out;
+}
+
+/* 4. شاشات البدء والنتائج */
+.screen-panel {
+    /* تنسيقات للتأكد من ظهورها كشاشة كاملة فوق اللعبة */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(26, 26, 46, 0.98); 
+    color: white;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 30px;
+    border-radius: 15px;
+    z-index: 100;
+}
+
+.screen-panel.hidden { display: none !important; }
+.screen-panel.active { display: flex !important; }
+
+#start-button {
+    padding: 12px 25px;
+    font-size: 1.2em;
+    background-color: #f39c12;
+    color: #1a1a2e;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
+    transition: transform 0.2s;
 }
 
-/* مظهر البطاقة المفتوحة أو المطابقة */
-.card.open,
-.card.matched {
-    background: #ffd166; /* لون ذهبي/تمر فاتح */
-    color: #1d3557; /* لون النص داخل البطاقة */
-    cursor: default;
-    transform: scale(1.05);
-}
-
-.card.matched {
-    /* تأثير طفيف على البطاقة المطابقة لتمييزها */
-    opacity: 0.9;
-    box-shadow: 0 0 10px #ffd166;
-}
-
-/* ================================================= */
-/* 4. شاشة النتائج (Results Screen) - تم إضافتها وتنسيقها */
-/* ================================================= */
-
+/* 5. تنسيق شاشة النتائج */
 #results-screen {
-    display: none; /* يتم إظهارها بالجافاسكريبت */
-    padding: 30px 20px;
-    background: #457b9d; /* لون خلفية مغاير للتميز */
-    border-radius: 20px;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
+    background-color: rgba(26, 26, 46, 0.98); 
 }
 
 #results-title {
-    font-size: 2.5em;
-    margin-bottom: 15px;
-    color: #f1faee;
+    color: #f39c12;
+    font-size: 2em;
 }
 
 #results-message {
-    font-size: 1.3em;
-    margin-bottom: 35px;
-    color: #a8dadc;
+    font-size: 1.2em;
+    margin: 15px 0 30px;
 }
 
 .action-buttons button {
@@ -155,16 +126,15 @@ h1 {
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.2s;
     min-width: 150px;
 }
 
 .action-buttons .reload-btn {
-    background-color: #2a9d8f; /* أخضر للإعادة */
+    background-color: #2ecc71; /* أخضر للإعادة */
     color: white;
 }
 
 .action-buttons .home-btn {
-    background-color: #e63946; /* أحمر للعودة */
+    background-color: #e74c3c; /* أحمر للعودة */
     color: white;
 }

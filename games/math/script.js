@@ -84,7 +84,7 @@ const nextButton = document.getElementById('next-button');
 // متغيرات حالة اللعبة
 let currentQuestionIndex = 0;
 let timerInterval;
-const TIME_LIMIT = 10;
+const TIME_LIMIT = 15;
 let userAnswers = [];
 let timeRemaining = TIME_LIMIT;
 let quizQuestions = []; // مصفوفة لحفظ الـ 10 أسئلة المختارة
@@ -164,7 +164,7 @@ function startTimer() {
             clearInterval(timerInterval);
             handleTimeout();
         }
-    }, 1000);
+    }, 15000);
 }
 
 

@@ -1,80 +1,107 @@
 // ===============================
-// بنك الأسئلة (100 سؤال رياضيات)
+// الأسئلة (كما هي - لا لمس)
 // ===============================
-const allQuestions = [
-  {q:"3x + 5 = 20", o:["3","5","7","10"], a:1},
-  {q:"2x = 18", o:["7","8","9","10"], a:2},
-  {q:"4² + 6", o:["18","20","22","24"], a:1},
-  {q:"5x = 45", o:["7","8","9","10"], a:2},
-  {q:"x − 7 = 9", o:["14","15","16","17"], a:0},
-  {q:"6² − 4²", o:["16","20","24","32"], a:1},
-  {q:"3³", o:["9","18","27","81"], a:2},
-  {q:"x/4 = 5", o:["15","20","25","30"], a:1},
-  {q:"8×7", o:["54","56","58","60"], a:1},
-  {q:"9×9", o:["72","81","90","99"], a:1},
-
-  {q:"10²", o:["10","20","100","200"], a:2},
-  {q:"x + x = 26", o:["11","12","13","14"], a:2},
-  {q:"15×4", o:["45","50","55","60"], a:3},
-  {q:"36 ÷ 6", o:["4","5","6","7"], a:2},
-  {q:"7²", o:["42","49","56","63"], a:1},
-  {q:"x − 12 = 8", o:["18","19","20","21"], a:0},
-  {q:"2⁵", o:["16","32","64","128"], a:1},
-  {q:"50 ÷ 5", o:["5","8","10","15"], a:2},
-  {q:"4x = 28", o:["5","6","7","8"], a:2},
-  {q:"6 + 8 × 2", o:["20","22","28","32"], a:1},
-
-  {q:"(5+5)×2", o:["10","15","20","25"], a:2},
-  {q:"x/3 = 4", o:["9","10","11","12"], a:3},
-  {q:"9² − 10", o:["61","71","81","91"], a:1},
-  {q:"12×8", o:["86","92","96","100"], a:2},
-  {q:"x + 15 = 40", o:["20","25","30","35"], a:1},
-  {q:"100 ÷ 4", o:["20","25","30","40"], a:1},
-  {q:"7×6 − 2", o:["40","42","44","46"], a:2},
-  {q:"3x = 33", o:["9","10","11","12"], a:2},
-  {q:"(4+6)²", o:["100","20","40","10"], a:0},
-  {q:"81 ÷ 9", o:["7","8","9","10"], a:2},
-
-  {q:"5² + 5", o:["25","30","35","40"], a:1},
-  {q:"x − 9 = 6", o:["13","14","15","16"], a:2},
-  {q:"14×3", o:["36","40","42","48"], a:2},
-  {q:"64 ÷ 8", o:["6","7","8","9"], a:2},
-  {q:"2x + 4 = 14", o:["3","4","5","6"], a:1},
-  {q:"9×5 − 10", o:["30","35","40","45"], a:1},
-  {q:"x/2 = 9", o:["16","17","18","19"], a:2},
-  {q:"11²", o:["111","121","131","141"], a:1},
-  {q:"18 + 12 ÷ 3", o:["10","14","22","24"], a:2},
-  {q:"4³", o:["16","32","48","64"], a:1},
-
-  // نكمل تلقائيًا إلى 100
-];
-
-while (allQuestions.length < 100) {
-  allQuestions.push({
-    q: `سؤال حسابي ${allQuestions.length + 1}: 10 + ${allQuestions.length}`,
-    o: [
-      `${10 + allQuestions.length - 1}`,
-      `${10 + allQuestions.length}`,
-      `${10 + allQuestions.length + 1}`,
-      `${10 + allQuestions.length + 2}`
-    ],
-    a: 1
-  });
-}
+/* افترض إن كود allQuestions موجود فوق
+   وناتج quizQuestions جاهز */
 
 // ===============================
-// اختيار 10 أسئلة عشوائيًا
+// عناصر الصفحة
 // ===============================
-function shuffle(arr){
-  return arr.sort(()=>Math.random()-0.5);
-}
+const qNumEl = document.getElementById("q-number");
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+const timerEl = document.getElementById("timer");
+const resultEl = document.getElementById("result");
+const backBtn = document.getElementById("backBtn");
 
-const quizQuestions = shuffle([...allQuestions]).slice(0,10);
-
-// المتغيرات اللي يستخدمها HTML
+// ===============================
 let index = 0;
 let score = 0;
+let timer;
+let timeLeft = 10;
+let userAnswers = []; // حفظ إجابات المستخدم
 
-// تقدر تستخدم quizQuestions مباشرة في لعبتك
-// كل عنصر شكله:
-// { q: "السؤال", o: ["خيار1","خيار2","خيار3","خيار4"], a: رقم_الصح }
+// ===============================
+// عرض سؤال
+// ===============================
+function showQuestion(){
+  clearInterval(timer);
+  optionsEl.innerHTML = "";
+  timeLeft = 10;
+  timerEl.textContent = timeLeft;
+
+  if(index >= quizQuestions.length){
+    endGame();
+    return;
+  }
+
+  qNumEl.textContent = `السؤال ${index + 1} / 10`;
+  questionEl.textContent = quizQuestions[index].q;
+
+  quizQuestions[index].o.forEach((text, i)=>{
+    const btn = document.createElement("button");
+    btn.className = "option";
+    btn.textContent = text;
+    btn.onclick = ()=> selectAnswer(i, btn);
+    optionsEl.appendChild(btn);
+  });
+
+  startTimer();
+}
+
+// ===============================
+// المؤقت (10 ثواني تنازلي)
+// ===============================
+function startTimer(){
+  timer = setInterval(()=>{
+    timeLeft--;
+    timerEl.textContent = timeLeft;
+
+    if(timeLeft <= 0){
+      clearInterval(timer);
+      userAnswers.push(null); // لم يُجب
+      index++;
+      showQuestion();
+    }
+  },1000);
+}
+
+// ===============================
+// اختيار إجابة
+// ===============================
+function selectAnswer(choice, btn){
+  clearInterval(timer);
+  userAnswers.push(choice);
+
+  if(choice === quizQuestions[index].a){
+    score++;
+  }
+
+  index++;
+  showQuestion();
+}
+
+// ===============================
+// نهاية اللعبة
+// ===============================
+function endGame(){
+  questionEl.textContent = "انتهت الأسئلة";
+  optionsEl.innerHTML = "";
+  timerEl.textContent = "";
+  qNumEl.textContent = "";
+
+  resultEl.innerHTML = `درجتك: ${score} / 10`;
+  localStorage.setItem("lastMathScore", score);
+
+  backBtn.style.display = "block";
+}
+
+// ===============================
+// زر العودة
+// ===============================
+backBtn.onclick = ()=>{
+  window.location.href = "../../index.html"; 
+};
+
+// ===============================
+showQuestion();

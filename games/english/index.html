@@ -1,257 +1,40 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>اختبار الإنجليزي</title>
-
-<style>
-body{
-  margin:0;
-  min-height:100vh;
-  background:linear-gradient(135deg,#0b1220,#020617);
-  font-family:Arial;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  color:#fff;
-}
-
-.card{
-  background:#0f172a;
-  width:90%;
-  max-width:600px;
-  padding:30px;
-  border-radius:20px;
-  text-align:center;
-}
-
-h1{margin-bottom:5px}
-.counter{opacity:.8;margin-bottom:10px}
-.timer{color:#f87171;margin-bottom:15px}
-
-.question{
-  font-size:22px;
-  margin-bottom:20px;
-}
-
-.options{
-  display:grid;
-  gap:12px;
-}
-
-.options button{
-  padding:14px;
-  font-size:16px;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-  background:#1e293b;
-  color:#fff;
-}
-
-.options button:hover{background:#334155}
-.correct{background:#16a34a !important}
-.wrong{background:#dc2626 !important}
-
-.hidden{display:none}
-
-.results{
-  margin-top:20px;
-  text-align:right;
-}
-
-.result-card{
-  background:#020617;
-  padding:10px;
-  border-radius:10px;
-  margin-bottom:8px;
-  font-size:14px;
-}
-
-.footer-btns{
-  margin-top:20px;
-  display:flex;
-  gap:10px;
-  justify-content:center;
-}
-
-.footer-btns a{
-  text-decoration:none;
-  background:#2563eb;
-  color:#fff;
-  padding:10px 16px;
-  border-radius:10px;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار اللغة الإنجليزية - تحدي المفردات</title>
+    <link rel="stylesheet" href="style.css"> 
 </head>
-
 <body>
 
-<div class="card">
-  <h1>اختبار الإنجليزي</h1>
-  <div class="counter" id="counter"></div>
-  <div class="timer" id="timer"></div>
+    <div id="quiz-container">
+        
+        <div id="question-page" class="page active">
+            <div id="question-card" class="card">
+                <div id="timer" class="timer">10</div> 
+                <h2 id="question-text">نص السؤال سيظهر هنا...</h2>
+            </div>
 
-  <div class="question" id="question"></div>
-  <div class="options" id="options"></div>
+            <div id="options-grid"></div>
 
-  <div id="end" class="hidden">
-    <h2>انتهت الأسئلة ✅</h2>
-    <p id="score"></p>
-    <div class="results" id="results"></div>
+            <div class="navigation-controls">
+                <button id="next-button">السؤال التالي →</button> 
+            </div>
+        </div>
 
-    <div class="footer-btns">
-      <a href="../../index.html">العودة للرئيسية</a>
+        <div id="results-page" class="page">
+            <h2>🎉 انتهت اللعبة! نتائجك:</h2>
+            <p>الأسئلة الصحيحة: <span id="correct-count">0</span></p>
+            <p>الأسئلة الخاطئة: <span id="wrong-count">0</span></p>
+            <p>أسئلة لم يتم الإجابة عليها: <span id="skipped-count">0</span></p>
+            
+            <div id="results-details"></div>
+            <button onclick="window.location.href = '../../index.html'">العودة للرئيسية</button>
+        </div>
+
     </div>
-  </div>
-</div>
 
-<script>
-// =====================
-// 50 سؤال إنجليزي
-// =====================
-const allQuestions = [
-{q:"ما معنى (achieve)؟",o:["يحقق","يفشل","يهرب","ينسى"],a:0},
-{q:"ما معنى (patient)؟",o:["كسول","صبور","غاضب","سريع"],a:1},
-{q:"كيف أقول (ماذا)؟",o:["What","Why","When","Which"],a:0},
-{q:"ما معنى (improve)؟",o:["يتحسن","يتأخر","يتوقف","ينسى"],a:0},
-{q:"I am tired",o:["أنا سعيد","أنا متعب","أنا غاضب","أنا جائع"],a:1},
-{q:"ما معنى (decision)؟",o:["قرار","مشكلة","فرصة","نتيجة"],a:0},
-{q:"كيف أقول (لماذا)؟",o:["Where","Why","What","Who"],a:1},
-{q:"ما معنى (environment)؟",o:["اقتصاد","بيئة","طقس","طبيعة"],a:1},
-{q:"She is intelligent",o:["هي جميلة","هي ذكية","هي سريعة","هي قوية"],a:1},
-{q:"ما معنى (responsibility)؟",o:["حرية","مسؤولية","قوة","شجاعة"],a:1},
-
-{q:"كيف أقول (أين)؟",o:["When","Who","Where","Why"],a:2},
-{q:"ما معنى (opportunity)؟",o:["خطر","فرصة","تحدي","مشكلة"],a:1},
-{q:"I ___ football",o:["plays","play","playing","played"],a:1},
-{q:"ما معنى (challenge)؟",o:["راحة","سهولة","تحدي","فشل"],a:2},
-{q:"He was late",o:["مبكر","متأخر","نائم","سعيد"],a:1},
-{q:"ما معنى (knowledge)؟",o:["ذكاء","تعليم","معرفة","فهم"],a:2},
-{q:"كيف أقول (متى)؟",o:["Why","When","Where","What"],a:1},
-{q:"ما معنى (successful)؟",o:["فاشل","ناجح","كسول","ضعيف"],a:1},
-{q:"She ___ happy",o:["are","is","were","be"],a:1},
-{q:"ما معنى (future)؟",o:["ماضي","حاضر","مستقبل","وقت"],a:2},
-
-{q:"ما معنى (experience)؟",o:["خبرة","تعليم","مهارة","وظيفة"],a:0},
-{q:"They are ready",o:["نائمون","مستعدون","غاضبون","متأخرون"],a:1},
-{q:"ما معنى (confidence)؟",o:["خوف","ثقة","ضعف","تردد"],a:1},
-{q:"We ___ studying",o:["is","are","was","be"],a:1},
-{q:"ما معنى (effort)؟",o:["راحة","جهد","سرعة","تعب"],a:1},
-{q:"كيف أقول (أيّ)؟",o:["What","Why","Which","Who"],a:2},
-{q:"ما معنى (impossible)؟",o:["سهل","ممكن","مستحيل","قريب"],a:2},
-{q:"I forgot my phone",o:["نسيت هاتفي","وجدت هاتفي","كسرت هاتفي","بعت هاتفي"],a:0},
-{q:"ما معنى (solution)؟",o:["مشكلة","حل","خطة","سؤال"],a:1},
-{q:"He ___ the answer",o:["know","knows","knowing","knewed"],a:1},
-
-{q:"ما معنى (honest)؟",o:["كاذب","صادق","ذكي","كسول"],a:1},
-{q:"كيف أقول (كم)؟",o:["How","How many","Why","When"],a:1},
-{q:"ما معنى (goal)؟",o:["لعبة","هدف","خطة","فكرة"],a:1},
-{q:"This is important",o:["سهل","مهم","صعب","خطير"],a:1},
-{q:"ما معنى (patient)؟",o:["صبور","غاضب","كسول","سريع"],a:0},
-{q:"She ___ finished",o:["have","has","is","was"],a:1},
-{q:"ما معنى (immediately)؟",o:["فورًا","غدًا","ببطء","لاحقًا"],a:0},
-{q:"I agree with you",o:["أوافقك","أختلف معك","أتجاهلك","أفهمك"],a:0},
-{q:"ما معنى (prepare)؟",o:["يهرب","يجهز","ينسى","ينام"],a:1},
-{q:"They ___ playing",o:["is","are","was","be"],a:1}
-];
-
-// =====================
-let questions = [];
-let index = 0;
-let score = 0;
-let timer = 10;
-let interval;
-
-// عناصر
-const qEl = document.getElementById("question");
-const optEl = document.getElementById("options");
-const counterEl = document.getElementById("counter");
-const timerEl = document.getElementById("timer");
-const endEl = document.getElementById("end");
-const scoreEl = document.getElementById("score");
-const resultsEl = document.getElementById("results");
-
-function shuffle(a){return a.sort(()=>Math.random()-0.5)}
-
-function start(){
-  questions = shuffle([...allQuestions]).slice(0,10);
-  show();
-}
-
-function show(){
-  clearInterval(interval);
-  timer = 10;
-  timerEl.textContent = "⏱ " + timer + " ثواني";
-  counterEl.textContent = `السؤال ${index+1} من 10`;
-
-  if(index >= questions.length){
-    finish();
-    return;
-  }
-
-  const q = questions[index];
-  qEl.textContent = q.q;
-  optEl.innerHTML = "";
-
-  shuffle(q.o.map((t,i)=>({t,i}))).forEach(opt=>{
-    const b = document.createElement("button");
-    b.textContent = opt.t;
-    b.onclick = ()=>answer(b,opt.i,q.a);
-    optEl.appendChild(b);
-  });
-
-  interval = setInterval(()=>{
-    timer--;
-    timerEl.textContent = "⏱ " + timer + " ثواني";
-    if(timer===0){
-      index++;
-      show();
-    }
-  },1000);
-}
-
-function answer(btn,sel,cor){
-  clearInterval(interval);
-  const btns = optEl.querySelectorAll("button");
-  btns.forEach(b=>b.disabled=true);
-
-  if(sel===cor){
-    btn.classList.add("correct");
-    score++;
-  }else{
-    btn.classList.add("wrong");
-    btns[cor].classList.add("correct");
-  }
-
-  setTimeout(()=>{
-    index++;
-    show();
-  },1500);
-}
-
-function finish(){
-  qEl.textContent="";
-  optEl.innerHTML="";
-  timerEl.textContent="";
-  counterEl.textContent="";
-  endEl.classList.remove("hidden");
-
-  scoreEl.textContent = `درجتك: ${score} من 10`;
-  localStorage.setItem("lastScore",score);
-
-  resultsEl.innerHTML="";
-  questions.forEach((q,i)=>{
-    resultsEl.innerHTML += `
-      <div class="result-card">
-        ${i+1}) ${q.q}<br>
-        ✔ ${q.o[q.a]}
-      </div>`;
-  });
-}
-
-start();
-</script>
-
+    <script src="script.js"></script>
 </body>
 </html>

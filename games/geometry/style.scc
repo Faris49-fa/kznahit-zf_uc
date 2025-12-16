@@ -1,0 +1,94 @@
+/* 1. التنسيق العام والخلفية */
+body {
+    direction: rtl;
+    font-family: 'Arial', sans-serif;
+    background-color: #121212; /* خلفية داكنة */
+    color: white;
+    margin: 0;
+    padding: 20px 10px;
+    display: flex;
+    justify-content: center;
+}
+#main-container { width: 100%; max-width: 650px; }
+#welcome-header { text-align: center; padding: 20px 0 40px; }
+#welcome-header h1 { font-size: 2.2em; margin-bottom: 5px; }
+
+/* 2. تنسيق الأعمدة والألعاب */
+#games-section { display: flex; flex-direction: column; gap: 20px; }
+.column-card {
+    background-color: #242424;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #555;
+}
+.card-header h2 { margin: 0; border-bottom: none; }
+.menu-icon {
+    font-size: 1.8em;
+    cursor: pointer;
+    color: #ccc;
+    padding: 5px;
+    transition: color 0.2s;
+}
+.game-link {
+    display: block;
+    text-decoration: none;
+    color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+.game-link:hover { transform: translateY(-3px); opacity: 0.9; }
+.red-bg { background-color: #e74c3c; } /* أحمر للأسئلة */
+.blue-bg { background-color: #3498db; } /* أزرق للتحديات */
+
+/* 3. القائمة الجانبية (Sidebar) */
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    background-color: #1a1a1a;
+    color: white;
+}
+#questions-sidebar { right: 0; border-right: 3px solid #e74c3c; }
+#challenges-sidebar.left { left: 0; border-left: 3px solid #3498db; }
+.closebtn {
+    position: absolute;
+    top: 0;
+    font-size: 36px;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+}
+#questions-sidebar .closebtn { left: 15px; }
+#challenges-sidebar .closebtn { right: 15px; }
+
+/* 4. الاستجابة (Responsive) */
+@media (min-width: 600px) {
+    #games-section { flex-direction: row; }
+    .column-card { flex: 1; }
+}
+/* 5. التذييل (Footer) */
+#footer-note {
+    text-align: center;
+    font-size: 0.85em;
+    color: #888;
+    margin-top: 30px;
+    padding: 10px 0;
+    border-top: 1px solid #333;
+}

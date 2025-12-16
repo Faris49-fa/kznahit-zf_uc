@@ -1,8 +1,8 @@
-/* تنسيقات CSS العامة */
+/* 1. التنسيقات العامة والتحضير للسلاسة */
 body {
     direction: rtl;
     font-family: 'Arial', sans-serif;
-    background-color: #1a1a1a; /* خلفية داكنة */
+    background-color: #1a1a1a; 
     color: #ecf0f1;
     margin: 0;
     padding: 20px;
@@ -13,14 +13,14 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    /* إضافة هذه الخاصية فقط لتضمين التحسين الذي اقترحناه */
-    transition: opacity 0.8s ease-in; 
+    opacity: 0; /* يبدأ مخفياً ليظهر بسلاسة بالجافاسكريبت */
+    transition: opacity 0.8s ease-in; /* إضافة حركة انتقالية ناعمة */
 }
 
+/* 2. رأس الصفحة */
 #welcome-header {
     margin-bottom: 40px;
 }
-
 #welcome-header h1 {
     color: #f39c12; 
     font-size: 2.5em;
@@ -28,14 +28,13 @@ body {
     padding-bottom: 10px;
     display: inline-block;
 }
-
 #welcome-header p {
     font-size: 1.2em;
     margin-top: 15px;
     color: #bdc3c7;
 }
 
-/* قسم الألعاب - الأعمدة */
+/* 3. قسم الألعاب - الهيكل */
 #games-section {
     display: flex;
     justify-content: center;
@@ -44,6 +43,7 @@ body {
     margin-bottom: 40px;
 }
 
+/* 4. تصميم البطاقة */
 .column-card {
     flex: 1;
     min-width: 300px;
@@ -61,10 +61,10 @@ body {
     border-bottom: 2px solid #34495e;
 }
 
-.questions-column h2 { color: #e74c3c; } 
-.challenges-column h2 { color: #3498db; } 
+.questions-column h2 { color: #e74c3c; }
+.challenges-column h2 { color: #3498db; }
 
-/* تنسيق الروابط/الألعاب */
+/* 5. تصميم روابط الألعاب داخل البطاقة */
 .game-link {
     display: block;
     padding: 15px;
@@ -74,41 +74,34 @@ body {
     font-size: 1.1em;
     font-weight: bold;
     color: white;
-    transition: transform 0.2s ease;
+    /* transition لجعل التفاعل سلسًا */
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.3s ease;
 }
 
 .game-link:hover {
     transform: translateX(-5px);
 }
 
-.red-bg {
-    background-color: #e74c3c; 
-}
-.red-bg:hover {
-    background-color: #c0392b;
-}
+.red-bg { background-color: #e74c3c; }
+.red-bg:hover { background-color: #c0392b; }
 
-.blue-bg {
-    background-color: #3498db; 
-}
-.blue-bg:hover {
-    background-color: #2980b9;
-}
+.blue-bg { background-color: #3498db; }
+.blue-bg:hover { background-color: #2980b9; }
 
-/* قسم الفوتر */
+/* 6. قسم الفوتر */
 #footer-note {
     margin-top: 30px;
     color: #7f8c8d;
     font-size: 0.9em;
 }
 
-/* استجابة للجوال */
+/* 7. استجابة الجوال (Media Query) - لضمان الترتيب العمودي */
 @media (max-width: 768px) {
     #games-section {
-        flex-direction: column;
+        flex-direction: column; /* جعل الأعمدة تترتب فوق بعضها */
         gap: 20px;
     }
     .column-card {
-        max-width: 100%;
+        max-width: 100%; /* البطاقة تأخذ العرض الكامل على الجوال */
     }
 }

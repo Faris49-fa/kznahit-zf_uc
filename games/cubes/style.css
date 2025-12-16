@@ -3,10 +3,10 @@
 /* ================================================= */
 
 #game-container {
-    max-width: 400px; /* حجم مناسب للشبكة 3x3 */
+    max-width: 400px; 
     margin: 30px auto;
     padding: 25px;
-    background-color: #2c3e50; /* خلفية داكنة */
+    background-color: #2c3e50; 
     border-radius: 20px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
     text-align: center;
@@ -15,7 +15,7 @@
 }
 
 h1 {
-    color: #a8dadc; /* لون أزرق فاتح */
+    color: #a8dadc; 
     margin-bottom: 15px;
 }
 
@@ -33,30 +33,30 @@ h1 {
 }
 
 #moves-display {
-    color: #e67e22; /* لون عنبري للتحركات */
+    color: #e67e22; 
 }
 
 #time-display {
-    color: #a8dadc; /* لون أزرق فاتح للوقت */
+    color: #a8dadc; 
 }
 
 /* 3. لوحة الألغاز (الشبكة) */
 #puzzle-board {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* شبكة 3x3 */
+    grid-template-columns: repeat(3, 1fr); 
     gap: 8px;
     padding: 10px;
     background-color: #1a252f;
     border-radius: 15px;
-    width: 300px; /* حجم ثابت للوحة */
+    width: 300px; 
     height: 300px;
     margin: 0 auto;
 }
 
 .puzzle-tile {
-    width: 90px; /* حجم المكعبات */
+    width: 90px; 
     height: 90px;
-    background-color: #f1c40f; /* لون ذهبي للمكعبات */
+    background-color: #f1c40f; 
     border-radius: 8px;
     display: flex;
     justify-content: center;
@@ -67,7 +67,7 @@ h1 {
     cursor: pointer;
     transition: all 0.2s;
     user-select: none;
-    box-shadow: 0 4px 0 #d4af37; /* ظل لإعطاء مظهر 3D */
+    box-shadow: 0 4px 0 #d4af37; 
 }
 
 .puzzle-tile:hover {
@@ -76,7 +76,7 @@ h1 {
 }
 
 .puzzle-tile.empty {
-    background-color: transparent; /* المربع الفارغ شفاف */
+    background-color: transparent; 
     box-shadow: none;
     cursor: default;
 }

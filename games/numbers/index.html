@@ -3,45 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عنبري الترتيب السريع</title>
+    <title>لعبة الأرقام: الترتيب السريع</title>
     <link rel="stylesheet" href="../../style.css"> 
-    <link rel="stylesheet" href="game.css"> 
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
+    <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
 
     <div id="game-container">
-        <h1>عنبري الترتيب السريع</h1>
+        <h1>لعبة الأرقام: الترتيب السريع 🚀</h1>
         
         <div id="status-bar">
             <span id="score-display">النقاط: 0</span>
-            <span id="time-display">الوقت المتبقي: 15.00 ثانية</span>
+            <span id="target-display">ابحث عن: 1</span>
+            <span id="time-display">الوقت: 0.00 ثوانٍ</span>
         </div>
-        
-        <div id="question-card">
-            <div id="target-order-text"></div>
-        </div>
-
-        <div id="numbers-list" class="sortable-list">
-            </div>
 
         <div id="start-screen" class="active screen-panel">
-            <h2>اضغط لتبدأ الترتيب!</h2>
-            <p>**القاعدة:** لديك 15 ثانية لترتيب الأرقام الستة إما من الأكبر للأصغر أو العكس، حسب المطلوب في البطاقة العلوية.</p>
-            <p>استخدم السحب والإفلات (اسحب وافلت) لتبديل أماكن البطاقات.</p>
-            <button id="start-button">انطلق الآن</button>
+            <h2>اختر مستوى التحدي 🎯</h2>
+            <p>**القاعدة:** ستظهر 5 أرقام. انقر على الأرقام **بالترتيب التصاعدي** (من الأصغر للأكبر) قبل نفاد الوقت.</p>
+            
+            <div class="level-buttons action-buttons">
+                <button class="reload-btn" onclick="startGame('easy')">
+                    سهل (15 ثانية)
+                </button>
+                <button class="home-btn" onclick="startGame('hard')">
+                    صعب (12 ثانية)
+                </button>
+            </div>
         </div>
 
+        <div id="number-grid">
+            </div>
+
         <div id="results-screen" class="hidden screen-panel">
-            <h2>خلص التمر!</h2>
-            <p id="final-score">نقاطك النهائية: 0</p>
-            <p id="high-score-message"></p>
-            <button onclick="location.reload()">إتبي قدوع ثاني؟</button>
-            <a href="../../index.html" class="back-link">العودة للرئيسية</a>
+            <h2 id="results-title"></h2>
+            <p id="results-message"></p>
+            
+            <div class="action-buttons">
+                <button class="reload-btn" onclick="resetGame()">إعادة اللعب</button>
+                <button class="home-btn" onclick="backToHome()">العودة للرئيسية</button>
+            </div>
         </div>
     </div>
     
-    <script src="../../index.js"></script> 
     <script src="script.js"></script>
 </body>
 </html>

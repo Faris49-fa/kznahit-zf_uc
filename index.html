@@ -1,74 +1,49 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إهلا والله منور.. القهوة يامره</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إهلا والله منور.. القهوة يامره</title>
+    <link rel="stylesheet" href="style.css">
+    </head>
 <body>
 
-    <div id="main-container">
+    <div id="main-container">
 
-        <header id="welcome-header">
-            <h1>إهلا والله منور.. القهوة يامره</h1>
-            <p>انزل تحت حل وخذ لك تمره ياملا الغنيمه 🔥</p>
+        <header id="welcome-header">
+            <h1>إهلا والله منور.. القهوة يامره</h1>
+            <p>انزل تحت حل وخذ لك تمره ياملا الغنيمه 🔥</p>
+        </header>
 
-            <button class="menu-button" onclick="toggleScoresModal()">☰ سجلات التمر الذهبي</button>
-        </header>
+        <main id="games-section">
+            
+            <div class="column-card questions-column">
+                <h2>أسئلة</h2>
+                <a href="games/english/index.html" class="game-link red-bg">سكري انجليزي</a>
+                <a href="games/math/index.html" class="game-link red-bg">عجوة الرياضيات</a>
+                <a href="games/logic/index.html" class="game-link red-bg">لبانة عامة</a>
+                <a href="games/geometry/index.html" class="game-link red-bg">رشودية هندسية</a>
+                <a href="games/football/index.html" class="game-link red-bg">خضري كروي</a>
+                <a href="games/saudi/index.html" class="game-link red-bg">حلوة السعودية</a>
+            </div>
 
-        <main id="games-section">
-            
-            <div class="column-card questions-column">
-                <h2>أسئلة</h2>
-                <a href="games/english/index.html" class="game-link red-bg">سكري انجليزي</a>
-                <a href="games/math/index.html" class="game-link red-bg">عجوة الرياضيات</a>
-                <a href="games/logic/index.html" class="game-link red-bg">لبانة عامة</a>
-                <a href="games/geometry/index.html" class="game-link red-bg">رشودية هندسية</a>
-                <a href="games/football/index.html" class="game-link red-bg">خضري كروي</a>
-                <a href="games/saudi/index.html" class="game-link red-bg">حلوة السعودية</a>
-            </div>
+            <div class="column-card challenges-column">
+                <h2>تحديات</h2>
+                <a href="games/letters/index.html" class="game-link blue-bg">خلاص الحروف</a>
+                <a href="games/click/index.html" class="game-link blue-bg">برحي الصد</a>
+                <a href="games/cubes/index.html" class="game-link blue-bg">مجدول المكعبات</a>
+                <a href="games/memory/index.html" class="game-link blue-bg">صفاوي الذاكرة</a>
+                <a href="games/numbers/index.html" class="game-link blue-bg">عنبري الأرقام</a>
+                <a href="games/duck/index.html" class="game-link blue-bg">صقعي البط</a>
+            </div>
 
-            <div class="column-card challenges-column">
-                <h2>تحديات</h2>
-                <a href="games/letters/index.html" class="game-link blue-bg">خلاص الحروف</a>
-                <a href="games/click/index.html" class="game-link blue-bg">برحي الصد</a>
-                <a href="games/cubes/index.html" class="game-link blue-bg">مجدول المكعبات</a>
-                <a href="games/memory/index.html" class="game-link blue-bg">صفاوي الذاكرة</a>
-                <a href="games/numbers/index.html" class="game-link blue-bg">عنبري الأرقام</a>
-                <a href="games/duck/index.html" class="game-link blue-bg">صقعي البط</a>
-            </div>
+        </main>
 
-        </main>
+        <footer id="footer-note">
+            تم تطوير وبرمجة هذا الموقع من قبل فارس سيف& فارس عبدالله
+        </footer>
 
-        <footer id="footer-note">
-            تم تطوير وبرمجة هذا الموقع من قبل فارس سيف& فارس عبدالله
-        </footer>
-    </div>
-    
-    <div id="scores-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="toggleScoresModal()">&times;</span>
-            <h2>🏆 سجلات التمر الذهبي 🏆</h2>
+    </div>
 
-            <div class="scores-content">
-                <div class="scores-list-container">
-                    <h3 class="column-title red-color">📈 أعلى الدرجات (الأسئلة)</h3>
-                    <ul id="questions-scores-list" class="score-list">
-                        </ul>
-                </div>
-                
-                <div class="scores-list-container">
-                    <h3 class="column-title blue-color">⏱️ أفضل الأوقات (التحديات)</h3>
-                    <ul id="challenges-scores-list" class="score-list">
-                        </ul>
-                </div>
-            </div>
-
-            <button id="reset-button" class="reset-button" onclick="resetAllScores()">🔄 إعادة تعيين جميع الدرجات</button>
-        </div>
-    </div>
-
-    <script src="index.js"></script>
 </body>
 </html>

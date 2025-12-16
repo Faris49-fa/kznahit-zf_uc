@@ -1,0 +1,127 @@
+/* ================================================= */
+/* 1. التنسيقات العامة والأساسية */
+/* ================================================= */
+
+#game-container {
+    max-width: 550px; 
+    margin: 30px auto;
+    padding: 25px;
+    background-color: #2c3e50; /* خلفية داكنة */
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+    text-align: center;
+    color: #ecf0f1;
+    position: relative; 
+}
+
+h1 {
+    color: #f1c40f; 
+    margin-bottom: 20px;
+    font-size: 2.5em;
+    font-weight: 700;
+}
+
+/* 2. شريط الحالة */
+#status-bar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1.2em;
+    padding: 12px 10px;
+    margin-bottom: 25px;
+    background-color: #34495e; 
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+#round-display {
+    color: #3498db; /* أزرق للجولات */
+}
+
+#time-display {
+    color: #2ecc71; /* أخضر للوقت */
+}
+
+/* 3. شاشة الرسائل */
+#message-display {
+    min-height: 40px;
+    margin-bottom: 20px;
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #e67e22; /* عنبري للرسائل */
+}
+
+/* 4. لوحة الأزرار المضيئة */
+#light-board {
+    display: flex;
+    justify-content: space-around;
+    gap: 15px;
+    padding: 15px;
+    background-color: #1a252f;
+    border-radius: 15px;
+}
+
+.light-button {
+    width: 100px;
+    height: 100px;
+    border: 5px solid #34495e;
+    border-radius: 15px;
+    background-color: #6c7a89; /* لون رمادي داكن (إطفاء) */
+    cursor: pointer;
+    transition: background-color 0.15s, box-shadow 0.15s;
+    user-select: none;
+    pointer-events: none; /* يتم تفعيله بالجافاسكريبت عند دور اللاعب */
+}
+
+/* تأثير الإضاءة (يتم إضافته وإزالته بالجافاسكريبت) */
+.light-button.active {
+    background-color: #f1c40f; /* لون ذهبي لامع (إضاءة) */
+    box-shadow: 0 0 25px #f1c40f, 0 0 10px #f1c40f inset;
+    transform: scale(1.05);
+}
+
+/* 5. شاشات البدء والنتائج */
+.screen-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(44, 62, 80, 0.95); 
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    z-index: 100;
+}
+
+.screen-panel.hidden { display: none !important; }
+.screen-panel.active { display: flex !important; }
+
+.action-buttons button {
+    padding: 12px 30px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 10px; 
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.level-buttons button:first-child {
+    background-color: #2ecc71; /* سهل - أخضر */
+    color: white;
+}
+
+.level-buttons button:last-child {
+    background-color: #e74c3c; /* صعب - أحمر */
+    color: white;
+}
+
+#results-title {
+    color: #f1c40f;
+    font-size: 2.5em;
+}

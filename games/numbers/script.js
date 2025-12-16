@@ -7,7 +7,7 @@ const resultEl = document.getElementById("result");
 
 let numbers = [];
 let order = "asc";
-let time = 15;
+let time = 20;
 let timer;
 let selected = [];
 

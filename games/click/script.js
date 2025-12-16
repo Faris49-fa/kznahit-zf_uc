@@ -10,7 +10,7 @@ const hitSound = document.getElementById("hitSound");
 let balls = [];
 let lives = 3;
 let time = 0;
-let speed = 3;
+let speed = 6;
 let gameRunning = true;
 
 // تحريك المضرب
@@ -31,7 +31,7 @@ game.addEventListener("touchmove", e=>{
 
 // إنشاء كرة
 function createBall(){
-  if(balls.length >= 2) return;
+  if(balls.length >= 3) return;
 
   const ball = document.createElement("div");
   ball.className = "ball";

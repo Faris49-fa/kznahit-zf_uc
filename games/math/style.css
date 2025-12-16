@@ -66,7 +66,7 @@ body {
 }
 .option-button {
     background-color: #34495e; /* لون خلفية داكن للخيارات */
-    color: white; /* لون النص أبيض */
+    color: white; /* <--- تم تغيير لون النص إلى الأبيض */
     border: 1px solid #4a637d;
     padding: 15px 10px;
     border-radius: 8px;
@@ -85,6 +85,7 @@ body {
 .option-button:disabled { cursor: default; }
 
 /* 4. حالات الإجابة النهائية (تنسيق قوي داخل البطاقة البيضاء) */
+/* نستخدم !important لضمان التغلب على التنسيقات الأخرى عند الاختيار */
 .correct { background-color: #2ecc71 !important; color: white !important; } 
 .wrong { background-color: #e74c3c !important; color: white !important; } 
 .skipped { background-color: #bdc3c7 !important; color: #555 !important; opacity: 0.8; } 

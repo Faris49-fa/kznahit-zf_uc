@@ -17,7 +17,7 @@ function saveHighscore(scoreKey, newScore) {
 // ==========================================
 const SCORE_KEY = "number_sort_score";
 const NUMBERS_COUNT = 6;
-const GAME_DURATION = 10000; // 10 ثوانٍ
+const GAME_DURATION = 15000; // 15 ثوانٍ
 
 const numbersList = document.getElementById('numbers-list');
 const scoreDisplay = document.getElementById('score-display');

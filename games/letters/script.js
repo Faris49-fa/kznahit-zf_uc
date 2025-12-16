@@ -109,7 +109,31 @@ function checkWord(){
     localStorage.setItem("lettersScore","فوز");
     return;
   }
+// ==========================================
+// دالة تشغيل تأثير الألعاب النارية عند الفوز
+// ==========================================
+function triggerConfetti() {
+    const COUNT = 50; // عدد الجزيئات
+    const colors = ['#f1c40f', '#e67e22', '#3498db', '#4CAF50']; // ألوان التمر والنجاح
 
+    for (let i = 0; i < COUNT; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+
+        // موقع البدء عشوائي أفقيًا
+        confetti.style.left = `${Math.random() * 100}vw`; 
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        
+        // تغيير سرعة ومدة التأثير قليلاً لكل جزء (لمظهر طبيعي)
+        confetti.style.animationDuration = `${Math.random() * 2 + 2}s`; // بين 2 و 4 ثواني
+        confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+
+        document.body.appendChild(confetti);
+        
+        // إزالة الجزيء بعد انتهاء الأنميشن لتنظيف الذاكرة
+        setTimeout(() => confetti.remove(), 4000); 
+    }
+}
   currentRow++;
   currentCol=0;
 

@@ -52,7 +52,6 @@ const fullQuestionPool = [
     { "id": 48, "question": "إذا كان لدينا مستقيمين متوازيين وقاطعهما، فإن الزاويتين المتبادلتين داخلياً تكونان؟", "options": ["متساويتين", "متكاملتين", "متتامتان", "مختلفتين"], "answer": "متساويتين" },
     { "id": 49, "question": "ما هو المضلع الذي له أقل عدد من الأضلاع؟", "options": ["مربع", "مثلث", "خماسي", "دائرة"], "answer": "مثلث" },
     { "id": 50, "question": "ما هي الزاوية المتممة لزاوية قياسها 40 درجة (المجموع 90 درجة)؟", "options": ["40", "50", "90", "140"], "answer": "50" },
-    // 20 سؤالاً جديداً ليصل المجموع إلى 70
     { "id": 51, "question": "ما هو اسم الشكل الذي له 12 وجه متطابق؟", "options": ["متعدد السطوح الاثني عشري", "متعدد السطوح العشري", "المجسم الثماني", "المكعب"], "answer": "متعدد السطوح الاثني عشري" },
     { "id": 52, "question": "إذا كان المثلث متساوي الساقين، فهل زوايا القاعدة متساوية؟", "options": ["نعم", "لا", "في المثلث القائم فقط", "لا يمكن التحديد"], "answer": "نعم" },
     { "id": 53, "question": "ما هي الزاوية المحيطية؟", "options": ["زاوية رأسها على محيط الدائرة", "زاوية رأسها على مركز الدائرة", "زاوية رأسها خارج الدائرة", "زاوية رأسها داخل الدائرة"], "answer": "زاوية رأسها على محيط الدائرة" },
@@ -90,7 +89,8 @@ let timerInterval;
 const TIME_LIMIT = 10; 
 let userAnswers = [];
 let timeRemaining = TIME_LIMIT;
-let quizQuestions = []; // مصفوفة جديدة لحفظ الـ 10 أسئلة المختارة
+let quizQuestions = []; // مصفوفة لحفظ الـ 10 أسئلة المختارة
+
 
 // ==========================================
 // 2. دوال الخلط والاختيار
@@ -98,8 +98,6 @@ let quizQuestions = []; // مصفوفة جديدة لحفظ الـ 10 أسئلة
 
 /**
  * دالة خلط مصفوفة (Fisher-Yates Shuffle)
- * @param {Array} array المصفوفة المراد خلطها
- * @returns {Array} مصفوفة مخلطة
  */
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -111,14 +109,11 @@ function shuffleArray(array) {
 
 /**
  * دالة لخلط جميع الأسئلة واختيار 10 منها فقط.
- * @param {Array} pool - مجمع الأسئلة الكامل (70 سؤال).
- * @param {number} count - عدد الأسئلة المراد اختيارها (10).
- * @returns {Array} - مصفوفة تحتوي على 10 أسئلة مخلطة.
  */
 function getShuffledQuizQuestions(pool, count) {
-    // 1. خلط مجمع الأسئلة الكامل
+    // نستخدم نسخة مكررة من المصفوفة الأصلية لخلطها
     const shuffledPool = shuffleArray([...pool]); 
-    // 2. أخذ أول 10 أسئلة فقط
+    // نأخذ عدد الأسئلة المطلوبة (10)
     return shuffledPool.slice(0, count);
 }
 
@@ -132,7 +127,7 @@ function displayQuestion() {
     timeRemaining = TIME_LIMIT;
     timerDisplay.textContent = TIME_LIMIT;
 
-    // الشرط الآن يعتمد على quizQuestions
+    // الشرط: هل انتهت الـ 10 أسئلة المخصصة لهذا الاختبار؟
     if (currentQuestionIndex >= quizQuestions.length) {
         showResults();
         return;
@@ -142,7 +137,7 @@ function displayQuestion() {
     questionText.textContent = currentQuestion.question;
     optionsGrid.innerHTML = ''; 
 
-    // **خلط الخيارات قبل عرضها**
+    // خلط الخيارات قبل عرضها
     const shuffledOptions = shuffleArray([...currentQuestion.options]);
 
     shuffledOptions.forEach(option => {
@@ -209,7 +204,7 @@ function showResults() {
     
     document.getElementById('results-details').innerHTML = ''; 
 
-    // الحلقة الآن على الـ 10 أسئلة التي تم عرضها فقط (quizQuestions)
+    // حلقة تكرارية على الـ 10 أسئلة التي تم عرضها
     quizQuestions.forEach((question, index) => {
         const userAnswer = userAnswers[index];
         const isCorrect = (userAnswer === question.answer);
@@ -252,10 +247,14 @@ function showResults() {
 }
 
 
-// **تهيئة اللعبة:** اختيار 10 أسئلة مخلطة عند التحميل
+// **دالة تهيئة اللعبة: اختيار 10 أسئلة مخلطة عند التحميل**
 function initializeQuiz() {
+    // هنا يتم اختيار 10 أسئلة عشوائية من الـ 70 سؤال
     quizQuestions = getShuffledQuizQuestions(fullQuestionPool, 10);
+    // للتأكد من أن عدد الأسئلة 10
+    console.log(`تم اختيار عدد ${quizQuestions.length} سؤال لهذه الجولة.`);
     displayQuestion();
 }
 
+// بدء اللعبة
 document.addEventListener('DOMContentLoaded', initializeQuiz);

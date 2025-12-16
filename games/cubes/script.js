@@ -1,9 +1,9 @@
 // ==========================================
 // متغيرات اللعبة
 // ==========================================
-const BOARD_SIZE = 3; // شبكة 3x3
-const TOTAL_TILES = BOARD_SIZE * BOARD_SIZE; // 9 مربعات
-const EMPTY_TILE_VALUE = 0; // قيمة للمربع الفارغ
+const BOARD_SIZE = 3; 
+const TOTAL_TILES = BOARD_SIZE * BOARD_SIZE; 
+const EMPTY_TILE_VALUE = 0; 
 
 const puzzleBoard = document.getElementById('puzzle-board');
 const movesDisplay = document.getElementById('moves-display');
@@ -14,9 +14,8 @@ const startButton = document.getElementById('start-button');
 const resultsTitle = document.getElementById('results-title');
 const resultsMessage = document.getElementById('results-message');
 
-let board = []; // يمثل حالة اللوحة كـ 2D array
-let flatBoard = []; // يمثل حالة اللوحة كـ 1D array (لسهولة الترتيب)
-let emptyTileIndex = 0; // موقع المربع الفارغ في flatBoard
+let flatBoard = []; 
+let emptyTileIndex = 0; 
 
 let moves = 0;
 let timerInterval;
@@ -26,10 +25,9 @@ let gameRunning = false;
 // ==========================================
 // الدوال المساعدة للتحقق من قابلية الحل
 // ==========================================
-// هذه الدالة ضرورية لضمان أن اللغز يمكن حله
 function isSolvable(tiles) {
     let inversions = 0;
-    const puzzle = tiles.filter(tile => tile !== EMPTY_TILE_VALUE); // نستبعد المربع الفارغ
+    const puzzle = tiles.filter(tile => tile !== EMPTY_TILE_VALUE); 
     const n = puzzle.length;
 
     for (let i = 0; i < n - 1; i++) {
@@ -39,7 +37,7 @@ function isSolvable(tiles) {
             }
         }
     }
-    // في لغز 3x3، يكون قابل للحل إذا كان عدد الانعكاسات زوجياً
+    // لغز 3x3 قابل للحل إذا كان عدد الانعكاسات زوجياً
     return inversions % 2 === 0;
 }
 
@@ -51,14 +49,14 @@ function initializeBoard() {
     for (let i = 1; i < TOTAL_TILES; i++) {
         tiles.push(i);
     }
-    tiles.push(EMPTY_TILE_VALUE); // إضافة المربع الفارغ
+    tiles.push(EMPTY_TILE_VALUE); 
 
     // خلط المكعبات حتى نجد ترتيباً قابلاً للحل
     do {
         tiles.sort(() => Math.random() - 0.5);
     } while (!isSolvable(tiles));
 
-    flatBoard = tiles; // تحديث flatBoard
+    flatBoard = tiles; 
     emptyTileIndex = flatBoard.indexOf(EMPTY_TILE_VALUE);
 
     renderBoard();
@@ -95,8 +93,8 @@ function handleTileClick(index) {
 
     // التحقق إذا كان المكعب مجاوراً للمربع الفارغ
     const isAdjacent = 
-        (Math.abs(clickedRow - emptyRow) === 1 && clickedCol === emptyCol) || // فوق أو تحت
-        (Math.abs(clickedCol - emptyCol) === 1 && clickedRow === emptyRow);   // يسار أو يمين
+        (Math.abs(clickedRow - emptyRow) === 1 && clickedCol === emptyCol) || 
+        (Math.abs(clickedCol - emptyCol) === 1 && clickedRow === emptyRow);   
 
     if (isAdjacent) {
         // تبديل قيم المكعبات
@@ -119,10 +117,10 @@ function checkWin() {
 
     for (let i = 0; i < TOTAL_TILES; i++) {
         if (flatBoard[i] !== solvedOrder[i]) {
-            return false; // اللوحة ليست مرتبة بشكل صحيح
+            return false; 
         }
     }
-    endGame('win'); // تم الفوز!
+    endGame('win'); 
     return true;
 }
 
@@ -155,7 +153,7 @@ function startGame() {
     resultsScreen.classList.remove('active');
     resultsScreen.classList.add('hidden');
     
-    initializeBoard(); // تهيئة وترتيب المكعبات عشوائياً
+    initializeBoard(); 
     startTimer();
 }
 
@@ -163,14 +161,9 @@ function endGame(status) {
     gameRunning = false;
     clearInterval(timerInterval);
 
-    const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
-
     if (status === 'win') {
-        resultsTitle.textContent = 'تهانينا! خلصت التمر ! 🎉';
+        resultsTitle.textContent = 'تهانينا! لقد فزت! 🎉';
         resultsMessage.innerHTML = `لقد رتبت المكعبات في <b>${moves}</b> حركة<br> وخلال وقت: <b>${timeDisplay.textContent.replace('الوقت: ', '')}</b>`;
-    } else {
-        // في هذه اللعبة، لا توجد خسارة إلا إذا استسلم اللاعب
-        // يمكننا إضافة رسائل أخرى إذا أردنا (مثلاً إذا أضفنا مؤقتاً عكسياً)
     }
 
     resultsScreen.classList.add('active');
@@ -189,4 +182,3 @@ function backToHome(){
 }
 
 startButton.onclick = startGame;
-```http://googleusercontent.com/image_generation_content/0

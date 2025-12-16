@@ -32,7 +32,7 @@ const resultsScreen = document.getElementById('results-screen');
 const startButton = document.getElementById('start-button');
 
 let score = 0;
-let timeLimit = 1000; // 1000 ملي ثانية (1 ثانية) للبدء
+let timeLimit = 3500; // 1000 ملي ثانية (1 ثانية) للبدء
 let currentCorrectColor = '';
 let gameTimer;
 let gameRunning = false;

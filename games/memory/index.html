@@ -1,23 +1,44 @@
-<div id="menu">
-    <h2>اختر مستوى الصعوبة</h2>
-    <div class="level-buttons">
-        <button class="easy" onclick="startGame('easy')">سهل (16 بطاقة)</button>
-        <button class="hard" onclick="startGame('hard')">صعب (36 بطاقة)</button>
-    </div>
-</div>
-
-<div id="game" style="display:none;">
-    <div id="timer">الوقت: 0</div>
-    <div id="board" class="board">
-        </div>
-</div>
-
-<div id="results-screen" style="display:none;">
-    <h2 id="results-title"></h2>
-    <p id="results-message"></p>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة الذاكرة والمطابقة</title>
     
-    <div class="action-buttons">
-        <button class="reload-btn" onclick="resetGame()">إعادة اللعب</button>
-        <button class="home-btn" onclick="backToHome()">العودة للرئيسية</button>
+    <link rel="stylesheet" href="../../style.css"> 
+    
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+    <div class="container">
+        <h1>لعبة المطابقة (الذاكرة) 🧠</h1>
+        
+        <div id="menu">
+            <h2>اختر مستوى الصعوبة</h2>
+            <div class="level-buttons">
+                <button class="easy" onclick="startGame('easy')">سهل (16 بطاقة)</button>
+                <button class="hard" onclick="startGame('hard')">صعب (36 بطاقة)</button>
+            </div>
+        </div>
+
+        <div id="game" style="display:none;">
+            <div id="timer">الوقت: 0</div>
+            <div id="board" class="board">
+                </div>
+        </div>
+
+        <div id="results-screen" style="display:none;">
+            <h2 id="results-title"></h2>
+            <p id="results-message"></p>
+            
+            <div class="action-buttons">
+                <button class="reload-btn" onclick="resetGame()">إعادة اللعب</button>
+                <button class="home-btn" onclick="backToHome()">العودة للرئيسية</button>
+            </div>
+        </div>
     </div>
-</div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,26 +1,43 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>ترتيب المكعبات</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة المكعبات (Cubes)</title>
+    <link rel="stylesheet" href="../../style.css"> 
+    <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
 
-<div class="game">
-  <h1>🧩 ترتيب المكعبات</h1>
-  <div class="info">
-    <span>⏱ الوقت: <b id="time">60</b></span>
-  </div>
+    <div id="game-container">
+        <h1>لعبة المكعبات (Cubes) 🧩</h1>
+        
+        <div id="status-bar">
+            <span id="moves-display">التحركات: 0</span>
+            <span id="time-display">الوقت: 00:00</span>
+        </div>
 
-  <div id="board" class="board"></div>
+        <div id="start-screen" class="active screen-panel">
+            <h2>مرحباً بك في لعبة المكعبات! 🚀</h2>
+            <p>**القاعدة:** رتب المكعبات من 1 إلى 8 بالترتيب التصاعدي، مع ترك المربع الأخير (الزاوية اليمنى السفلية) فارغاً.</p>
+            <p>انقر على أي مكعب مجاور للمكان الفارغ لتحريكه.</p>
+            <button id="start-button">ابدأ اللعب</button>
+        </div>
 
-  <div id="end" class="end hidden">
-    <h2 id="result"></h2>
-    <a href="../../index.html">العودة للصفحة الرئيسية</a>
-  </div>
-</div>
+        <div id="puzzle-board">
+            </div>
 
-<script src="script.js"></script>
+        <div id="results-screen" class="hidden screen-panel">
+            <h2 id="results-title"></h2>
+            <p id="results-message"></p>
+            
+            <div class="action-buttons">
+                <button class="reload-btn" onclick="resetGame()">تبي قدوع ثاني؟</button>
+                <button class="home-btn" onclick="backToHome()">العودة للرئيسية</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
 </body>
 </html>

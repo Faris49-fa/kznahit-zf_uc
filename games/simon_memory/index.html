@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الذاكرة الحسية: نمط الإضاءة</title>
+    <link rel="stylesheet" href="../../style.css"> 
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+    <div id="game-container">
+        <h1>الذاكرة الحسية: نمط الإضاءة 🧠</h1>
+        
+        <div id="status-bar">
+            <span id="round-display">الجولة: 0</span>
+            <span id="time-display">الوقت: 00:00</span>
+        </div>
+
+        <div id="message-display">
+            <p>اضغط ابدأ، ثم كرر نمط الإضاءة!</p>
+        </div>
+
+        <div id="start-screen" class="active screen-panel">
+            <h2>اختر مستوى الصعوبة 🚀</h2>
+            <p>**القاعدة:** راقب تسلسل إضاءة الأزرار، ثم انقر عليها بنفس الترتيب. السرعة تزداد كل جولة!</p>
+            
+            <div class="level-buttons action-buttons">
+                <button onclick="startGame(700)">
+                    سهل (نمط بطيء)
+                </button>
+                <button onclick="startGame(400)">
+                    صعب (نمط سريع)
+                </button>
+            </div>
+        </div>
+
+        <div id="light-board">
+            <button class="light-button" data-index="0"></button>
+            <button class="light-button" data-index="1"></button>
+            <button class="light-button" data-index="2"></button>
+            <button class="light-button" data-index="3"></button>
+        </div>
+
+        <div id="results-screen" class="hidden screen-panel">
+            <h2 id="results-title"></h2>
+            <p id="results-message"></p>
+            
+            <div class="action-buttons">
+                <button class="reload-btn" onclick="resetGame()">إعادة اللعب</button>
+                <button class="home-btn" onclick="backToHome()">العودة للرئيسية</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

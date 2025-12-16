@@ -1,107 +1,115 @@
-// ===============================
-// الأسئلة (كما هي - لا لمس)
-// ===============================
-/* افترض إن كود allQuestions موجود فوق
-   وناتج quizQuestions جاهز */
-
-// ===============================
-// عناصر الصفحة
-// ===============================
-const qNumEl = document.getElementById("q-number");
-const questionEl = document.getElementById("question");
-const optionsEl = document.getElementById("options");
-const timerEl = document.getElementById("timer");
-const resultEl = document.getElementById("result");
-const backBtn = document.getElementById("backBtn");
-
-// ===============================
-let index = 0;
-let score = 0;
-let timer;
-let timeLeft = 10;
-let userAnswers = []; // حفظ إجابات المستخدم
-
-// ===============================
-// عرض سؤال
-// ===============================
-function showQuestion(){
-  clearInterval(timer);
-  optionsEl.innerHTML = "";
-  timeLeft = 10;
-  timerEl.textContent = timeLeft;
-
-  if(index >= quizQuestions.length){
-    endGame();
-    return;
-  }
-
-  qNumEl.textContent = `السؤال ${index + 1} / 10`;
-  questionEl.textContent = quizQuestions[index].q;
-
-  quizQuestions[index].o.forEach((text, i)=>{
-    const btn = document.createElement("button");
-    btn.className = "option";
-    btn.textContent = text;
-    btn.onclick = ()=> selectAnswer(i, btn);
-    optionsEl.appendChild(btn);
-  });
-
-  startTimer();
+/* ====== إعدادات عامة ====== */
+* {
+  box-sizing: border-box;
 }
 
-// ===============================
-// المؤقت (10 ثواني تنازلي)
-// ===============================
-function startTimer(){
-  timer = setInterval(()=>{
-    timeLeft--;
-    timerEl.textContent = timeLeft;
-
-    if(timeLeft <= 0){
-      clearInterval(timer);
-      userAnswers.push(null); // لم يُجب
-      index++;
-      showQuestion();
-    }
-  },1000);
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #ffffff; /* الخلفية بيضاء */
+  display: flex;
+  justify-content: center;
+  padding: 30px;
 }
 
-// ===============================
-// اختيار إجابة
-// ===============================
-function selectAnswer(choice, btn){
-  clearInterval(timer);
-  userAnswers.push(choice);
-
-  if(choice === quizQuestions[index].a){
-    score++;
-  }
-
-  index++;
-  showQuestion();
+/* ====== الصندوق الرئيسي ====== */
+.box {
+  width: 100%;
+  max-width: 520px;
 }
 
-// ===============================
-// نهاية اللعبة
-// ===============================
-function endGame(){
-  questionEl.textContent = "انتهت الأسئلة";
-  optionsEl.innerHTML = "";
-  timerEl.textContent = "";
-  qNumEl.textContent = "";
-
-  resultEl.innerHTML = `درجتك: ${score} / 10`;
-  localStorage.setItem("lastMathScore", score);
-
-  backBtn.style.display = "block";
+/* ====== الأعلى (رقم السؤال + المؤقت) ====== */
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  font-weight: bold;
 }
 
-// ===============================
-// زر العودة
-// ===============================
-backBtn.onclick = ()=>{
-  window.location.href = "../../index.html"; 
-};
+#qNum {
+  color: #000;
+}
 
-// ===============================
-showQuestion();
+#timer {
+  color: #e53935; /* أحمر */
+  background: #000;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+/* ====== بطاقة السؤال ====== */
+.question-card {
+  background: #000;
+  color: #fff;
+  padding: 20px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* ====== الخيارات ====== */
+.options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.option {
+  background: #000;
+  color: #fff;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+.option:hover {
+  opacity: 0.85;
+}
+
+/* ====== ألوان النتيجة ====== */
+.correct {
+  background: #2e7d32 !important; /* أخضر */
+  color: #fff;
+}
+
+.wrong {
+  background: #c62828 !important; /* أحمر */
+  color: #fff;
+}
+
+.unanswered {
+  background: #9e9e9e !important; /* رمادي */
+  color: #fff;
+}
+
+/* ====== صفحة النتائج ====== */
+#result {
+  margin-top: 20px;
+}
+
+/* بطاقة كل سؤال في النتائج */
+.result-card {
+  background: #f5f5f5;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+  color: #000;
+}
+
+/* ====== زر العودة ====== */
+.back {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #000;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}

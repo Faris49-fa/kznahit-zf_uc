@@ -48,7 +48,7 @@ function startGame(level){
         timerEl.textContent=`الوقت: ${time}`;
         if(time<=0){
             clearInterval(timer);
-            alert("انتهى الوقت ⏱️");
+            alert("خلص التمر  ⏱️");
             location.reload();
         }
     },1000);

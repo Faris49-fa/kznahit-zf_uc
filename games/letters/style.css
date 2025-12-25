@@ -157,3 +157,46 @@ h1{ margin:10px 0; }
         font-size: 1.5em; /* تصغير العنوان الرئيسي */
     }
 }
+/* تجعل جسم الصفحة يملأ الشاشة بالكامل ويمنع التمرير إذا لم تكن هناك حاجة */
+html, body.home {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* يمنع ظهور شريط التمرير الجانبي */
+}
+
+body.home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* يضع المحتوى في منتصف الشاشة عمودياً */
+    align-items: center;
+    background-size: cover;
+}
+
+/* تعديل الحاوية لتكون متجاوبة وتأخذ مساحة أكبر */
+.container {
+    width: 95%; /* تأخذ أغلب عرض الشاشة في الجوال */
+    max-width: 500px; /* تحافظ على شكلها في الشاشات الكبيرة */
+    min-height: 80vh; /* تأخذ 80% من طول الشاشة */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around; /* يوزع البطاقات بمسافات متساوية */
+    padding: 20px;
+}
+
+/* جعل البطاقات (الأزرار) تمتد لتملأ العرض المتاح */
+#mathLink, #religionLink, #saudiLeagueLink {
+    flex-grow: 1; /* تجعل الأزرار تحاول أخذ مساحة متساوية */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+    font-size: 1.4rem; /* تكبير الخط ليناسب الشاشة الكاملة */
+}
+
+/* تحسين شكل قسم الدرجات ليناسب العرض الكامل */
+#scores {
+    flex-grow: 0.5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

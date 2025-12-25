@@ -1,202 +1,103 @@
-body{
-  margin:0;
-  font-family:Arial;
-  background:#0b1220;
-  color:#fff;
-  text-align:center;
+/* 1. إعدادات الصفحة الأساسية لتملأ الشاشة */
+html, body {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* يمنع التمرير لتبدو كتطبيق */
 }
-/* ========================================= */
-/* تأثيرات الفوز (Animation) */
-/* ========================================= */
+
+body {
+    font-family: Arial, sans-serif;
+    background: #0b1220;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+/* 2. توزيع المحتوى عمودياً */
+.top {
+    flex: 0 0 auto; /* يأخذ مساحته فقط */
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+h1 { margin: 5px 0; font-size: 1.8em; }
+
+/* 3. منطقة اللعب (البورد) - جعلها تتمدد */
+#board {
+    flex: 1 1 auto; /* تتمدد لتملأ الفراغ بين الهيدر والكيورد */
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    gap: 10px;
+    width: 90%;
+    max-width: 350px; /* عرض مناسب للأيباد والجوال */
+    margin: 10px auto;
+    padding: 10px;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+.cell {
+    height: 100%; /* تجعل الخلية تملأ طول الصف التلقائي */
+    aspect-ratio: 1 / 1; /* تحافظ على شكل المربع */
+    border-radius: 8px;
+    background: #1e293b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(20px, 5vw, 30px); /* خط مرن يكبر مع الشاشة */
+    font-weight: bold;
+    border: 2px solid #334155;
+}
+
+/* 4. لوحة المفاتيح - تثبيتها في الأسفل وتكبيرها */
+#keyboard {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 20px; /* مسافة بسيطة من الأسفل */
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 6px;
+    padding: 10px;
+}
+
+.key {
+    height: 55px; /* تكبير المفاتيح لتسهيل اللمس */
+    background: #334155;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1em;
+    font-weight: bold;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.key.big {
+    grid-column: span 1.5; /* تعديل العرض ليتناسب مع الصف */
+}
+
+/* 5. تأثيرات الحالة (كما هي) */
+.correct { background: #16a34a !important; border-color: #16a34a; }
+.present { background: #ca8a04 !important; border-color: #ca8a04; }
+.wrong { background: #374151 !important; border-color: #374151; }
+
+/* تأثيرات الأنيميشن (كما هي في كودك) */
 @keyframes confetti-fall {
     0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
     100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
 }
-
 .confetti {
-    position: fixed;
-    top: 0;
-    left: 50%;
-    width: 10px;
-    height: 10px;
-    background-color: #f1c40f; /* لون ذهبي للتمر */
-    border-radius: 50%;
-    z-index: 200;
-    pointer-events: none; 
+    position: fixed; top: 0; left: 50%; width: 10px; height: 10px;
+    background-color: #f1c40f; border-radius: 50%; z-index: 200;
     animation: confetti-fall 3s ease-in-out forwards;
-}
-
-.top{
-    display:flex;
-    justify-content:space-between;
-    padding:10px 15px;
-}
-
-.back{
-    color:#fff;
-    text-decoration:none;
-    background:#1e293b;
-    padding:6px 12px;
-    border-radius:8px;
-}
-
-h1{ margin:10px 0; }
-
-.info{
-    color:#cbd5f5;
-    margin-bottom:15px;
-}
-
-/* ========================================= */
-/* لوحة اللعب والتخمين (القواعد القياسية) */
-/* ========================================= */
-#board{
-    display:grid;
-    grid-template-rows:repeat(6,1fr);
-    gap:8px;
-    max-width:300px;
-    margin:0 auto 20px;
-}
-
-.row{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:8px;
-}
-
-.cell{
-    height:48px; /* ارتفاع قياسي */
-    border-radius:8px;
-    background:#1e293b;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:22px; /* حجم خط قياسي */
-    font-weight:bold;
-}
-
-.correct{ background:#16a34a; }
-.present{ background:#ca8a04; }
-.wrong{ background:#374151; }
-
-/* ========================================= */
-/* لوحة المفاتيح (القواعد القياسية) */
-/* ========================================= */
-#keyboard{
-    max-width:500px;
-    margin:10px auto;
-    display:grid;
-    grid-template-columns:repeat(10,1fr);
-    gap:6px;
-}
-
-.key{
-    padding:10px; /* حجم البطانة القياسي */
-    background:#334155;
-    border-radius:6px;
-    cursor:pointer;
-    user-select:none;
-    /* إضافة flex لضمان توسط المحتوى في الأزرار الكبيرة */
-    display: flex; 
-    justify-content: center;
-    align-items: center;
-}
-
-.key.big{
-    grid-column:span 2;
-}
-
-#message{
-    margin-top:15px;
-    font-size:18px;
-}
-
-/* ========================================= */
-/* Media Query: تعديلات الجوال (Mobile) */
-/* ========================================= */
-@media (max-width: 450px) {
-    
-    /* 1. تصغير لوحة اللعب */
-    #board {
-        max-width: 90%; /* استخدام نسبة مئوية للعرض */
-        gap: 5px; /* تقليل الفراغات بين الخلايا */
-    }
-
-    .row {
-        gap: 5px; /* تقليل الفراغات بين الخلايا */
-    }
-
-    .cell {
-        height: 40px; /* تقليل الارتفاع من 48px */
-        font-size: 18px; /* تقليل حجم الخط من 22px */
-        border-radius: 5px; /* تصغير الزوايا الدائرية */
-    }
-    
-    /* 2. تصغير لوحة المفاتيح */
-    #keyboard {
-        max-width: 95%; /* عرض أكبر للوحة المفاتيح لتناسب عرض الجوال */
-        gap: 4px; /* تقليل الفراغات بين الأزرار */
-    }
-
-    .key {
-        padding: 8px; /* تقليل البطانة من 10px */
-        font-size: 0.9em; /* تصغير حجم الخط داخل الزر */
-    }
-
-    /* ضمان ظهور الزر الكبير (الإدخال/الحذف) بشكل مناسب */
-    .key.big {
-        padding: 8px 0; /* إبقاء الارتفاع نفسه وتقليل البطانة الأفقية */
-        font-size: 0.85em;
-    }
-    
-    .top {
-        padding: 8px 10px;
-    }
-    
-    h1 {
-        font-size: 1.5em; /* تصغير العنوان الرئيسي */
-    }
-}
-/* تجعل جسم الصفحة يملأ الشاشة بالكامل ويمنع التمرير إذا لم تكن هناك حاجة */
-html, body.home {
-    height: 100%;
-    margin: 0;
-    overflow: hidden; /* يمنع ظهور شريط التمرير الجانبي */
-}
-
-body.home {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* يضع المحتوى في منتصف الشاشة عمودياً */
-    align-items: center;
-    background-size: cover;
-}
-
-/* تعديل الحاوية لتكون متجاوبة وتأخذ مساحة أكبر */
-.container {
-    width: 95%; /* تأخذ أغلب عرض الشاشة في الجوال */
-    max-width: 500px; /* تحافظ على شكلها في الشاشات الكبيرة */
-    min-height: 80vh; /* تأخذ 80% من طول الشاشة */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around; /* يوزع البطاقات بمسافات متساوية */
-    padding: 20px;
-}
-
-/* جعل البطاقات (الأزرار) تمتد لتملأ العرض المتاح */
-#mathLink, #religionLink, #saudiLeagueLink {
-    flex-grow: 1; /* تجعل الأزرار تحاول أخذ مساحة متساوية */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 10px 0;
-    font-size: 1.4rem; /* تكبير الخط ليناسب الشاشة الكاملة */
-}
-
-/* تحسين شكل قسم الدرجات ليناسب العرض الكامل */
-#scores {
-    flex-grow: 0.5;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }

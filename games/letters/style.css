@@ -1,92 +1,118 @@
-/* 1. إعدادات الصفحة - تمنع التمرير وتوزع العناصر */
+/* 1. إعدادات الصفحة الأساسية */
 html, body {
-    height: 100%;
+    height: 100vh;
     margin: 0;
     padding: 0;
     background: #0b1220;
     color: #fff;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* يمنع ظهور شريط التمرير */
+    align-items: center; /* يوسط كل شيء في اللابتوب */
+    overflow: hidden; 
 }
 
-/* 2. العنوان العلوي - تقليل المساحة لترك مجال للعب */
+/* 2. العنوان العلوي */
 header, .top {
+    width: 100%;
+    max-width: 500px; /* يمنع العنوان من التوسع الزائد في اللابتوب */
     flex: 0 0 auto;
-    padding: 10px;
+    padding: 15px 0;
+    text-align: center;
 }
-h1 { font-size: 1.2rem; margin: 0; color: #cbd5f5; }
+h1 { font-size: 1.5rem; margin: 0; color: #cbd5f5; }
 
-/* 3. منطقة المربعات - السر في التوازن */
+/* 3. منطقة اللعب (المربعات) */
 #board {
-    flex: 1; /* يأخذ المساحة الوسطى فقط */
+    flex: 1; 
     display: flex;
     flex-direction: column;
-    justify-content: center; /* يضع المربعات في المنتصف تماماً */
+    justify-content: center; 
     align-items: center;
-    gap: 4px;
+    gap: clamp(4px, 1vh, 8px); /* مسافات مرنة */
+    width: 100%;
+    max-width: 500px;
 }
 
 .row {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 4px;
+    gap: clamp(4px, 1vh, 8px);
     width: 90%;
-    max-width: 260px; /* يصغر المربعات عشان ما تفرش بالعرض */
+    max-width: 300px; /* حجم المربعات في اللابتوب والجوال */
 }
 
 .cell {
     aspect-ratio: 1 / 1;
+    height: clamp(40px, 8vh, 65px); /* طول مرن يتناسب مع الشاشة */
     background: #1e293b;
-    border: 1.5px solid #334155;
-    border-radius: 5px;
+    border: 2px solid #334155;
+    border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.3rem;
+    font-size: clamp(1rem, 3vh, 1.8rem);
     font-weight: bold;
-    text-transform: uppercase;
+    transition: 0.3s;
 }
 
-/* 4. لوحة المفاتيح - تثبيتها تحت بدون ما تغطي شي */
+/* 4. لوحة المفاتيح - تنسيق احترافي للابتوب والجوال */
 #keyboard {
     flex: 0 0 auto;
     width: 100%;
-    max-width: 480px;
-    margin: 0 auto 20px; /* مسافة بسيطة من حافة الجوال */
+    max-width: 550px; /* العرض المثالي على اللابتوب */
+    margin: 0 auto 20px;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    gap: 4px;
-    padding: 0 8px;
+    gap: 5px;
+    padding: 10px;
 }
 
 .key {
-    height: 44px; /* ارتفاع مثالي للمفاتيح */
+    height: clamp(40px, 6vh, 55px);
     background: #334155;
-    border-radius: 5px;
+    border-radius: 6px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 0.85rem;
+    font-size: clamp(0.7rem, 2vh, 1rem);
     font-weight: bold;
     cursor: pointer;
-    touch-action: manipulation;
+    transition: background 0.2s;
 }
+
+.key:hover { background: #475569; } /* تأثير عند مرور الماوس في اللابتوب */
 
 .key.big {
     grid-column: span 1.5;
-    font-size: 0.75rem;
 }
 
-/* 5. حالات الألوان */
+/* 5. تنسيق صفحات الأسئلة (الرياضيات) لتبدو متوازنة */
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+}
+
+.container button {
+    width: 100%;
+    max-width: 350px;
+    padding: 20px;
+    margin: 10px 0;
+    font-size: 1.3rem;
+    border-radius: 15px;
+    background: #1e293b;
+    border: 2px solid #334155;
+    color: white;
+    cursor: pointer;
+}
+
+/* ألوان الحالات */
 .correct { background: #16a34a !important; border-color: #16a34a !important; }
 .present { background: #ca8a04 !important; border-color: #ca8a04 !important; }
 .wrong { background: #374151 !important; border-color: #374151 !important; }
-
-/* 6. استجابة لشاشات الجوال الصغيرة جداً */
-@media (max-height: 600px) {
-    .cell { font-size: 1rem; }
-    .key { height: 38px; }
-    #board { gap: 2px; }
-}

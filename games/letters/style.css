@@ -1,118 +1,105 @@
-/* 1. إعدادات الصفحة الأساسية */
-html, body {
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    background: #0b1220;
-    color: #fff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* يوسط كل شيء في اللابتوب */
-    overflow: hidden; 
+/* إعدادات بسيطة وطبيعية للجسم */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #0b1220;
+  color: #fff;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-/* 2. العنوان العلوي */
-header, .top {
-    width: 100%;
-    max-width: 500px; /* يمنع العنوان من التوسع الزائد في اللابتوب */
-    flex: 0 0 auto;
-    padding: 15px 0;
-    text-align: center;
+/* العنوان العلوي */
+.top {
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-h1 { font-size: 1.5rem; margin: 0; color: #cbd5f5; }
 
-/* 3. منطقة اللعب (المربعات) */
+h1 { margin: 10px 0; font-size: 24px; }
+
+/* لوحة اللعب - ترجع لمقاساتها الطبيعية */
 #board {
-    flex: 1; 
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-    align-items: center;
-    gap: clamp(4px, 1vh, 8px); /* مسافات مرنة */
-    width: 100%;
-    max-width: 500px;
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  gap: 8px;
+  width: 100%;
+  max-width: 300px; /* العرض الطبيعي اللي كان ضابط معاك */
+  margin: 20px auto;
+  padding: 0 10px;
 }
 
 .row {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: clamp(4px, 1vh, 8px);
-    width: 90%;
-    max-width: 300px; /* حجم المربعات في اللابتوب والجوال */
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
 }
 
 .cell {
-    aspect-ratio: 1 / 1;
-    height: clamp(40px, 8vh, 65px); /* طول مرن يتناسب مع الشاشة */
-    background: #1e293b;
-    border: 2px solid #334155;
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: clamp(1rem, 3vh, 1.8rem);
-    font-weight: bold;
-    transition: 0.3s;
+  height: 55px; /* الارتفاع القياسي */
+  background: #1e293b;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  border: 2px solid #334155;
+  text-transform: uppercase;
 }
 
-/* 4. لوحة المفاتيح - تنسيق احترافي للابتوب والجوال */
+/* لوحة المفاتيح - ترجع لشكلها الأصلي */
 #keyboard {
-    flex: 0 0 auto;
-    width: 100%;
-    max-width: 550px; /* العرض المثالي على اللابتوب */
-    margin: 0 auto 20px;
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    gap: 5px;
-    padding: 10px;
+  max-width: 500px;
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 6px;
+  padding: 0 10px;
 }
 
 .key {
-    height: clamp(40px, 6vh, 55px);
-    background: #334155;
-    border-radius: 6px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: clamp(0.7rem, 2vh, 1rem);
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;
+  padding: 12px 0;
+  background: #334155;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
 }
-
-.key:hover { background: #475569; } /* تأثير عند مرور الماوس في اللابتوب */
 
 .key.big {
-    grid-column: span 1.5;
+  grid-column: span 2;
 }
 
-/* 5. تنسيق صفحات الأسئلة (الرياضيات) لتبدو متوازنة */
-.container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 500px;
-    padding: 20px;
-}
-
-.container button {
-    width: 100%;
-    max-width: 350px;
-    padding: 20px;
-    margin: 10px 0;
-    font-size: 1.3rem;
-    border-radius: 15px;
-    background: #1e293b;
-    border: 2px solid #334155;
-    color: white;
-    cursor: pointer;
-}
-
-/* ألوان الحالات */
+/* الألوان الأساسية */
 .correct { background: #16a34a !important; border-color: #16a34a !important; }
 .present { background: #ca8a04 !important; border-color: #ca8a04 !important; }
 .wrong { background: #374151 !important; border-color: #374151 !important; }
+
+/* تنسيق صفحة الأسئلة */
+.container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 20px;
+}
+
+.container button {
+  width: 100%;
+  padding: 15px;
+  margin: 10px 0;
+  font-size: 18px;
+  border-radius: 10px;
+  background: #1e293b;
+  color: white;
+  border: 1px solid #334155;
+  cursor: pointer;
+}

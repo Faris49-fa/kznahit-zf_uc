@@ -1,4 +1,4 @@
-/* 1. ضبط الصفحة ككتلة واحدة ثابتة */
+/* 1. إعدادات الصفحة لتبدو كتطبيق متوازن */
 html, body {
     height: 100%;
     margin: 0;
@@ -11,75 +11,77 @@ html, body {
     overflow: hidden; /* يمنع التمرير العشوائي */
 }
 
-/* 2. الهيدر */
+/* 2. العنوان العلوي (تصغيره ليعطي مساحة) */
 header, .top {
     flex: 0 0 auto;
-    padding: 10px;
+    padding: 5px 10px;
+    text-align: center;
 }
 
-h1 { font-size: 1.4rem; margin: 5px 0; }
+h1 { font-size: 1.2rem; margin: 5px 0; color: #cbd5f5; }
 
-/* 3. منطقة اللعب (البورد) - السر هنا */
+/* 3. منطقة اللعب (البورد) - التعديل الجذري هنا */
 #board {
-    flex: 1; /* يأخذ المساحة المتبقية */
+    flex: 1; /* يأخذ المساحة بين الهيدر والكيبورد */
     display: flex;
     flex-direction: column;
-    justify-content: center; /* يخلي الخلايا في النص */
+    justify-content: center; /* يخلي المربعات في نص المساحة المتاحة */
     align-items: center;
-    gap: 5px;
-    padding: 10px;
+    gap: 4px; /* تقليل الفراغ بين الصفوف */
+    padding: 10px 0;
 }
 
 .row {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 5px;
-    width: 100%;
-    max-width: 300px; /* يمنعها من التوسع العرضي الزائد */
+    gap: 4px;
+    width: 85%; /* التحكم في عرض الصف */
+    max-width: 250px; /* هذا السطر هو اللي بيصغر المربعات ويخليها بالنص */
 }
 
 .cell {
-    /* هنا التعديل: بدل aspect-ratio استخدمنا مقاس مرن بناءً على ارتفاع الشاشة */
-    height: 12vh; /* الخلية تأخذ 12% من طول الشاشة فقط */
-    max-height: 60px; /* لضمان عدم تضخمها في الشاشات الكبيرة */
+    aspect-ratio: 1 / 1; /* يحافظ على المربع */
     background: #1e293b;
-    border: 2px solid #334155;
-    border-radius: 6px;
+    border: 1.5px solid #334155;
+    border-radius: 4px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.5rem;
+    font-size: 1.2rem; /* تصغير الخط ليتناسب مع المربعات */
     font-weight: bold;
 }
 
-/* 4. لوحة المفاتيح - تثبيت في الأسفل */
+/* 4. لوحة المفاتيح - تبقى مثل ما هي مع تثبيتها بالأسفل */
 #keyboard {
     flex: 0 0 auto;
     width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 10px 5px 25px; /* حاشية تحت عشان أزرار الجوال */
+    max-width: 480px;
+    margin: 0 auto 15px; /* مسافة بسيطة من الأسفل */
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     gap: 4px;
+    padding: 0 8px;
 }
 
 .key {
-    height: 45px;
+    height: 42px; /* ارتفاع متوازن للمفاتيح */
     background: #334155;
     border-radius: 4px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: bold;
     cursor: pointer;
     touch-action: manipulation;
 }
 
-.key.big { grid-column: span 1.5; font-size: 0.7rem; }
+.key.big {
+    grid-column: span 1.5;
+    font-size: 0.7rem;
+}
 
-/* 5. تنسيق الرياضيات (عشان ما تخرب) */
+/* 5. تنسيق صفحة الرياضيات (للمحافظة على شكلها) */
 .container {
     flex: 1;
     display: flex;
@@ -91,13 +93,13 @@ h1 { font-size: 1.4rem; margin: 5px 0; }
 
 .container button {
     width: 100%;
-    max-width: 300px;
+    max-width: 280px;
     padding: 15px;
     margin: 8px 0;
     border-radius: 10px;
     background: #1e293b;
+    border: 1px solid #334155;
     color: white;
-    border: 2px solid #334155;
 }
 
 /* حالات الألوان */

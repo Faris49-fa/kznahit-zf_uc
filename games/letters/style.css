@@ -1,4 +1,4 @@
-/* 1. إعدادات الصفحة لتبدو كتطبيق متوازن */
+/* 1. إعدادات الصفحة - تمنع التمرير وتوزع العناصر */
 html, body {
     height: 100%;
     margin: 0;
@@ -8,55 +8,53 @@ html, body {
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* يمنع التمرير العشوائي */
+    overflow: hidden; /* يمنع ظهور شريط التمرير */
 }
 
-/* 2. العنوان العلوي (تصغيره ليعطي مساحة) */
+/* 2. العنوان العلوي - تقليل المساحة لترك مجال للعب */
 header, .top {
     flex: 0 0 auto;
-    padding: 5px 10px;
-    text-align: center;
+    padding: 10px;
 }
+h1 { font-size: 1.2rem; margin: 0; color: #cbd5f5; }
 
-h1 { font-size: 1.2rem; margin: 5px 0; color: #cbd5f5; }
-
-/* 3. منطقة اللعب (البورد) - التعديل الجذري هنا */
+/* 3. منطقة المربعات - السر في التوازن */
 #board {
-    flex: 1; /* يأخذ المساحة بين الهيدر والكيبورد */
+    flex: 1; /* يأخذ المساحة الوسطى فقط */
     display: flex;
     flex-direction: column;
-    justify-content: center; /* يخلي المربعات في نص المساحة المتاحة */
+    justify-content: center; /* يضع المربعات في المنتصف تماماً */
     align-items: center;
-    gap: 4px; /* تقليل الفراغ بين الصفوف */
-    padding: 10px 0;
+    gap: 4px;
 }
 
 .row {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 4px;
-    width: 85%; /* التحكم في عرض الصف */
-    max-width: 250px; /* هذا السطر هو اللي بيصغر المربعات ويخليها بالنص */
+    width: 90%;
+    max-width: 260px; /* يصغر المربعات عشان ما تفرش بالعرض */
 }
 
 .cell {
-    aspect-ratio: 1 / 1; /* يحافظ على المربع */
+    aspect-ratio: 1 / 1;
     background: #1e293b;
     border: 1.5px solid #334155;
-    border-radius: 4px;
+    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.2rem; /* تصغير الخط ليتناسب مع المربعات */
+    font-size: 1.3rem;
     font-weight: bold;
+    text-transform: uppercase;
 }
 
-/* 4. لوحة المفاتيح - تبقى مثل ما هي مع تثبيتها بالأسفل */
+/* 4. لوحة المفاتيح - تثبيتها تحت بدون ما تغطي شي */
 #keyboard {
     flex: 0 0 auto;
     width: 100%;
     max-width: 480px;
-    margin: 0 auto 15px; /* مسافة بسيطة من الأسفل */
+    margin: 0 auto 20px; /* مسافة بسيطة من حافة الجوال */
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     gap: 4px;
@@ -64,13 +62,13 @@ h1 { font-size: 1.2rem; margin: 5px 0; color: #cbd5f5; }
 }
 
 .key {
-    height: 42px; /* ارتفاع متوازن للمفاتيح */
+    height: 44px; /* ارتفاع مثالي للمفاتيح */
     background: #334155;
-    border-radius: 4px;
+    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: bold;
     cursor: pointer;
     touch-action: manipulation;
@@ -78,31 +76,17 @@ h1 { font-size: 1.2rem; margin: 5px 0; color: #cbd5f5; }
 
 .key.big {
     grid-column: span 1.5;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
 }
 
-/* 5. تنسيق صفحة الرياضيات (للمحافظة على شكلها) */
-.container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-.container button {
-    width: 100%;
-    max-width: 280px;
-    padding: 15px;
-    margin: 8px 0;
-    border-radius: 10px;
-    background: #1e293b;
-    border: 1px solid #334155;
-    color: white;
-}
-
-/* حالات الألوان */
+/* 5. حالات الألوان */
 .correct { background: #16a34a !important; border-color: #16a34a !important; }
 .present { background: #ca8a04 !important; border-color: #ca8a04 !important; }
 .wrong { background: #374151 !important; border-color: #374151 !important; }
+
+/* 6. استجابة لشاشات الجوال الصغيرة جداً */
+@media (max-height: 600px) {
+    .cell { font-size: 1rem; }
+    .key { height: 38px; }
+    #board { gap: 2px; }
+}
